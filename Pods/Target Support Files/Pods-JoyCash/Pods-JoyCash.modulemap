@@ -1,0 +1,6 @@
+framework module Pods_JoyCash {
+  umbrella header "Pods-JoyCash-umbrella.h"
+
+  export *
+  module * { export * }
+}

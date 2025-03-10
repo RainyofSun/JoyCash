@@ -1,0 +1,6 @@
+framework module Mach_Swift {
+  umbrella header "Mach-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}
