@@ -156,7 +156,7 @@ extension JCAPPWebPageViewController: WKScriptMessageHandler {
         if message.name == JC_ConfirmApplyBury {
             self.buryBeginTime = Date().jk.dateToTimeStamp()
             // 埋点
-//            VCAPPBuryReport.VCAPPRiskControlInfoReport(riskType: VCRiskControlBuryReportType.APP_EndLoanApply, beginTime: self.buryBeginTime, endTime: Date().timeStamp, orderNum: VCAPPCommonInfo.shared.productOrderNum)
+            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_EndLoanApply, beginTime: self.buryBeginTime, endTime: Date().jk.dateToTimeStamp(), orderNum: JCAPPPublic.shared.productOrderNum)
         }
     }
 }
