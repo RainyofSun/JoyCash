@@ -25,15 +25,6 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
         pickerStyle.selectRowTextColor = BLUE_COLOR_4169F6
         pickerStyle.selectRowTextFont = UIFont.boldSystemFont(ofSize: 20)
         pickerStyle.pickerHeight = 305
-#if DEBUG
-        pickerStyle.language = "en"
-#else
-        if VCAPPDiskCache.readAPPLanguageFormDiskCache() == .Spanish {
-            pickerStyle.language = "es"
-        } else {
-            pickerStyle.language = "en"
-        }
-#endif
         picker.pickerStyle = pickerStyle
         
         return picker
@@ -53,7 +44,7 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
             guard let _date = selectDate else {
                 return
             }
-            self?.selectedDate = NSDate.br_string(from: _date, dateFormat: "dd-MM-yyyy")
+            self?.selectedDate = NSDate.br_string(from: _date, dateFormat: "yyyy-MM-dd")
         }
     }
     

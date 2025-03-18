@@ -83,6 +83,8 @@ class JCAPPAuthorizationModel: JCAPPBaseNetResponseModel {
     var protocols: Bool = false
     /// 类型 【重要】用作判断,根据该字段判断跳转对应页面
     var sedation: String?
+    /// 有值时跳转H5 -- 优先级大于 sedation
+    var zeugmatography: String?
     var certificationType: JCAPPCertificationType {
         return JCAPPCertificationType(rawValue: self.sedation ?? "") ?? .Certification_ID_Card
     }

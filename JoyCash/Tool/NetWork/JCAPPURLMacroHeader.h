@@ -15,7 +15,7 @@
 #if DEBUG
 static NSString * _Nullable const NET_REQUEST_BASE_URL = @"http://8.212.182.12:8749/quen";
 #else
-static NSString * _Nullable const NET_REQUEST_BASE_URL = @"https://app.fintopia-lending.com/scale";
+static NSString * _Nullable const NET_REQUEST_BASE_URL = @"http://8.212.182.12:8749/quen";
 #endif
 
 /*

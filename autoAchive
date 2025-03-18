@@ -1,0 +1,39 @@
+#!/bin/bash
+
+cd `dirname $0`
+if [ -d archives ]; then
+echo "archives文件夹存在！"
+else
+    mkdir archives
+fi
+
+cd archives
+
+filePathName=Release
+appScheme=JoyCash
+
+if [ -d $filePathName ]; then
+echo "debug文件夹存在！"
+else
+	mkdir $filePathName
+fi
+
+cd $filePathName
+a=`date +%Y-%m-%d`
+
+if [ -d $a ]; then
+echo "date文件夹存在！"	
+else
+	mkdir $a
+fi
+
+cd `dirname $0`
+b=`date +"%Y-%m-%d_%H_%M_%S"`
+
+if [[ -n 0 ]]; then
+	#改变模式
+		xcodebuild archive -workspace ./$appScheme.xcworkspace -scheme $appScheme -configuration $filePathName -archivePath ./archives/$filePathName/$a/$b.xcarchive
+		cd `dirname $0`
+		xcodebuild -exportArchive -archivePath ./archives/$filePathName/$a/$b.xcarchive -exportPath ./archives/$filePathName/$a/$b -exportOptionsPlist ./ExportOptions.plist -allowProvisioningUpdates YES
+fi
+

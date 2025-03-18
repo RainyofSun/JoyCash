@@ -13,7 +13,7 @@ public let APPLICATION_NET_CHANGE = "com.jc.notification.name.net.change"
 
 // MARK: H5交互函数：
 /// 关闭当前Web
-let JC_CloseWebPage: String = "HisYork"
+let JC_CloseWebPage: String = "OfExcited"
 /// 页面带参数跳转
 let JC_PageTransitionNoParams: String = "WavesSeconds"
 /// 页面带参数跳转
@@ -28,7 +28,12 @@ let JC_CloseAndGotoLoginPage: String = "TheMagnetic"
 let JC_GotoAppStore: String = "SlightlyStandard"
 /// 确认申请埋点
 let JC_ConfirmApplyBury: String = "CoilsRadio"
+/// 开始绑卡时间
+let JC_StartBindingBankCard: String = "ImagingUnit"
+/// 结束绑卡时间
+let JC_EndBindingBankCard: String = "ForA"
 
+// TODO 替换
 let Dynamic_Domain_Name_URL: String = "https://mx01-dc.oss-us-west-1.aliyuncs.com/"
 let Dynamic_Domain_Name_Path: String = "access-cash/ac.json"
 

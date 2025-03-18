@@ -137,10 +137,18 @@ extension JCAPPWebPageViewController: WKScriptMessageHandler {
         }
         
         if message.name == JC_PageTransitionNoParams || message.name == JC_PageTransitionWithParams ||
-            message.name == JC_CloseAndGotoHome || message.name == JC_CloseAndGotoLoginPage || message.name == JC_CloseAndGotoMineCenter {
+            message.name == JC_CloseAndGotoMineCenter {
             if let _paramArray = message.body as? NSArray, let _url = _paramArray.firstObject as? String {
                 JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url, backToRoot: true)
             }
+        }
+        
+        if message.name == JC_CloseAndGotoHome {
+            JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: APP_HOME_PAGE)
+        }
+        
+        if message.name == JC_CloseAndGotoLoginPage {
+            JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: APP_LOGIN_PAGE)
         }
         
         if message.name == JC_GotoAppStore {
@@ -154,9 +162,25 @@ extension JCAPPWebPageViewController: WKScriptMessageHandler {
         }
         
         if message.name == JC_ConfirmApplyBury {
+            // 刷新定位信息
+            self.reloadDeviceLocation()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                self.buryBeginTime = Date().jk.dateToTimeStamp()
+                // 埋点
+                JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_EndLoanApply, beginTime: self.buryBeginTime, endTime: Date().jk.dateToTimeStamp(), orderNum: JCAPPPublic.shared.productOrderNum)
+            })
+        }
+        
+        if message.name == JC_StartBindingBankCard {
             self.buryBeginTime = Date().jk.dateToTimeStamp()
-            // 埋点
-            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_EndLoanApply, beginTime: self.buryBeginTime, endTime: Date().jk.dateToTimeStamp(), orderNum: JCAPPPublic.shared.productOrderNum)
+        }
+        
+        if message.name == JC_EndBindingBankCard {
+            // 刷新定位信息
+            self.reloadDeviceLocation()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_BindingBankCard, beginTime: self.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
+            })
         }
     }
 }
@@ -188,7 +212,8 @@ private extension JCAPPWebPageViewController {
         _user_content.add(_scriptHandler, name: JC_CloseAndGotoMineCenter)
         _user_content.add(_scriptHandler, name: JC_GotoAppStore)
         _user_content.add(_scriptHandler, name: JC_ConfirmApplyBury)
-        
+        _user_content.add(_scriptHandler, name: JC_StartBindingBankCard)
+        _user_content.add(_scriptHandler, name: JC_EndBindingBankCard)
         return _user_content
     }
     

@@ -17,7 +17,7 @@ class JCAPPMineCancelPopView: JCAPPBasePopView {
     
     private(set) lazy var protocolView: JCAPPProtocolView = {
         let view = JCAPPProtocolView(frame: CGRectZero)
-        view.setProtocol("Loan Agreement", defaultSelected: false)
+        view.setNewProtocol("I've read and agreed with the above", defaultSelected: false)
         return view
     }()
     
@@ -55,9 +55,8 @@ class JCAPPMineCancelPopView: JCAPPBasePopView {
         }
         
         self.protocolView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(APP_PADDING_UNIT * 9)
-            make.top.equalTo(self.tipLab.snp.bottom).offset(APP_PADDING_UNIT * 4)
-            make.width.lessThanOrEqualTo(ScreenWidth - APP_PADDING_UNIT * 28)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.cancelTipLab.snp.bottom).offset(APP_PADDING_UNIT * 4)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT)
         }
     }

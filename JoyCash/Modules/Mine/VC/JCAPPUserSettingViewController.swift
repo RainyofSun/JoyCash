@@ -82,7 +82,7 @@ class JCAPPUserSettingViewController: JCAPPBaseViewController {
                     return
                 }
                 
-                if isConfirm {
+                if !isConfirm {
                     guard _p_view.protocolView.hasSelected else {
                         self?.view.makeToast("Please confirm whether you agree to loan agreement")
                         return
@@ -101,6 +101,8 @@ class JCAPPUserSettingViewController: JCAPPBaseViewController {
             JCAPPMineLogoutPopView.convenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
                 if !isConfirm {
                     self?.pageNetowrkRequest()
+                } else {
+                    popView.dismissPop()
                 }
             }
         }

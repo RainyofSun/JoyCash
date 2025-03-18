@@ -106,7 +106,7 @@ class JCAPPBuriedPointReport: NSObject {
         let wifiInfoModel: JCAPPWIFIInfoModel = JCAPPWIFIInfoModel()
         let wifiArray = UIDevice.current.getWiFiInfo()
         wifiInfoModel.foreign = wifiArray.first
-        wifiInfoModel.accomplished = wifiArray.first
+        wifiInfoModel.accomplished = wifiArray.last
         
         JCAPPProductLog.debug(" ----- 埋点设备WIFI -------\n SSID = \(wifiArray.first ?? "") \n BSSID = \(wifiArray.last ?? "") \n")
         
@@ -115,8 +115,8 @@ class JCAPPBuriedPointReport: NSObject {
         
         // 设备信息
         let phoneModel: JCAPPPhoneModel = JCAPPPhoneModel()
-        phoneModel.combining = UIDevice.current.isSimulator
-        phoneModel.filled = UIDevice.current.isJailbroken
+        phoneModel.combining = NSNumber(booleanLiteral: UIDevice.current.isSimulator).intValue
+        phoneModel.filled = NSNumber(booleanLiteral: UIDevice.current.isJailbroken).intValue
         
         let deviceModel: JCAPPBuriedPointModel = JCAPPBuriedPointModel()
         deviceModel.suggestions = memoryModel

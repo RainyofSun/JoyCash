@@ -25,7 +25,7 @@ class JCAPPAuthCardInfoPopView: JCAPPBasePopView {
         source.enumerated().forEach { (idx: Int, item: JCAPPRecognitionModel) in
             let isLast: Bool = idx == source.count - 1
             let unitModel: JCAPPAuthInfoUnitModel = JCAPPAuthInfoUnitModel()
-            unitModel.defects = isLast ? "outsidea" : "outsideb"
+            unitModel.defects = isLast ? "incidenta" : "incidentb"
             unitModel.graphic = item.injuries
             unitModel.video = item.safe
             unitModel.prize = item.prize
@@ -98,6 +98,15 @@ extension JCAPPAuthCardInfoPopView: APPAuthCardInfoUnitProtocol {
             self?.saveParams[_key] = _time
             itemView.reloadUnitInfoText(_time)
             
+            UIView.transition(with: popView, duration: 0.3, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {
+                popView.alpha = .zero
+            }) { _ in
+                self?.alpha = 1
+                popView.removeFromSuperview()
+            }
+        }
+        
+        timeView.popDidmissClosure = { [weak self] (popView: JCAPPBasePopView) in
             UIView.transition(with: popView, duration: 0.3, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {
                 popView.alpha = .zero
             }) { _ in

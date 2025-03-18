@@ -13,7 +13,7 @@ class JCAPPBeginnerModel: JCAPPBaseNetResponseModel {
     /// 隐私协议
     var computational: String?
     /// Face
-    var practical: JCAPPBaseNetResponseModel?
+    var practical: JCBeginnerFacebookModel?
     /// 是否要弹窗
     var power: Int = -1
     

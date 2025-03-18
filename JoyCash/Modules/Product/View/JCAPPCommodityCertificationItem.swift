@@ -65,7 +65,7 @@ class JCAPPCommodityCertificationItem: UIControl {
             self.leftImgView.setImageWith(_url, options: YYWebImageOptions.setImageWithFadeAnimation)
         }
         
-        self.titleLab.text = authModel.amplitude
+        self.titleLab.text = authModel.graphic
         
         if authModel.protocols {
             UIView.animate(withDuration: 0.3) {

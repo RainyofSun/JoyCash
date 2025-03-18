@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>gilroy-black.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -21,32 +34,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Authorize camera access to easily take ID card photos and have a convenient operation process.</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>we need your permission to access the network</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>The APP applies to obtain the advertising identifier (IDFA) information of your device to provide more accurate and personalized services.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>The APP applies to access the contact list. Easily upload contact information to simplify steps and accelerate the loan application.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The current application collects your location information, uses it for loan risk assessment, and recommends personalized products to you. You can open Settings-Privacy System and set it to off at any time.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Grant album permission to conveniently select and upload identity photos and accelerate the application process.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The current application collects your location information, uses it for loan risk assessment, and recommends personalized products to you. You can open Settings-Privacy System and set it to off at any time.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>gilroy-black.otf</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>tel</string>
-	</array>
 </dict>
 </plist>

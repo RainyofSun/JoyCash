@@ -137,7 +137,7 @@ class JCAPPMinePageViewController: JCAPPBaseViewController, HideNavigationBarPro
             paraStyle.paragraphSpacing = APP_PADDING_UNIT
             paraStyle.alignment = .left
             let string: NSMutableAttributedString = NSMutableAttributedString(string: self.replacePhoneNumberWithStar(_phone) + "\n", attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#191B1A"), .font: UIFont.boldSystemFont(ofSize: 20)])
-            string.append(NSAttributedString(string: "Welcome to the Shiny Pera！", attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#191B1A"), .font: UIFont.systemFont(ofSize: 12)]))
+            string.append(NSAttributedString(string: "Welcome to the \(Bundle.jk.appDisplayName)！", attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#191B1A"), .font: UIFont.systemFont(ofSize: 12)]))
             self.phoneLab.attributedText = string
         } else {
             self.phoneLab.attributedText = NSAttributedString()

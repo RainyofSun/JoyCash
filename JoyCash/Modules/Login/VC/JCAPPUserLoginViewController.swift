@@ -39,7 +39,6 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
         self.protocolView.setProtocol("Privacy Agreement")
         
         self.backBtn.addTarget(self, action: #selector(clickBackButton(sender: )), for: UIControl.Event.touchUpInside)
-        self.msgTimerBtn?.addTarget(self, action: #selector(clickCodeButton(sender: )), for: UIControl.Event.touchUpInside)
         self.voiceBtn.addTarget(self, action: #selector(clickVoiceCodeButton(sender: )), for: UIControl.Event.touchUpInside)
         self.loginBtn.addTarget(self, action: #selector(clickLoginButton(sender: )), for: UIControl.Event.touchUpInside)
         
@@ -52,6 +51,8 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
         self.contentView.addSubview(self.voiceBtn)
         self.contentView.addSubview(self.protocolView)
         self.contentView.addSubview(self.loginBtn)
+        
+        self.msgTimerBtn?.addTarget(self, action: #selector(clickCodeButton(sender: )), for: UIControl.Event.touchUpInside)
     }
     
     override func layoutControlViews() {
@@ -84,7 +85,7 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
         
         self.phoneTextFiled.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 6)
-            make.top.equalTo(self.logoTipImgView.snp.bottom).offset(APP_PADDING_UNIT * 40)
+            make.top.equalTo(self.logoTipImgView.snp.bottom).offset(APP_PADDING_UNIT * 30)
             make.size.equalTo(CGSize(width: ScreenWidth - APP_PADDING_UNIT * 12, height: 54))
         }
         

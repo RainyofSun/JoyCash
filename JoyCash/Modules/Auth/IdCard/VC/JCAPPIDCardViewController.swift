@@ -7,6 +7,7 @@
 
 import UIKit
 import Toast
+import TZImagePickerController
 
 class JCAPPIDCardViewController: JCAPPCommodityAuthViewController {
 
@@ -127,8 +128,6 @@ private extension JCAPPIDCardViewController {
                 return
             }
             
-            // 获取位置信息
-            self?.reloadDeviceLocation()
             dispatch_async_on_main_queue {
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
                     let pickerController = UIImagePickerController()
@@ -173,7 +172,7 @@ private extension JCAPPIDCardViewController {
                 }
 
                 if let _occur_array = _infoModel.occur {
-                    JCAPPAuthCardInfoPopView.convenienceShowPop(_self.view).reloadCardInfoSource(_occur_array, tipText: _infoModel.failed, tipTitle: _infoModel.injuries).clickCloseClosure = { (popView: JCAPPBasePopView, isConfirm: Bool) in
+                    JCAPPAuthCardInfoPopView.convenienceShowPop(_self.view).hideBack().reloadCardInfoSource(_occur_array, tipText: _infoModel.failed, tipTitle: _infoModel.injuries).clickCloseClosure = { (popView: JCAPPBasePopView, isConfirm: Bool) in
                         guard let _info_pop = popView as? JCAPPAuthCardInfoPopView else {
                             return
                         }
@@ -208,6 +207,50 @@ private extension JCAPPIDCardViewController {
             self?.view.hideToastActivity()
         }
     }
+    
+    func showAlertSheet(showPhoto: Bool, callBlock:(@escaping (Bool) -> Void)) {
+        let alertSheet: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let alertAction1: UIAlertAction = UIAlertAction(title: "Camera", style: UIAlertAction.Style.default) { _ in
+            callBlock(true)
+        }
+        alertSheet.addAction(alertAction1)
+        
+        if showPhoto {
+            let alertAction2: UIAlertAction = UIAlertAction(title: "Photo", style: UIAlertAction.Style.default) { _ in
+                callBlock(false)
+            }
+            alertSheet.addAction(alertAction2)
+        }
+        
+        let alertAction3: UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { _ in
+            
+        }
+        alertSheet.addAction(alertAction3)
+        
+        self.present(alertSheet, animated: true)
+    }
+    
+    func showTZImagePicker() {
+        JCAPPDeviceAuthorizationTool.authorization().requestDevicePhotoAuthrization(ReadAndWrite) { [weak self] (auth: Bool) in
+            guard auth else {
+                self?.showSystemStyleSettingAlert("Grant album permission to conveniently select and upload identity photos and accelerate the application process", okTitle: nil, cancelTitle: nil)
+                return
+            }
+            dispatch_async_on_main_queue {
+                let imagePickerVc = TZImagePickerController(maxImagesCount: 1, columnNumber: 4, delegate: self, pushPhotoPickerVc: true)
+                imagePickerVc?.allowPickingImage = true
+                imagePickerVc?.allowTakeVideo = false
+                imagePickerVc?.allowPickingGif = false
+                imagePickerVc?.allowPickingVideo = false
+                imagePickerVc?.allowCrop = true
+                imagePickerVc?.cropRect = CGRect(x: 0, y: (ScreenHeight - ScreenWidth) * 0.5, width: ScreenWidth, height: ScreenWidth)
+                imagePickerVc?.statusBarStyle = .lightContent
+                imagePickerVc?.modalPresentationStyle = .fullScreen
+                self?.present(imagePickerVc!, animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 extension JCAPPIDCardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -221,13 +264,33 @@ extension JCAPPIDCardViewController: UIImagePickerControllerDelegate, UINavigati
     }
 }
 
+// MARK: TZImagePickerControllerDelegate
+extension JCAPPIDCardViewController: TZImagePickerControllerDelegate {
+    func imagePickerController(_ picker: TZImagePickerController!, didFinishPickingPhotos photos: [UIImage]!, sourceAssets assets: [Any]!, isSelectOriginalPhoto: Bool) {
+        
+        guard let image = photos.first else {
+            return
+        }
+
+        let compress_img_data = image.jk.compressDataSize(maxSize: 1024 * 1024)
+        let _filePath = self.isFace ? JCAPPPublic.shared.saveFaceImgPath : JCAPPPublic.shared.saveCardImgPath
+        try? compress_img_data?.write(to: NSURL(fileURLWithPath: _filePath) as URL)
+        self.uploadLocalImageFileToServer(_filePath)
+        picker.dismiss(animated: true)
+    }
+}
+
 extension JCAPPIDCardViewController: CardTypeSelectedProtocol {
     func didSelectedCardType(cardType: String?) {
         // 埋点
         JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_IDCardType, beginTime: self.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
         self._card_type = cardType ?? ""
         self.buryBeginTime = Date().jk.dateToTimeStamp()
-        self.takingPhotoWithDeviceCamera(false)
+        if let _style = self._card_auth_model?.appears {
+            self.showAlertSheet(showPhoto: (_style == 0), callBlock: { [weak self] (isCamera: Bool) in
+                isCamera ? self?.takingPhotoWithDeviceCamera(false) : self?.showTZImagePicker()
+            })
+        }
     }
 }
 
@@ -241,6 +304,8 @@ extension JCAPPIDCardViewController: CardTypeSelectedProtocol {
             return
         }
         
+        // 刷新定位
+        self.reloadDeviceLocation()
         JCAPPAuthCardPopView.convenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
             if isConfirm, let _first = _card_model.pregnancy, let _sec = _card_model.eyes, let _self = self {
                 self?.buryBeginTime = Date().jk.dateToTimeStamp()
@@ -265,6 +330,8 @@ extension JCAPPIDCardViewController: CardTypeSelectedProtocol {
             return
         }
         
+        // 刷新定位
+        self.reloadDeviceLocation()
         JCAPPAuthFacePopView.convenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
             if isConfirm {
                 self?.buryBeginTime = Date().jk.dateToTimeStamp()

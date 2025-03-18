@@ -40,13 +40,7 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
         self.view.addSubview(self.tryButton)
         
         NotificationCenter.default.addObserver(self, selector: #selector(deviceNetworkChange(sender: )), name: NSNotification.Name(APPLICATION_NET_CHANGE), object: nil)
-#if DEBUG
         self.pageNetowrkRequest()
-#else
-        if !JCAPPInfomationCache.applicationFirstInstall() {
-            self.pageNetowrkRequest()
-        }
-#endif
     }
     
     override func layoutControlViews() {
@@ -103,9 +97,9 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
             }
 #if DEBUG
 #else
-//            if let _face_model = _model.practical {
-//                self?.FacebookSDKinitialization(_face_model)
-//            }
+            if let _face_model = _model.practical {
+                self?.FacebookSDKinitialization(_face_model)
+            }
 #endif
             if JCAPPInfomationCache.applicationFirstInstall() {
                 self?.tryButton.isHidden = false

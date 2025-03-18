@@ -142,13 +142,13 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
                 showProtocol = true
                 self.protocol_text = model.advent
             }
-            self.buildCommodityInfoItem(_models, loanProtocol: showProtocol)
+            self.buildCommodityInfoItem(_models, loanProtocol: showProtocol, protocolStr: model.resulted)
         }
     }
 }
 
 private extension JCAPPCommodityOrderTableViewCell {
-    func buildCommodityInfoItem(_ models: [JCAPPCommonValueModel], loanProtocol: Bool) {
+    func buildCommodityInfoItem(_ models: [JCAPPCommonValueModel], loanProtocol: Bool, protocolStr: String?) {
         self.subContentView.removeAllSubviews()
         
         var _top_temp: JCAPPCommodityInfoItem?
@@ -156,18 +156,18 @@ private extension JCAPPCommodityOrderTableViewCell {
         if loanProtocol {
             let _protoclMdel: JCAPPCommonValueModel = JCAPPCommonValueModel()
             _protoclMdel.extensive = "Check＞"
-            _protoclMdel.graphic = "Loan agreement"
+            _protoclMdel.graphic = protocolStr
             _temp_models.append(_protoclMdel)
         }
         
         _temp_models.enumerated().forEach { (idx: Int, item: JCAPPCommonValueModel) in
             let view = JCAPPCommodityInfoItem(frame: CGRectZero)
             if loanProtocol && idx == _temp_models.count - 1 {
-                view.setInfoItemTitle(item.extensive, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.boldSystemFont(ofSize: 14), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]))
+                view.setInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.boldSystemFont(ofSize: 14), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]))
                 view.addTarget(self, action: #selector(clickProtocol(sender: )), for: UIControl.Event.touchUpInside)
                 self.protocolItem = view
             } else {
-                view.setInfoItemTitle(item.extensive, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.boldSystemFont(ofSize: 14)]))
+                view.setInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.boldSystemFont(ofSize: 14)]))
             }
             
             self.subContentView.addSubview(view)

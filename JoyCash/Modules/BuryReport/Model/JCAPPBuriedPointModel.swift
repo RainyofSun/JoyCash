@@ -51,9 +51,9 @@ class JCAPPSystemInfoModel: JCAPPBaseNetResponseModel {
 
 class JCAPPPhoneModel: JCAPPBaseNetResponseModel {
     /// 是否位模拟器
-    var combining: Bool = false
+    var combining: Int = .zero
     /// 是否越狱
-    var filled: Bool = false
+    var filled: Int = .zero
 }
 
 class JCAPPTimeAndCellularModel: JCAPPBaseNetResponseModel {

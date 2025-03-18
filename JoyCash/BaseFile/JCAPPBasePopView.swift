@@ -188,6 +188,21 @@ class JCAPPBasePopView: UIView {
             self.backBtn.setTitle(_b, for: UIControl.State.normal)
         }
     }
+    
+    public func hideBack() -> Self {
+        self.confirmBtn.snp.removeConstraints()
+        self.backBtn.snp.removeConstraints()
+        self.backBtn.isHidden = true
+        
+        self.confirmBtn.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 13)
+            make.top.equalTo(self.contentView.snp.bottom).offset(APP_PADDING_UNIT * 2)
+            make.height.equalTo(46)
+            make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 4)
+        }
+        
+        return self
+    }
 }
 
 @objc extension JCAPPBasePopView {

@@ -38,6 +38,7 @@ class JCAPPProtocolView: UIView {
             make.verticalEdges.equalToSuperview().inset(APP_PADDING_UNIT)
             make.height.greaterThanOrEqualTo(APP_PADDING_UNIT * 6)
             make.left.equalTo(self.agreeBtn.snp.right).offset(APP_PADDING_UNIT)
+            make.right.equalToSuperview().offset(-APP_PADDING_UNIT * 2)
         }
         
         self.agreeBtn.snp.makeConstraints { make in
@@ -61,6 +62,13 @@ class JCAPPProtocolView: UIView {
         
         self.protocolBtn.setAttributedTitle(string, for: UIControl.State.normal)
         
+        self.agreeBtn.isSelected = defaultSelected
+    }
+    
+    public func setNewProtocol(_ protocolText: String, defaultSelected: Bool = true) {
+        self.protocolBtn.setTitle(protocolText, for: UIControl.State.normal)
+        self.protocolBtn.setTitleColor(UIColor.hexStringColor(hexString: "#272931"), for: UIControl.State.normal)
+        self.protocolBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         self.agreeBtn.isSelected = defaultSelected
     }
 }

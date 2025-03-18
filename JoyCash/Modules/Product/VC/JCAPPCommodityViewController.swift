@@ -107,7 +107,7 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
             if let _loan_protocol = _commodity_model.chemicals?.graphic, !_loan_protocol.isEmpty {
                 self?._protocol_url = _commodity_model.chemicals?.done
                 self?.protocolView.isHidden = false
-                self?.protocolView.setProtocol(_loan_protocol, defaultSelected: false)
+                self?.protocolView.setProtocol(_loan_protocol, defaultSelected: true)
             }
             
             if let _certification_models = _commodity_model.peripheral {
@@ -167,19 +167,23 @@ private extension JCAPPCommodityViewController {
         }
     }
     
-    func gotoCommodityAuthItem(_ certificationType: JCAPPCertificationType, certificationTitle: String?) {
+    func gotoCommodityAuthItem(_ certificationType: JCAPPCertificationType, h5Url: String? = nil, certificationTitle: String?) {
         
-        switch certificationType {
-        case .Certification_ID_Card:
-            self.navigationController?.pushViewController(JCAPPIDCardViewController(certificationTitle: certificationTitle), animated: true)
-        case .Certification_Personal_Info:
-            self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.PersonalInfo), animated: true)
-        case .Certification_Job_Info:
-            self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.WorkingInfo), animated: true)
-        case .Certification_Contects:
-            self.navigationController?.pushViewController(JCAPPContactsViewController(certificationTitle: certificationTitle), animated: true)
-        case .Certification_BankCard:
-            self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.BankCard), animated: true)
+        if let _url = h5Url, !_url.isEmpty {
+            JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url)
+        } else {
+            switch certificationType {
+            case .Certification_ID_Card:
+                self.navigationController?.pushViewController(JCAPPIDCardViewController(certificationTitle: certificationTitle), animated: true)
+            case .Certification_Personal_Info:
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.PersonalInfo), animated: true)
+            case .Certification_Job_Info:
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.WorkingInfo), animated: true)
+            case .Certification_Contects:
+                self.navigationController?.pushViewController(JCAPPContactsViewController(certificationTitle: certificationTitle), animated: true)
+            case .Certification_BankCard:
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.BankCard), animated: true)
+            }
         }
     }
 }
@@ -211,14 +215,16 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         
         var c_type: JCAPPCertificationType = _a_model.certificationType
         var title: String? = _a_model.graphic
+        var _h5_url: String? = _a_model.zeugmatography
         
         // 如果有待认证项,优先跳转到待认证
         if !_a_model.protocols, let _wait_c_type = self._wait_auth_model?.certificationType {
             c_type = _wait_c_type
             title = self._wait_auth_model?.graphic
+            _h5_url = self._wait_auth_model?.zeugmatography
         }
         
-        self.gotoCommodityAuthItem(c_type, certificationTitle: title)
+        self.gotoCommodityAuthItem(c_type, h5Url: _h5_url, certificationTitle: title)
     }
     
     func clickLoanNowButton(sender: JCAPPActivityButton) {
@@ -229,7 +235,7 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         
         // 如果有待认证项,优先跳转到待认证
         if let _wait_c_type = self._wait_auth_model?.certificationType {
-            self.gotoCommodityAuthItem(_wait_c_type, certificationTitle: self._wait_auth_model?.graphic)
+            self.gotoCommodityAuthItem(_wait_c_type, h5Url: self._wait_auth_model?.zeugmatography, certificationTitle: self._wait_auth_model?.graphic)
             return
         }
         
