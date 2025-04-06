@@ -134,7 +134,7 @@ extension JCAPPBeginnerGuideViewController {
             }
             
             for item in _domain_models {
-                if let _url = item.vch, JCAPPNetRequestURLConfig.reloadNetworkRequestDomainURL(_url) {
+                if let _url = item.jyc, JCAPPNetRequestURLConfig.reloadNetworkRequestDomainURL(_url) {
                     JCAPPNetRequestConfig.reloadNetworkRequestURL()
                     self?.pageNetowrkRequest()
                     break

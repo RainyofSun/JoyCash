@@ -34,8 +34,8 @@ let JC_StartBindingBankCard: String = "ImagingUnit"
 let JC_EndBindingBankCard: String = "ForA"
 
 // TODO 替换
-let Dynamic_Domain_Name_URL: String = "https://mx01-dc.oss-us-west-1.aliyuncs.com/"
-let Dynamic_Domain_Name_Path: String = "access-cash/ac.json"
+let Dynamic_Domain_Name_URL: String = "https://ph01-dc.oss-ap-southeast-6.aliyuncs.com/"
+let Dynamic_Domain_Name_Path: String = "joy-cash/jyc.json"
 
 // MARK: Frame
 let ScreenWidth: CGFloat = UIScreen.main.bounds.width
