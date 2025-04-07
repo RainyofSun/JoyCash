@@ -245,7 +245,6 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         }
         
         sender.startAnimation()
-        self.buryBeginTime = Date().jk.dateToTimeStamp()
         // 重新获取位置信息
         self.reloadDeviceLocation()
         
@@ -263,8 +262,9 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
                 JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url, backToRoot: _url.hasPrefix("http"))
             }
             
+            self?.buryBeginTime = Date().jk.dateToTimeStamp()
             // 埋点
-            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_BeginLoanApply, beginTime: self?.buryBeginTime, endTime: Date().jk.dateToTimeStamp(), orderNum: _order_num)
+            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_BeginLoanApply, beginTime: self?.buryBeginTime, endTime: self?.buryBeginTime, orderNum: _order_num)
         } failure: { _, _ in
             sender.stopAnimation()
         }

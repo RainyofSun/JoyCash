@@ -39,6 +39,7 @@ class JCAPPLoanSmallCardTableViewCell: UITableViewCell {
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         self.loanBtn.isUserInteractionEnabled = false
+        self.logoImgView.corner(4)
         
         self.contentView.addSubview(self.gradientBgView)
         self.gradientBgView.addSubview(self.logoImgView)
@@ -105,6 +106,10 @@ class JCAPPLoanSmallCardTableViewCell: UITableViewCell {
     public func reloadRecommendCommodity(_ model: VCMainLoanCommodityModel) {
         self.titleLab.text = model.cavity
         self.loanBtn.setTitle(model.picture, for: UIControl.State.normal)
+        
+        if let _text = model.clam, let _url = URL(string: _text) {
+            self.logoImgView.setImageWith(_url, options: YYWebImageOptions.setImageWithFadeAnimation)
+        }
         
         let parastyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         parastyle.paragraphSpacing = APP_PADDING_UNIT * 3

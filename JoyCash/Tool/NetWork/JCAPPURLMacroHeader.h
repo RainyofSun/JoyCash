@@ -13,7 +13,7 @@
 
 #pragma mark - URL -- TODO 正式地址要替换
 #if DEBUG
-static NSString * _Nullable const NET_REQUEST_BASE_URL = @"http://8.212.182.12:8749/quen";
+static NSString * _Nullable const NET_REQUEST_BASE_URL = @"https://logic.greylogic-tech.com/quen";
 #else
 static NSString * _Nullable const NET_REQUEST_BASE_URL = @"https://logic.greylogic-tech.com/quen";
 #endif

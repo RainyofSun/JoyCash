@@ -147,6 +147,7 @@ extension JCAPPBeginnerGuideViewController {
 @objc private extension JCAPPBeginnerGuideViewController {
     func clickTryButton(sender: JCAPPActivityButton) {
         if self.contentView.isHidden {
+            JCAPPNetRequestURLConfig.clearDomainURLCache()
             self.pageNetowrkRequest()
         } else {
             if self.contentView.contentOffset == .zero {

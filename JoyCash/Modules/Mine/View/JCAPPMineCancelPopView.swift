@@ -40,8 +40,6 @@ class JCAPPMineCancelPopView: JCAPPBasePopView {
         
         self.cancelTipLab.attributedText = attributeString
         
-        self.protocolView.protocolDelegate = self
-        
         self.contentView.addSubview(self.cancelTipLab)
         self.contentView.addSubview(self.protocolView)
     }
