@@ -15,9 +15,10 @@ class JCAPPMineCancelPopView: JCAPPBasePopView {
         return view
     }()
     
-    private(set) lazy var protocolView: JCAPPProtocolView = {
-        let view = JCAPPProtocolView(frame: CGRectZero)
-        view.setNewProtocol("I've read and agreed with the above", defaultSelected: false)
+    private(set) lazy var protocolView: ProtocolView = {
+        let view = ProtocolView(frame: CGRectZero)
+        view.setProtocol(NSAttributedString(string: ""), protocolPrefix: NSAttributedString(string: "I've read and agreed with the above", attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#272931"), .font: UIFont.systemFont(ofSize: 12)]), defaultSelected: false)
+        view.setAgreeButton(UIImage(named: "login_agree_nor")!, selectedImg: UIImage(named: "login_agree_sel")!)
         return view
     }()
     

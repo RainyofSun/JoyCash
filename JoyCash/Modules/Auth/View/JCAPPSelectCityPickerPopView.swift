@@ -176,7 +176,7 @@ class JCAPPSelectCityPickerPopView: JCAPPBasePopView {
         }
     }
     
-    override func clickConfirmButton(sender: JCAPPActivityButton) {
+    override func clickConfirmButton(sender: APPActivityButton) {
         guard self._has_select_all_city else {
             self.makeToast("Please verify your address")
             return

@@ -16,29 +16,29 @@ class JCAPPPageRouting: NSObject {
         guard let _rootController = UIDevice.current.keyWindow().rootViewController as? JCAPPBaseTabBarController else {
             return
         }
-        let _topVC = _rootController.top()
+        let _topVC = _rootController.jk.topViewController()
         
         if url.hasPrefix("http") {
-            _topVC.navigationController?.pushViewController(JCAPPWebPageViewController(withWebLinkURL:  JCAPPPublicParams.splicingPublicParams(url), backToRoot: root), animated: true)
+            _topVC?.navigationController?.pushViewController(JCAPPWebPageViewController(withWebLinkURL:  APPPublicParams.request().splicingPublicParams(url), backToRoot: root), animated: true)
         } else {
             if url.contains(APP_SETTING_PAGE) {
-                _topVC.navigationController?.pushViewController(JCAPPUserSettingViewController(), animated: true)
+                _topVC?.navigationController?.pushViewController(JCAPPUserSettingViewController(), animated: true)
             } else if url.contains(APP_HOME_PAGE) {
-                _topVC.navigationController?.popToRootViewController(animated: false)
+                _topVC?.navigationController?.popToRootViewController(animated: false)
                 _rootController.selectedIndex = 0
             } else if url.contains(APP_LOGIN_PAGE) {
                 let loginNav: JCAPPBaseNavigationController = JCAPPBaseNavigationController(rootViewController:     JCAPPUserLoginViewController())
                 loginNav.modalPresentationStyle = .fullScreen
                 _rootController.present(loginNav, animated: true)
-                _topVC.navigationController?.popToRootViewController(animated: false)
+                _topVC?.navigationController?.popToRootViewController(animated: false)
             } else if url.contains(APP_ORDER_PAGE) {
-                _topVC.navigationController?.popToRootViewController(animated: false)
+                _topVC?.navigationController?.popToRootViewController(animated: false)
                 _rootController.selectedIndex = 1
             } else if url.contains(APP_PRODUCT_DETAIL) {
-                _topVC.navigationController?.pushViewController(JCAPPCommodityViewController(withCommodityIDNumber:    self.separationURLParameter(url: url)), animated: true)
+                _topVC?.navigationController?.pushViewController(JCAPPCommodityViewController(withCommodityIDNumber:    self.separationURLParameter(url: url)), animated: true)
             } else {
                 if let _t = targetVC {
-                    _topVC.navigationController?.pushViewController(_t, animated: true)
+                    _topVC?.navigationController?.pushViewController(_t, animated: true)
                 }
             }
         }

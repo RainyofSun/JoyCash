@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIButton {
-    class func buildJoyCashGradientButton(_ title: String, cornerRadius radius: CGFloat) -> JCAPPGradientColorButton {
-        let view = JCAPPGradientColorButton(type: UIButton.ButtonType.custom)
+    class func buildJoyCashGradientButton(_ title: String, cornerRadius radius: CGFloat) -> APPGradientColorButton {
+        let view = APPGradientColorButton(type: UIButton.ButtonType.custom)
         view.setTitle(title, for: UIControl.State.normal)
         view.setTitleColor(UIColor.white, for: UIControl.State.normal)
         view.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
@@ -18,8 +18,8 @@ extension UIButton {
         return view
     }
     
-    class func buildJoyCashGradientLoadingButton(_ title: String, titleFont: UIFont? = UIFont.boldSystemFont(ofSize: 15), cornerRadius radius: CGFloat) -> JCAPPActivityButton {
-        let view = JCAPPActivityButton(type: UIButton.ButtonType.custom)
+    class func buildJoyCashGradientLoadingButton(_ title: String, titleFont: UIFont? = UIFont.boldSystemFont(ofSize: 15), cornerRadius radius: CGFloat) -> APPActivityButton {
+        let view = APPActivityButton(type: UIButton.ButtonType.custom)
         view.setTitle(title, for: UIControl.State.normal)
         view.setTitleColor(UIColor.white, for: UIControl.State.normal)
         view.titleLabel?.font = titleFont

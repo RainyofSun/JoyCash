@@ -14,10 +14,10 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
     private lazy var backBtn: UIButton = UIButton.buildJoyCashImageButton("login_back")
     private lazy var logoImgView: UIImageView = UIImageView(image: UIImage(named: "login_logo"))
     private lazy var logoTipImgView: UIImageView = UIImageView(image: UIImage(named: "login_tip"))
-    private lazy var phoneTextFiled: JCAPPForbidActionTextFiled = JCAPPForbidActionTextFiled.buildJoyCashLoginTextFiled(placeHolder: NSAttributedString(string: "Enter your phone number", attributes: [.foregroundColor: GRAY_COLOR_2F3127, .font: UIFont.systemFont(ofSize: 14)]))
-    private lazy var codeTextFiled: JCAPPForbidActionTextFiled = {
-        let view = JCAPPForbidActionTextFiled.buildJoyCashLoginTextFiled(placeHolder: NSAttributedString(string: "Verification code", attributes: [.foregroundColor: GRAY_COLOR_2F3127, .font: UIFont.systemFont(ofSize: 14)]))
-        let code_timer_btn: JCAPPCodeTimerButton = JCAPPCodeTimerButton(frame: CGRectZero)
+    private lazy var phoneTextFiled: ForbidActionTextFiled = ForbidActionTextFiled.buildJoyCashLoginTextFiled(placeHolder: NSAttributedString(string: "Enter your phone number", attributes: [.foregroundColor: GRAY_COLOR_2F3127, .font: UIFont.systemFont(ofSize: 14)]))
+    private lazy var codeTextFiled: ForbidActionTextFiled = {
+        let view = ForbidActionTextFiled.buildJoyCashLoginTextFiled(placeHolder: NSAttributedString(string: "Verification code", attributes: [.foregroundColor: GRAY_COLOR_2F3127, .font: UIFont.systemFont(ofSize: 14)]))
+        let code_timer_btn: APPCodeTimerButton = APPCodeTimerButton(frame: CGRectZero)
         view.rightView = code_timer_btn
         view.rightViewMode = .always
         self.msgTimerBtn = code_timer_btn
@@ -26,18 +26,18 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
     }()
     
     private lazy var voiceBtn: UIButton = UIButton.buildJoyCashImageButton("login_voice_code_nor", disableImg: "login_voice_code")
-    private lazy var protocolView: JCAPPProtocolView = JCAPPProtocolView(frame: CGRectZero)
-    private lazy var loginBtn: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Login", cornerRadius: 24)
+    private lazy var protocolView: ProtocolView = ProtocolView(frame: CGRectZero)
+    private lazy var loginBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Login", cornerRadius: 24)
     
-    private var msgTimerBtn: JCAPPCodeTimerButton?
+    private var msgTimerBtn: APPCodeTimerButton?
     
     override func buildViewUI() {
         super.buildViewUI()
         self.gradientView.isHidden = true
         
         self.protocolView.protocolDelegate = self
-        self.protocolView.setProtocol("Privacy Agreement")
-        
+        self.protocolView.setProtocol(NSAttributedString(string: "Privacy Agreement", attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.systemFont(ofSize: 12), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]), protocolPrefix: NSAttributedString(string: "I have read and agree with ", attributes: [.foregroundColor: UIColor.init(hexString: "#272931")!, .font: UIFont.systemFont(ofSize: 12)]))
+        self.protocolView.setAgreeButton(UIImage(named: "login_agree_nor")!, selectedImg: UIImage(named: "login_agree_sel")!)
         self.backBtn.addTarget(self, action: #selector(clickBackButton(sender: )), for: UIControl.Event.touchUpInside)
         self.voiceBtn.addTarget(self, action: #selector(clickVoiceCodeButton(sender: )), for: UIControl.Event.touchUpInside)
         self.loginBtn.addTarget(self, action: #selector(clickLoginButton(sender: )), for: UIControl.Event.touchUpInside)
@@ -63,7 +63,7 @@ class JCAPPUserLoginViewController: JCAPPBaseViewController, HideNavigationBarPr
         }
         
         self.backBtn.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(UIDevice.xp_statusBarHeight() + APP_PADDING_UNIT * 5)
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 5)
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 5)
             make.size.equalTo(32)
         }
@@ -126,7 +126,7 @@ extension JCAPPUserLoginViewController: APPProtocolDelegate {
         self.navigationController?.dismiss(animated: true)
     }
     
-    func clickCodeButton(sender: JCAPPCodeTimerButton) {
+    func clickCodeButton(sender: APPCodeTimerButton) {
         guard let _phone = self.phoneTextFiled.text else {
             self.view.makeToast("Please enter your phone number")
             return
@@ -136,7 +136,7 @@ extension JCAPPUserLoginViewController: APPProtocolDelegate {
         self.buryBeginTime = Date().jk.dateToTimeStamp()
         self.view.makeToastActivity(CSToastPositionCenter)
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/discoveries", requestParams: ["incorporated": _phone])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/discoveries", requestParams: ["incorporated": _phone])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.isEnabled = true
             self?.view.hideToastActivity()
             self?.view.makeToast(res.responseMsg)
@@ -160,7 +160,7 @@ extension JCAPPUserLoginViewController: APPProtocolDelegate {
         self.buryBeginTime = Date().jk.dateToTimeStamp()
         self.view.makeToastActivity(CSToastPositionCenter)
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physiology", requestParams: ["incorporated": _p])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physiology", requestParams: ["incorporated": _p])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.isEnabled = true
             self?.view.hideToastActivity()
             self?.view.makeToast(res.responseMsg)
@@ -173,7 +173,7 @@ extension JCAPPUserLoginViewController: APPProtocolDelegate {
         }
     }
     
-    func clickLoginButton(sender: JCAPPActivityButton) {
+    func clickLoginButton(sender: APPActivityButton) {
         guard self.protocolView.hasSelected else {
             self.view.makeToast("Please confirm whether you agree to agreement")
             return
@@ -189,7 +189,7 @@ extension JCAPPUserLoginViewController: APPProtocolDelegate {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/prize", requestParams: ["damadian": _p, "raymond": _c])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/prize", requestParams: ["damadian": _p, "raymond": _c])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.stopAnimation()
             guard let _dict = res.jsonDict else {
                 return

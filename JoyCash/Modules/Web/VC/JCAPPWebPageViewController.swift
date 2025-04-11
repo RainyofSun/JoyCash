@@ -59,7 +59,7 @@ class JCAPPWebPageViewController: JCAPPBaseViewController {
     override func layoutControlViews() {
         
         self.processBarView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(UIDevice.xp_navigationFullHeight())
+            make.top.equalToSuperview().offset(UIDevice.app_navigationBarAndStatusBarHeight())
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(2)
         }

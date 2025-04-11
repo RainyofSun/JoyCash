@@ -178,6 +178,7 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/BRPickerView/BRPickerView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CYSwiftExtension/CYSwiftExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework"
@@ -192,7 +193,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/JKSwiftExtension/JKSwiftExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JXBanner/JXBanner.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JXPageControl/JXPageControl.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/LJContactManager/LJContactManager.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Mach-Swift/Mach_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework"
@@ -207,6 +207,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/BRPickerView/BRPickerView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CYSwiftExtension/CYSwiftExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework"
@@ -221,7 +222,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/JKSwiftExtension/JKSwiftExtension.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JXBanner/JXBanner.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JXPageControl/JXPageControl.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/LJContactManager/LJContactManager.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Mach-Swift/Mach_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework"

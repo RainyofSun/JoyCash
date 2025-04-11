@@ -70,7 +70,7 @@ class JCAPPAuthInfoViewController: JCAPPCommodityAuthViewController {
         self.scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.contentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(ScreenHeight - UIDevice.xp_navigationFullHeight() - UIDevice.xp_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self._sub_height)
+            make.height.equalTo(ScreenHeight - UIDevice.app_navigationBarAndStatusBarHeight() - UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self._sub_height)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 3)
         }
     }
@@ -86,7 +86,7 @@ class JCAPPAuthInfoViewController: JCAPPCommodityAuthViewController {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(_tupe.requestUrl, requestParams: ["overuse": _p_id])) {[weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(_tupe.requestUrl, requestParams: ["overuse": _p_id])) {[weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _json_dict = res.jsonDict, let _json_array = _json_dict["befored"] as? NSArray, let _json_models = NSArray.modelArray(with: JCAPPAuthInfoUnitModel.self, json: _json_array) as? [JCAPPAuthInfoUnitModel] else {
                 return
             }
@@ -95,7 +95,7 @@ class JCAPPAuthInfoViewController: JCAPPCommodityAuthViewController {
         }
     }
     
-    override func clickNextButton(sender: JCAPPActivityButton) {
+    override func clickNextButton(sender: APPActivityButton) {
         guard let _p_id = JCAPPPublic.shared.productID, let _tupe = self.request_tupe else {
             return
         }
@@ -103,7 +103,7 @@ class JCAPPAuthInfoViewController: JCAPPCommodityAuthViewController {
         self.requestParams.setValue(_p_id, forKey: "overuse")
         JCAPPProductLog.debug("------ \n\(self.requestParams)\n -------")
         sender.startAnimation()
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(_tupe.saveUrl, requestParams: self.requestParams as? [String : String])) {[weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(_tupe.saveUrl, requestParams: self.requestParams as? [String : String])) {[weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.stopAnimation()
             // 埋点
             JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: _tupe.riskType, beginTime: self?.buryBeginTime, endTime: Date().jk.dateToTimeStamp())

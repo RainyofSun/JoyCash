@@ -31,7 +31,7 @@ class JCAPPLoanSmallCardTopView: UIView {
         
         self.logoImgView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 6)
-            make.top.equalToSuperview().offset(UIDevice.xp_statusBarHeight() + APP_PADDING_UNIT * 5)
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 5)
         }
         
         self.titleLab.snp.makeConstraints { make in

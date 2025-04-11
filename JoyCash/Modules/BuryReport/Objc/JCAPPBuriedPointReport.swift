@@ -14,40 +14,40 @@ class JCAPPBuriedPointReport: NSObject {
         
         var params: [String: String] = [:]
         // 国家代码
-        if let _contry_code = JCAPPDeviceAuthorizationTool.authorization().placeMark.isoCountryCode {
+        if let _contry_code = DeviceAuthorizationTool.authorization().placeMark.isoCountryCode {
             params["grappa"] = _contry_code
         }
         
         // 国家
-        if let _country = JCAPPDeviceAuthorizationTool.authorization().placeMark.country {
+        if let _country = DeviceAuthorizationTool.authorization().placeMark.country {
             params["acquisitions"] = _country
         }
         
         // 省
-        if let _locatity = JCAPPDeviceAuthorizationTool.authorization().placeMark.locality {
+        if let _locatity = DeviceAuthorizationTool.authorization().placeMark.locality {
             params["common"] = _locatity
         }
         
         // 直辖市
-        if let _city = JCAPPDeviceAuthorizationTool.authorization().placeMark.administrativeArea {
+        if let _city = DeviceAuthorizationTool.authorization().placeMark.administrativeArea {
             params["sense"] = _city
         }
         
         // 街道
-        if let _street = JCAPPDeviceAuthorizationTool.authorization().placeMark.thoroughfare {
+        if let _street = DeviceAuthorizationTool.authorization().placeMark.thoroughfare {
             params["partially"] = _street
         }
         
         // 区/县
-        if let _area = JCAPPDeviceAuthorizationTool.authorization().placeMark.subLocality {
+        if let _area = DeviceAuthorizationTool.authorization().placeMark.subLocality {
             params["encoding"] = _area
         }
         
         // 经纬度
-        params["autocalibrating"] = "\(JCAPPDeviceAuthorizationTool.authorization().location.coordinate.latitude)"
-        params["generalized"] = "\(JCAPPDeviceAuthorizationTool.authorization().location.coordinate.longitude)"
+        params["autocalibrating"] = "\(DeviceAuthorizationTool.authorization().location.coordinate.latitude)"
+        params["generalized"] = "\(DeviceAuthorizationTool.authorization().location.coordinate.longitude)"
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/mansfield", requestParams: params)) { _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/mansfield", requestParams: params)) { _, _ in
             
         }
     }
@@ -57,7 +57,7 @@ class JCAPPBuriedPointReport: NSObject {
         let idfaStr: String = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let idfvStr: String = UIDevice.current.readIDFVFormKeyChain()
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physicists", requestParams: ["smash": idfvStr, "harmonics": idfaStr])) { _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physicists", requestParams: ["smash": idfvStr, "harmonics": idfaStr])) { _, _ in
             
         }
     }
@@ -96,7 +96,7 @@ class JCAPPBuriedPointReport: NSObject {
         timeModel.concerning = Locale.current.languageCode
         timeModel.smash = UIDevice.current.readIDFVFormKeyChain()
         timeModel.set = UIDevice.current.getNetconnType()
-        if JCAPPDeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
+        if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             timeModel.harmonics = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         }
         
@@ -130,7 +130,7 @@ class JCAPPBuriedPointReport: NSObject {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/peter", requestParams: ["awarded": _jsonStr])) { _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/peter", requestParams: ["awarded": _jsonStr])) { _, _ in
             
         }
     }
@@ -153,15 +153,15 @@ class JCAPPBuriedPointReport: NSObject {
         params["widespread"] = "\(riskType.rawValue)"
         
         params["unremarked"] = UIDevice.current.readIDFVFormKeyChain()
-        params["autocalibrating"] = "\(JCAPPDeviceAuthorizationTool.authorization().location.coordinate.latitude)"
-        params["generalized"] = "\(JCAPPDeviceAuthorizationTool.authorization().location.coordinate.longitude)"
+        params["autocalibrating"] = "\(DeviceAuthorizationTool.authorization().location.coordinate.latitude)"
+        params["generalized"] = "\(DeviceAuthorizationTool.authorization().location.coordinate.longitude)"
         params["saw"] = "2"
         
-        if JCAPPDeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
+        if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             params["largely"] = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         }
         JCAPPProductLog.debug("-------- 埋点 风控埋点 = \(riskType) -------")
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/like", requestParams: params)) { _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/like", requestParams: params)) { _, _ in
             
         }
     }

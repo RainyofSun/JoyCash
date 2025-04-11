@@ -8,8 +8,8 @@
 import UIKit
 
 extension UITextField {
-    class func buildJoyCashNormalTextFiled(placeHolder: NSAttributedString, textFont: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = BLACK_COLOR_2F3127) -> JCAPPForbidActionTextFiled {
-        let view = JCAPPForbidActionTextFiled(frame: CGRectZero)
+    class func buildJoyCashNormalTextFiled(placeHolder: NSAttributedString, textFont: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = BLACK_COLOR_2F3127) -> ForbidActionTextFiled {
+        let view = ForbidActionTextFiled(frame: CGRectZero)
         view.borderStyle = .none
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
@@ -19,8 +19,8 @@ extension UITextField {
         return view
     }
     
-    class func buildJoyCashLoginTextFiled(placeHolder: NSAttributedString, textFont: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = BLACK_COLOR_2F3127) -> JCAPPForbidActionTextFiled {
-        let view = JCAPPForbidActionTextFiled(frame: CGRectZero)
+    class func buildJoyCashLoginTextFiled(placeHolder: NSAttributedString, textFont: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = BLACK_COLOR_2F3127) -> ForbidActionTextFiled {
+        let view = ForbidActionTextFiled(frame: CGRectZero)
         view.borderStyle = .none
         view.layer.cornerRadius = 27
         view.clipsToBounds = true

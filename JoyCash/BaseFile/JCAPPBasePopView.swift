@@ -26,7 +26,7 @@ class JCAPPBasePopView: UIView {
     }()
     
     private(set) lazy var contentView: UIView = UIView(frame: CGRectZero)
-    private(set) lazy var confirmBtn: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Confirm", cornerRadius: 23)
+    private(set) lazy var confirmBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Confirm", cornerRadius: 23)
     
     private lazy var backBtn: UIButton = {
         let view = UIButton.buildJoyCashNormalButton("Back", titleFont: UIFont.systemFont(ofSize: 14), titleColor: UIColor.hexStringColor(hexString: "#554239"))
@@ -218,7 +218,7 @@ class JCAPPBasePopView: UIView {
         }
     }
     
-    func clickConfirmButton(sender: JCAPPActivityButton) {
+    func clickConfirmButton(sender: APPActivityButton) {
         self.clickCloseClosure?(self, true)
     }
 }

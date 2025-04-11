@@ -9,8 +9,8 @@ import UIKit
 
 class JCAPPCommodityOrderTableViewCell: UITableViewCell {
 
-    private lazy var gradientView: JCAPPGradientColorView = {
-        let view = JCAPPGradientColorView(frame: CGRectZero)
+    private lazy var gradientView: GradientColorView = {
+        let view = GradientColorView(frame: CGRectZero)
         view.buildGradientWithColors(gradientColors: [UIColor.hexStringColor(hexString: "#DCDDFF"),UIColor.hexStringColor(hexString: "#F1F2FF"),UIColor.hexStringColor(hexString: "#BEC8FF")], gradientStyle: GradientDirectionStyle.leftTopToRightBottom)
         view.corner(20)
         return view
@@ -28,7 +28,7 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
     
     private lazy var stateLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.boldSystemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
     private lazy var amountLab: UILabel = UILabel.buildJoyCashLabel()
-    private lazy var applyButton: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Apply", cornerRadius: 16)
+    private lazy var applyButton: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Apply", cornerRadius: 16)
     private lazy var subContentView: UIView = {
         let view = UIView(frame: CGRectZero)
         view.backgroundColor = .white

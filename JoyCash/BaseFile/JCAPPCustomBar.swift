@@ -50,7 +50,7 @@ class JCAPPCustomBar: UITabBar {
     
     public func setTabbarTitles(_ titles: [String]? = nil, barItemImages images:[String], barItemSelectedImages selectImages: [String]) {
         let item_width: CGFloat = (UIScreen.main.bounds.width - _padding * 2)/CGFloat(images.count)
-        let item_height: CGFloat = UIDevice.xp_tabBarHeight()
+        let item_height: CGFloat = UIDevice.app_tabbarHeight()
         images.enumerated().forEach { (index: Int, image: String) in
             let button = UIButton(type: UIButton.ButtonType.custom)
             button.setTitle(titles?[index], for: UIControl.State.normal)

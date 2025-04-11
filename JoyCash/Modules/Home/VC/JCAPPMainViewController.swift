@@ -41,11 +41,11 @@ class JCAPPMainViewController: JCAPPBaseViewController, HideNavigationBarProtoco
         self.reloadDeviceLocation()
         JCAPPBuriedPointReport.JCAPPLocationBuryReport()
         JCAPPBuriedPointReport.JCAPPDeviceInfoBuryReport()
-        if JCAPPDeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
+        if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             JCAPPBuriedPointReport.JCAPPIDFAAndIDFVBuryReport()
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/circuit", requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/circuit", requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             self?.contentView.refresh(begin: false)
             guard let _dict = res.jsonDict, let _main_model = JCAPPLoanCommodityModel.model(withJSON: _dict) else {
                 return
@@ -88,7 +88,7 @@ class JCAPPMainViewController: JCAPPBaseViewController, HideNavigationBarProtoco
 
 private extension JCAPPMainViewController {
     func cacheCityRequest() {
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/developed", requestParams: nil)) { (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/developed", requestParams: nil)) { (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _json_dict = res.jsonDict as? NSDictionary, let _json = _json_dict.modelToJSONString() else {
                 return
             }
@@ -160,7 +160,7 @@ private extension JCAPPMainViewController {
         }
         
         sender.startAnimation()
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/integrated", requestParams: ["overuse": commodityId])) { (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/integrated", requestParams: ["overuse": commodityId])) { (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.stopAnimation()
             guard let _dict = res.jsonDict, let _auth_model = JCAPPLoanAuthModel.model(withJSON: _dict) else {
                 return
@@ -197,12 +197,12 @@ private extension JCAPPMainViewController {
 }
 
 extension JCAPPMainViewController: APPLoanSmallCardBottomProtocol {
-    func didSelectedCommodityModel(_ model: VCMainLoanCommodityModel, sender: JCAPPActivityButton) {
+    func didSelectedCommodityModel(_ model: VCMainLoanCommodityModel, sender: APPActivityButton) {
         guard let _id = model.mouse else {
             return
         }
         
-        self.gotoCommodityDetail(_id, sender: sender)
+        self.gotoCommodityDetail(_id, sender: sender as! ActivityAnimationProtocol)
     }
 }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol APPLoanSmallCardBottomProtocol: AnyObject {
-    func didSelectedCommodityModel(_ model: VCMainLoanCommodityModel, sender: JCAPPActivityButton)
+    func didSelectedCommodityModel(_ model: VCMainLoanCommodityModel, sender: APPActivityButton)
 }
 
 class JCAPPLoanSmallCardBottomView: UIView {

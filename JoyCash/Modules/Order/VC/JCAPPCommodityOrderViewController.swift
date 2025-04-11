@@ -34,13 +34,13 @@ class JCAPPCommodityOrderViewController: JCAPPBaseViewController {
         
         self.menuView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.top.equalToSuperview().offset(UIDevice.xp_navigationFullHeight() + APP_PADDING_UNIT)
+            make.top.equalToSuperview().offset(UIDevice.app_navigationBarAndStatusBarHeight() + APP_PADDING_UNIT)
             make.height.equalTo(APP_PADDING_UNIT * 10)
         }
         
         self.contentView.snp.remakeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-UIDevice.xp_tabBarFullHeight() - APP_PADDING_UNIT)
+            make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT)
             make.top.equalTo(self.menuView.snp.bottom).offset(APP_PADDING_UNIT)
         }
         
@@ -118,7 +118,7 @@ extension JCAPPCommodityOrderViewController: APPOrderMenuProtocol {
 
 extension JCAPPCommodityOrderViewController: APPCommodityOrderTableProtocol {
     func startRefreshOrderTable(table: JCAPPCommodityOrderTableView) {
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/raymond", requestParams: ["parameter": "\(table.tag - 100)"])) { (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/raymond", requestParams: ["parameter": "\(table.tag - 100)"])) { (task: URLSessionDataTask, res: APPSuccessResponse) in
             table.refresh(begin: false)
             guard let _dict = res.jsonDict, let _array = _dict["physicists"] as? NSArray, let _models = NSArray.modelArray(with: JCAPPCommodityOrderModel.self, json: _array) as? [JCAPPCommodityOrderModel] else {
                 return

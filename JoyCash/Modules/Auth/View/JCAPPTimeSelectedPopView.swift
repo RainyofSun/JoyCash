@@ -69,7 +69,7 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
         return view as! Self
     }
     
-    override func clickConfirmButton(sender: JCAPPActivityButton) {
+    override func clickConfirmButton(sender: APPActivityButton) {
         self.timePickerView.doneBlock?()
         super.clickConfirmButton(sender: sender)
     }

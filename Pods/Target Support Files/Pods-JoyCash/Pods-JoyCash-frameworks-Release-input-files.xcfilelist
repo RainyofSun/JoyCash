@@ -1,6 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-JoyCash/Pods-JoyCash-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
 ${BUILT_PRODUCTS_DIR}/BRPickerView/BRPickerView.framework
+${BUILT_PRODUCTS_DIR}/CYSwiftExtension/CYSwiftExtension.framework
 ${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework
 ${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework
 ${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework
@@ -15,7 +16,6 @@ ${BUILT_PRODUCTS_DIR}/IQTextView/IQTextView.framework
 ${BUILT_PRODUCTS_DIR}/JKSwiftExtension/JKSwiftExtension.framework
 ${BUILT_PRODUCTS_DIR}/JXBanner/JXBanner.framework
 ${BUILT_PRODUCTS_DIR}/JXPageControl/JXPageControl.framework
-${BUILT_PRODUCTS_DIR}/LJContactManager/LJContactManager.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/Mach-Swift/Mach_Swift.framework
 ${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework

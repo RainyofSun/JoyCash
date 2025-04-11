@@ -19,8 +19,8 @@ class JCAPPBaseViewController: UIViewController {
         return view
     }()
     
-    private(set) lazy var gradientView: JCAPPGradientColorView = {
-        let view = JCAPPGradientColorView(frame: CGRectZero)
+    private(set) lazy var gradientView: GradientColorView = {
+        let view = GradientColorView()
         view.buildGradientWithColors(gradientColors: [UIColor.init(hexString: "#ABBCFA")!, UIColor.init(hexString: "#FFFFFF")!], gradientStyle: .topToBottom)
         return view
     }()
@@ -64,8 +64,8 @@ class JCAPPBaseViewController: UIViewController {
         if let _childrenVC = self.navigationController?.children, _childrenVC.count > 1 {
             self.contentView.snp.makeConstraints { make in
                 make.horizontalEdges.equalToSuperview()
-                make.top.equalTo(self.view).offset(UIDevice.xp_navigationFullHeight() + APP_PADDING_UNIT)
-                make.bottom.equalToSuperview().offset(-UIDevice.xp_safeDistanceBottom() - APP_PADDING_UNIT)
+                make.top.equalTo(self.view).offset(UIDevice.app_navigationBarAndStatusBarHeight() + APP_PADDING_UNIT)
+                make.bottom.equalToSuperview().offset(-UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT)
             }
         } else {
             if self.presentingViewController != nil {
@@ -75,7 +75,7 @@ class JCAPPBaseViewController: UIViewController {
             } else {
                 self.contentView.snp.makeConstraints { make in
                     make.horizontalEdges.top.equalToSuperview()
-                    make.bottom.equalToSuperview().offset(-UIDevice.xp_tabBarFullHeight() - APP_PADDING_UNIT)
+                    make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT)
                 }
             }
         }
@@ -83,7 +83,7 @@ class JCAPPBaseViewController: UIViewController {
     
     public func reloadDeviceLocation() {
         // 获取最新的定位
-        JCAPPDeviceAuthorizationTool.authorization().requestDeviceLocation()
+        DeviceAuthorizationTool.authorization().requestDeviceLocation()
     }
     
     public func pageNetowrkRequest() {

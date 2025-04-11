@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import LJContactManager
+import CYSwiftExtension
 
 class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
 
@@ -37,7 +37,7 @@ class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
         self.contentView.snp.remakeConstraints { make in
             make.top.equalTo(self.contentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(ScreenHeight - UIDevice.xp_navigationFullHeight() - UIDevice.xp_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self._sub_height)
+            make.height.equalTo(ScreenHeight - UIDevice.app_navigationBarAndStatusBarHeight() - UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self._sub_height)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 3)
         }
     }
@@ -49,7 +49,7 @@ class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/semiconductor", requestParams: ["overuse": _p_id])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/semiconductor", requestParams: ["overuse": _p_id])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _dict = res.jsonDict, let _json_array = _dict["qmri"] as? NSArray, let _contactModels = NSArray.modelArray(with: JCAPPSelectContactsModel.self, json: _json_array) as? [JCAPPSelectContactsModel] else {
                 return
             }
@@ -58,12 +58,12 @@ class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
         }
     }
     
-    override func clickNextButton(sender: JCAPPActivityButton) {
+    override func clickNextButton(sender: APPActivityButton) {
         guard let _p_id = JCAPPPublic.shared.productID, let _json = NSArray(array: self.emergency_contacts).modelToJSONString() else {
             return
         }
         sender.startAnimation()
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/advances", requestParams: ["overuse": _p_id, "awarded": _json])) {[weak self] _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/advances", requestParams: ["overuse": _p_id, "awarded": _json])) {[weak self] _, _ in
             sender.stopAnimation()
             // 埋点
             JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_Contacts, beginTime: self?.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
@@ -144,14 +144,14 @@ private extension JCAPPContactsViewController {
     }
     
     func getAllContacts() {
-        LJContactManager.sharedInstance().accessContactsComplection { (success: Bool, persons: [LJPerson]?) in
+        APPContactManager.sharedInstance().accessContactsComplection { (success: Bool, persons: [APPPerson]?) in
             guard success else {
                 return
             }
             
             let reportArray: NSMutableArray = NSMutableArray()
             
-            persons?.forEach({ (item: LJPerson) in
+            persons?.forEach({ (item: APPPerson) in
                 let p = JCAPPBuryContactsModel()
                 p.foreign = item.fullName
                 
@@ -160,7 +160,7 @@ private extension JCAPPContactsViewController {
                 }
                 
                 var phoneStr: [String] = []
-                item.phones.forEach { (phoneItem: LJPhone) in
+                item.phones.forEach { (phoneItem: APPPhone) in
                     phoneStr.append(phoneItem.phone)
                 }
                 
@@ -185,7 +185,7 @@ private extension JCAPPContactsViewController {
 #if DEBUG
                 _json = "[{\"reinhard\":\"13303029382\",\"jres\":\"王XX\"}]"
 #endif
-                JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/transportation", requestParams: ["awarded": _json])) { _, _ in
+                APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/transportation", requestParams: ["awarded": _json])) { _, _ in
                     JCAPPProductLog.debug("通讯录上传完成 -------------")
                 }
             }
@@ -214,10 +214,10 @@ extension JCAPPContactsViewController: APPSelectContactsItemProtocol {
             }
             
         } else {
-            LJContactManager.sharedInstance().requestAddressBookAuthorization {[weak self] (isAuth: Bool) in
+            APPContactManager.sharedInstance().requestAddressBookAuthorization {[weak self] (isAuth: Bool) in
                 guard !isAuth else {
                     self?.getAllContacts()
-                    LJContactManager.sharedInstance().selectContact(at: self) {[weak self] (name: String?, phone: String?) in
+                    APPContactManager.sharedInstance().selectContact(at: self) {[weak self] (name: String?, phone: String?) in
                         if let _n = name, let _p = phone {
                             itemView.reloadPhoneOrRelationship(_n + "-" + _p)
                             self?.saveEmergencyContactsInfo(personTag: itemView.tag, name: _n, phone: _p)

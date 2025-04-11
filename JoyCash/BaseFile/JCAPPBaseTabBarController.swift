@@ -42,7 +42,7 @@ private extension JCAPPBaseTabBarController {
     func setupTabbarUI() {
         // 保存标识-- 第一次安装
         JCAPPInfomationCache.saveApplicationInstallMark()
-        let tabbar: JCAPPCustomBar = JCAPPCustomBar(frame: CGRect(origin: CGPointZero, size: CGSize(width: ScreenWidth, height: UIDevice.xp_tabBarFullHeight())))
+        let tabbar: JCAPPCustomBar = JCAPPCustomBar(frame: CGRect(origin: CGPointZero, size: CGSize(width: ScreenWidth, height: UIDevice.app_tabbarAndSafeAreaHeight())))
         self.setValue(tabbar, forKey: "tabBar")
         tabbar.setTabbarTitles(barItemImages: tab_img_array, barItemSelectedImages: tab_sel_img_array)
         tabbar.barDelegate = self

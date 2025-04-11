@@ -76,7 +76,7 @@ class JCAPPMinePageViewController: JCAPPBaseViewController, HideNavigationBarPro
         
         self.avatarImgView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 5)
-            make.top.equalToSuperview().offset(UIDevice.xp_statusBarHeight() + APP_PADDING_UNIT * 10)
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 10)
         }
         
         self.phoneLab.snp.makeConstraints { make in
@@ -107,7 +107,7 @@ class JCAPPMinePageViewController: JCAPPBaseViewController, HideNavigationBarPro
         
         self.subContentView.snp.makeConstraints { make in
             make.left.width.bottom.equalToSuperview()
-            make.height.equalTo(ScreenHeight - UIDevice.xp_statusBarHeight() - UIDevice.xp_tabBarFullHeight() - APP_PADDING_UNIT * 38)
+            make.height.equalTo(ScreenHeight - UIDevice.app_statusBarAndSafeAreaHeight() - UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT * 38)
             make.top.equalTo(self.applyBtn.snp.bottom).offset(APP_PADDING_UNIT * 5)
         }
     }
@@ -119,7 +119,7 @@ class JCAPPMinePageViewController: JCAPPBaseViewController, HideNavigationBarPro
     
     override func pageNetowrkRequest() {
         super.pageNetowrkRequest()
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/planar", requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/planar", requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             self?.contentView.refresh(begin: false)
             guard let _json_dict = res.jsonDict, let _values = _json_dict["physicists"] as? NSArray, let _value_models = NSArray.modelArray(with: JCAPPMineValueModel.self, json: _values) as? [JCAPPMineValueModel] else {
                 return

@@ -7,6 +7,7 @@
 
 import UIKit
 import FBSDKCoreKit
+import CYSwiftExtension
 
 protocol APPBeginnerGuideProtocol: AnyObject {
     func beginnerGuideDidDismiss()
@@ -18,7 +19,7 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
     private lazy var firstImgView: UIImageView = UIImageView(image: UIImage(named: "guide_1"))
     private lazy var secondImgView: UIImageView = UIImageView(image: UIImage(named: "guide_2"))
     private lazy var thirdImgView: UIImageView = UIImageView(image: UIImage(named: "guide_3"))
-    private lazy var tryButton: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Try again", titleFont: UIFont.gilroyFont(14), cornerRadius: 23)
+    private lazy var tryButton: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Try again", titleFont: UIFont.gilroyFont(14), cornerRadius: 23)
     
     override func buildViewUI() {
         super.buildViewUI()
@@ -66,7 +67,7 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
         
         self.tryButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 17)
-            make.bottom.equalToSuperview().offset(-UIDevice.xp_tabBarFullHeight() - APP_PADDING_UNIT * 10)
+            make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT * 10)
             make.height.equalTo(46)
         }
     }
@@ -80,7 +81,7 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
             language_code = Locale.current.languageCode ?? language_code
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/concerning", requestParams: ["concerning": language_code, "discoveries": "0", "physiology": "0"])) { [weak self] (res: URLSessionDataTask, res1: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/concerning", requestParams: ["concerning": language_code, "discoveries": "0", "physiology": "0"])) { [weak self] (res: URLSessionDataTask, res1: APPSuccessResponse) in
             guard let _dict = res1.jsonDict, let _model = JCAPPBeginnerModel.model(withJSON: _dict) else {
                 return
             }
@@ -91,7 +92,7 @@ class JCAPPBeginnerGuideViewController: JCAPPBaseViewController {
                 JCAPPPublic.shared.countryCode = _code
             }
             
-            if _model.power == 1 && JCAPPDeviceAuthorizationTool.authorization().locationAuthorization() != Authorized && JCAPPDeviceAuthorizationTool.authorization().locationAuthorization() != Limited && JCAPPInfomationCache.todayShouldShowLocationAlert() {
+            if _model.power == 1 && DeviceAuthorizationTool.authorization().locationAuthorization() != Authorized && DeviceAuthorizationTool.authorization().locationAuthorization() != Limited && JCAPPInfomationCache.todayShouldShowLocationAlert() {
                 // 弹出定位授权弹窗
                 self?.showSystemStyleSettingAlert("La aplicación actual recopila su información de ubicación, la utiliza para la evaluación de riesgos de préstamos y le recomienda productos personalizados. Puede abrir Settings-Privacy System y desactivarlo en cualquier momento.", okTitle: nil, cancelTitle: nil)
             }
@@ -128,14 +129,14 @@ extension JCAPPBeginnerGuideViewController {
     func switchRequestAddress() {
         let config: NetworkRequestConfig = NetworkRequestConfig.defaultRequestConfig(Dynamic_Domain_Name_URL + Dynamic_Domain_Name_Path, requestParams: nil)
         config.requestType = .download
-        JCAPPNetRequestManager.afnReqeustType(config) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(config) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _str = res.responseMsg, let _domain_models = NSArray.modelArray(with: JCAPPNetworkDomainModel.self, json: _str) as? [JCAPPNetworkDomainModel] else {
                 return
             }
             
             for item in _domain_models {
-                if let _url = item.jyc, JCAPPNetRequestURLConfig.reloadNetworkRequestDomainURL(_url) {
-                    JCAPPNetRequestConfig.reloadNetworkRequestURL()
+                if let _url = item.jyc, APPNetRequestURLConfig.reloadNetworkRequestDomainURL(_url) {
+                    APPNetRequestConfig.reloadNetworkRequestURL()
                     self?.pageNetowrkRequest()
                     break
                 }
@@ -145,9 +146,9 @@ extension JCAPPBeginnerGuideViewController {
 }
 
 @objc private extension JCAPPBeginnerGuideViewController {
-    func clickTryButton(sender: JCAPPActivityButton) {
+    func clickTryButton(sender: APPActivityButton) {
         if self.contentView.isHidden {
-            JCAPPNetRequestURLConfig.clearDomainURLCache()
+            APPNetRequestURLConfig.clearDomainURLCache()
             self.pageNetowrkRequest()
         } else {
             if self.contentView.contentOffset == .zero {
@@ -161,11 +162,11 @@ extension JCAPPBeginnerGuideViewController {
     }
     
     func deviceNetworkChange(sender: Notification) {
-        if let _net_state = sender.object as? JCAPPDeviceNetObserver.NetworkStatus, _net_state != .NetworkStatus_NoNet, JCAPPInfomationCache.applicationFirstInstall() {
+        if let _net_state = sender.object as? DeviceNetObserver.NetworkStatus, _net_state != .NetworkStatus_NoNet, JCAPPInfomationCache.applicationFirstInstall() {
             // 第一次安装时，等到网络授权之后，再重新请求初始化
             self.pageNetowrkRequest()
             // 关闭网络探测
-            JCAPPDeviceNetObserver.shared.StopNetworkObserverListener()
+            DeviceNetObserver.shared.StopNetworkObserverListener()
             NotificationCenter.default.removeObserver(self)
         }
     }

@@ -7,12 +7,8 @@ use_frameworks!
 # 定义公共库
 def CommonPods
   pod 'CocoaLumberjack/Swift'
-  pod 'Toast', '4.1.1'
-  pod 'MJRefresh', '3.7.5'
   pod 'EmptyDataSet-Swift', '5.0.0'
   pod 'FDFullscreenPopGesture', '1.1'
-  pod 'Reachability', '3.2'
-  pod 'SnapKit', '5.6.0'
   pod 'TZImagePickerController', '3.8.8'
   pod 'IQKeyboardManagerSwift', '8.0.0'
   pod 'Mach-Swift', '1.1.1'
@@ -21,13 +17,12 @@ def CommonPods
 end
 
 def OCFrameworks
-  pod 'AFNetworking', '4.0.1'
-  pod 'YYKit', '1.0.9'
+ pod 'AFNetworking', :git => 'https://github.com/crasowas/AFNetworking.git'
+ pod 'CYSwiftExtension', '1.1.7'
 end
 
 def HostPods
   pod 'BRPickerView/Default','2.9.1'
-  pod 'LJContactManager', '1.0.7'
   pod 'FBSDKCoreKit', '18.0.0'
 end
 

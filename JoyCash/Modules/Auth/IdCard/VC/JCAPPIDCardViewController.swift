@@ -81,7 +81,7 @@ class JCAPPIDCardViewController: JCAPPCommodityAuthViewController {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/power", requestParams: ["overuse": _p_id])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/power", requestParams: ["overuse": _p_id])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _dict = res.jsonDict, let _model = JCAPPAuthCardModel.model(withJSON: _dict) else {
                 return
             }
@@ -101,7 +101,7 @@ class JCAPPIDCardViewController: JCAPPCommodityAuthViewController {
         }
     }
     
-    override func clickNextButton(sender: JCAPPActivityButton) {
+    override func clickNextButton(sender: APPActivityButton) {
         guard let _cardModel = self._card_auth_model else {
             return
         }
@@ -122,7 +122,7 @@ class JCAPPIDCardViewController: JCAPPCommodityAuthViewController {
 
 private extension JCAPPIDCardViewController {
     func takingPhotoWithDeviceCamera(_ isFront: Bool) {
-        JCAPPDeviceAuthorizationTool.authorization().requestDeviceCameraAuthrization {[weak self] (auth: Bool) in
+        DeviceAuthorizationTool.authorization().requestDeviceCameraAuthrization {[weak self] (auth: Bool) in
             if !auth {
                 self?.showSystemStyleSettingAlert("Authorize camera access to easily take ID card photos and have a convenient operation process.", okTitle: nil, cancelTitle: nil)
                 return
@@ -155,7 +155,7 @@ private extension JCAPPIDCardViewController {
         
         let config: NetworkRequestConfig = NetworkRequestConfig.defaultRequestConfig("said/computational", requestParams: params)
         config.requestType = .upload
-        JCAPPNetRequestManager.afnReqeustType(config) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(config) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             guard let _self = self else {
                 return
             }
@@ -180,7 +180,7 @@ private extension JCAPPIDCardViewController {
                         _info_pop.confirmBtn.startAnimation()
                         _info_pop.saveParams["late"] = "11"
                         _info_pop.saveParams["second"] = self?._card_type
-                        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/amount", requestParams: _info_pop.saveParams)) { _, _ in
+                        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/amount", requestParams: _info_pop.saveParams)) { _, _ in
                             _info_pop.confirmBtn.stopAnimation()
                             // 埋点
                             JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_TakingCardPhoto, beginTime: _self.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
@@ -232,7 +232,7 @@ private extension JCAPPIDCardViewController {
     }
     
     func showTZImagePicker() {
-        JCAPPDeviceAuthorizationTool.authorization().requestDevicePhotoAuthrization(ReadAndWrite) { [weak self] (auth: Bool) in
+        DeviceAuthorizationTool.authorization().requestDevicePhotoAuthrization(ReadAndWrite) { [weak self] (auth: Bool) in
             guard auth else {
                 self?.showSystemStyleSettingAlert("Grant album permission to conveniently select and upload identity photos and accelerate the application process", okTitle: nil, cancelTitle: nil)
                 return

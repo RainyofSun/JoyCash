@@ -18,7 +18,7 @@ class JCAPPAuthCardInfoUnitView: UIView {
     open var unitTupe: (cacheKey: String?, choise: [JCAPPCommonChoiseModel]?)?
     
     private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 15), labelColor: UIColor.hexStringColor(hexString: "#202020"))
-    private lazy var noActionTextFiled: JCAPPForbidActionTextFiled = JCAPPForbidActionTextFiled.buildJoyCashNormalTextFiled(placeHolder: NSAttributedString())
+    private lazy var noActionTextFiled: ForbidActionTextFiled = ForbidActionTextFiled.buildJoyCashNormalTextFiled(placeHolder: NSAttributedString())
     
     private(set) var input_type = JCInputViewType.Input_Text
     

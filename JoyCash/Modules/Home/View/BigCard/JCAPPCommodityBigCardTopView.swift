@@ -41,7 +41,7 @@ class JCAPPCommodityBigCardTopView: UIImageView {
         
         
         self.commodityView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(UIDevice.xp_statusBarHeight() + APP_PADDING_UNIT * 7)
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 7)
             make.centerX.equalToSuperview()
             make.height.equalTo(22)
         }

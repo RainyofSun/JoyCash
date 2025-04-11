@@ -7,6 +7,7 @@
 
 import UIKit
 import Toast
+@_exported import CYSwiftExtension
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 初始化log 日志
         JCAPPProductLog.shared.registe(with: EnvType.other)
         // 开启网络监测
-        JCAPPDeviceNetObserver.shared.StartNetworkStatusListener()
+        DeviceNetObserver.shared.StartNetworkStatusListener()
         // 设备认证
-        JCAPPDeviceAuthorizationTool.authorization()
+        DeviceAuthorizationTool.authorization()
         // 读取本地化登录信息
         JCAPPPublic.shared.decoderUserLogin()
         // 设置根控制器
@@ -75,14 +76,14 @@ private extension SceneDelegate {
     }
     
     func deviceAuthorization() {
-        JCAPPDeviceAuthorizationTool.authorization().requestDeviceIDFAAuthrization { (auth: Bool) in
+        DeviceAuthorizationTool.authorization().requestDeviceIDFAAuthrization { (auth: Bool) in
             
         }
         
-        JCAPPDeviceAuthorizationTool.authorization().requestDeviceLocationAuthrization(WhenInUse)
+        DeviceAuthorizationTool.authorization().requestDeviceLocationAuthrization(WhenInUse)
         
-        if JCAPPDeviceAuthorizationTool.authorization().locationAuthorization() == Authorized || JCAPPDeviceAuthorizationTool.authorization().locationAuthorization() == Limited {
-            JCAPPDeviceAuthorizationTool.authorization().startDeviceLocation()
+        if DeviceAuthorizationTool.authorization().locationAuthorization() == Authorized || DeviceAuthorizationTool.authorization().locationAuthorization() == Limited {
+            DeviceAuthorizationTool.authorization().startDeviceLocation()
             // 埋点上报
             if JCAPPPublic.shared.isAppInitializationSuccess {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
@@ -93,7 +94,7 @@ private extension SceneDelegate {
             }
         }
         
-        if JCAPPDeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
+        if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             // 埋点上报
             if JCAPPPublic.shared.isAppInitializationSuccess {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {

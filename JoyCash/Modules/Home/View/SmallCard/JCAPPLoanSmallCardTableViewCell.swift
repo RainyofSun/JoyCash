@@ -9,8 +9,8 @@ import UIKit
 
 class JCAPPLoanSmallCardTableViewCell: UITableViewCell {
 
-    private lazy var gradientBgView: JCAPPGradientColorView = {
-        let view = JCAPPGradientColorView(frame: CGRectZero)
+    private lazy var gradientBgView: GradientColorView = {
+        let view = GradientColorView(frame: CGRectZero)
         view.buildGradientWithColors(gradientColors: [UIColor.hexStringColor(hexString: "#DCDDFF"), UIColor.hexStringColor(hexString: "#F1F2FF"), UIColor.hexStringColor(hexString: "#BEC8FF")], gradientStyle: GradientDirectionStyle.leftTopToRightBottom)
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
@@ -19,7 +19,7 @@ class JCAPPLoanSmallCardTableViewCell: UITableViewCell {
     
     private lazy var logoImgView: UIImageView = UIImageView(frame: CGRectZero)
     private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
-    private(set) lazy var loanBtn: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("", cornerRadius: 16)
+    private(set) lazy var loanBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("", cornerRadius: 16)
     private lazy var subContentView: UIView = {
         let view = UIView(frame: CGRectZero)
         view.backgroundColor = .white

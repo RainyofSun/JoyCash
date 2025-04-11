@@ -22,7 +22,7 @@ class JCAPPCommodityAuthViewController: JCAPPBaseViewController {
     private(set) lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.gilroyFont(16), labelColor: .black)
     private(set) lazy var contentLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 12), labelColor: UIColor.hexStringColor(hexString: "#554239", alpha: 0.5))
     
-    private(set) lazy var nextBtn: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Next", cornerRadius: 23)
+    private(set) lazy var nextBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Next", cornerRadius: 23)
     open var navTitle: String?
     
     init(certificationTitle title: String?) {
@@ -56,7 +56,7 @@ class JCAPPCommodityAuthViewController: JCAPPBaseViewController {
         
         self.containerView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 3)
-            make.top.equalToSuperview().offset(UIDevice.xp_navigationFullHeight() + APP_PADDING_UNIT * 3)
+            make.top.equalToSuperview().offset(UIDevice.app_navigationBarAndStatusBarHeight() + APP_PADDING_UNIT * 3)
             make.bottom.lessThanOrEqualTo(self.nextBtn.snp.top).offset(-APP_PADDING_UNIT * 3)
         }
         
@@ -72,7 +72,7 @@ class JCAPPCommodityAuthViewController: JCAPPBaseViewController {
         }
         
         self.nextBtn.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-UIDevice.xp_safeDistanceBottom() - APP_PADDING_UNIT)
+            make.bottom.equalToSuperview().offset(-UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT)
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 9)
             make.height.equalTo(46)
         }
@@ -90,7 +90,7 @@ class JCAPPCommodityAuthViewController: JCAPPBaseViewController {
 }
 
 @objc extension JCAPPCommodityAuthViewController {
-    func clickNextButton(sender: JCAPPActivityButton) {
+    func clickNextButton(sender: APPActivityButton) {
         self.navigationController?.popViewController(animated: true)
     }
 }

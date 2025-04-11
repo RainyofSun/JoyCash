@@ -65,7 +65,7 @@ class JCAPPUserSettingViewController: JCAPPBaseViewController {
     
     override func pageNetowrkRequest() {
         super.pageNetowrkRequest()
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(self.request_url, requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(self.request_url, requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             JCAPPPublic.shared.deleteLocalLoginInfo()
             self?.navigationController?.popToRootViewController(animated: true)
         }

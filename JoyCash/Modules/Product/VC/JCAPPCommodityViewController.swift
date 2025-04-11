@@ -12,8 +12,8 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
     private lazy var backBtn: UIButton = UIButton.buildJoyCashImageButton("certification_back")
     private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 17), labelColor: UIColor.white, labelText: "Certification")
     private lazy var topBgImgView: UIImageView = UIImageView(image: UIImage(named: "certification_top_bg"))
-    private lazy var protocolView: JCAPPProtocolView = JCAPPProtocolView(frame: CGRectZero)
-    private lazy var loanBtn: JCAPPActivityButton = JCAPPActivityButton.buildJoyCashGradientLoadingButton("Loan Now", cornerRadius: 23)
+    private lazy var protocolView: ProtocolView = ProtocolView(frame: CGRectZero)
+    private lazy var loanBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Loan Now", cornerRadius: 23)
     
     private var id_number: String?
     private var amount_info: (amount: String?, term: String?, termType: String?)
@@ -47,7 +47,7 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
         
         self.backBtn.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 4)
-            make.top.equalToSuperview().offset(UIDevice.xp_statusBarHeight() + APP_PADDING_UNIT * 3)
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 3)
         }
         
         self.titleLab.snp.makeConstraints { make in
@@ -74,7 +74,7 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
         
         self.loanBtn.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 12)
-            make.bottom.equalToSuperview().offset(-UIDevice.xp_tabBarFullHeight() - APP_PADDING_UNIT * 2)
+            make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT * 2)
             make.height.equalTo(46)
         }
     }
@@ -90,7 +90,7 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
         }
         
         self.isRefresh = true
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/transistors", requestParams: ["overuse": _p_id])) {[weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/transistors", requestParams: ["overuse": _p_id])) {[weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             self?.isRefresh = false
             guard let _dict = res.jsonDict, let _commodity_model = JCAPPCommodityCertificationModel.model(withJSON: _dict) else {
                 return
@@ -107,7 +107,7 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
             if let _loan_protocol = _commodity_model.chemicals?.graphic, !_loan_protocol.isEmpty {
                 self?._protocol_url = _commodity_model.chemicals?.done
                 self?.protocolView.isHidden = false
-                self?.protocolView.setProtocol(_loan_protocol, defaultSelected: true)
+                self?.protocolView.setProtocol(NSAttributedString(string: _loan_protocol, attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.systemFont(ofSize: 12), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]), protocolPrefix: NSAttributedString(string: "I have read and agree with ", attributes: [.foregroundColor: UIColor.init(hexString: "#272931")!, .font: UIFont.systemFont(ofSize: 12)]))
             }
             
             if let _certification_models = _commodity_model.peripheral {
@@ -227,7 +227,7 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         self.gotoCommodityAuthItem(c_type, h5Url: _h5_url, certificationTitle: title)
     }
     
-    func clickLoanNowButton(sender: JCAPPActivityButton) {
+    func clickLoanNowButton(sender: APPActivityButton) {
         // 正在刷新时,不进入认证
         if self.isRefresh {
             return
@@ -252,7 +252,7 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
             return
         }
         
-        JCAPPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/damadian", requestParams: ["hearing": self.amount_info.amount ?? "", "trimesters": _order_num, "speeds": self.amount_info.term ?? "", "powerful": self.amount_info.termType ?? ""])) { [weak self] (task: URLSessionDataTask, res: JCAPPSuccessResponse) in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/damadian", requestParams: ["hearing": self.amount_info.amount ?? "", "trimesters": _order_num, "speeds": self.amount_info.term ?? "", "powerful": self.amount_info.termType ?? ""])) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
             sender.stopAnimation()
             guard let _dict = res.jsonDict, let _model = JCAPPAuthJumpModel.model(withJSON: _dict) else {
                 return
