@@ -9,58 +9,69 @@ import UIKit
 
 class JCAPPMineCancelPopView: JCAPPBasePopView {
 
-    private lazy var cancelTipLab: UILabel = {
+    private lazy var JCAPPcancelTipLab: UILabel = {
         let view = UILabel(frame: CGRectZero)
         view.numberOfLines = .zero
         return view
     }()
     
-    private(set) lazy var protocolView: ProtocolView = {
+    private(set) lazy var JCAPPprotocolView: ProtocolView = {
         let view = ProtocolView(frame: CGRectZero)
-        view.setProtocol(NSAttributedString(string: ""), protocolPrefix: NSAttributedString(string: "I've read and agreed with the above", attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#272931"), .font: UIFont.systemFont(ofSize: 12)]), defaultSelected: false)
+        view.setProtocol(NSAttributedString(string: ""), protocolPrefix: NSAttributedString(string: String.JCAPP_tsuowodkslString(), attributes: [.foregroundColor: UIColor.hexStringColor(hexString: "#272931"), .font: UIFont.systemFont(ofSize: 12)]), defaultSelected: false)
         view.setAgreeButton(UIImage(named: "login_agree_nor")!, selectedImg: UIImage(named: "login_agree_sel")!)
         return view
     }()
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.topImgView.image = UIImage(named: "pop_top_bg1")
-        self.popTitleLab.text = "Canceling your account will cause you to permanently lose the following data and functions:"
-        self.resetConfirmTitle("Cancel", backTitle: "Deregister account")
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg1")
+        self.JCAPPpopTitleLab.text = String.JCAPP_siurjskslwllString()
+        self.JCAPPresetConfirmTitle("Cancel", backTitle: String.JCAPP_ujujdksljdlkString())
+        self.JCAPPScrollContentView.isHidden = false
         
         let paraStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         paraStyle.paragraphSpacing = APP_PADDING_UNIT * 2
         let dict1: [NSAttributedString.Key : Any] = [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.systemFont(ofSize: 14), .paragraphStyle: paraStyle]
         let dict2: [NSAttributedString.Key : Any] = [.foregroundColor: UIColor.hexStringColor(hexString: "#554239", alpha: 0.5), .font: UIFont.systemFont(ofSize: 14), .paragraphStyle: paraStyle]
-        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: "· History:\n", attributes: dict1)
-        attributeString.append(NSAttributedString(string: "All history will be deleted and cannot be restored\n", attributes: dict2))
-        attributeString.append(NSAttributedString(string: "· Personal information:\n", attributes: dict1))
-        attributeString.append(NSAttributedString(string: "including your identity information, personal data and other related information\n", attributes: dict2))
-        attributeString.append(NSAttributedString(string: "· App permission procedure:\n", attributes: dict1))
-        attributeString.append(NSAttributedString(string: "You will no longer be able to use any features and services of this product\n", attributes: dict2))
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: String.JCAPP_yshdowkskdpslString(), attributes: dict1)
+        attributeString.append(NSAttributedString(string: String.JCAPP_iksldkopekdlString(), attributes: dict2))
+        attributeString.append(NSAttributedString(string: String.JCAPP_fgjskkcskaksldlString(), attributes: dict1))
+        attributeString.append(NSAttributedString(string: String.JCAPP_rjskpaplsjcmString(), attributes: dict2))
+        attributeString.append(NSAttributedString(string: String.JCAPP_dsoeldakslString(), attributes: dict1))
+        attributeString.append(NSAttributedString(string: String.JCAPP_wlshfnbcnsmString(), attributes: dict2))
         
-        self.cancelTipLab.attributedText = attributeString
+        self.JCAPPcancelTipLab.attributedText = attributeString
         
-        self.contentView.addSubview(self.cancelTipLab)
-        self.contentView.addSubview(self.protocolView)
+        self.JCAPPScrollContentView.addSubview(self.JCAPPcancelTipLab)
+        self.JCAPPbgView.addSubview(self.JCAPPprotocolView)
     }
     
-    override func layoutPopViews() {
-        super.layoutPopViews()
+    override func JCAPPlayoutPopViews() {
+        super.JCAPPlayoutPopViews()
         
-        self.cancelTipLab.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 4)
+        self.JCAPPcancelTipLab.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(APP_PADDING_UNIT * 4)
+            make.width.equalTo(ScreenWidth - APP_PADDING_UNIT * 24)
             make.top.equalToSuperview().offset(APP_PADDING_UNIT * 4)
-        }
-        
-        self.protocolView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.cancelTipLab.snp.bottom).offset(APP_PADDING_UNIT * 4)
+            make.height.lessThanOrEqualTo(300)
+            make.height.greaterThanOrEqualTo(100)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT)
         }
+        
+        self.JCAPPprotocolView.snp.makeConstraints { make in
+            make.left.equalTo(self.JCAPPcancelTipLab)
+            make.width.lessThanOrEqualTo(ScreenWidth * 0.7)
+            make.top.equalTo(self.JCAPPScrollContentView.snp.bottom).offset(APP_PADDING_UNIT * 4)
+        }
+        
+        self.JCAPPconfirmBtn.snp.remakeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 13)
+            make.top.equalTo(self.JCAPPprotocolView.snp.bottom).offset(APP_PADDING_UNIT * 2)
+            make.height.equalTo(46)
+        }
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPMineCancelPopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)

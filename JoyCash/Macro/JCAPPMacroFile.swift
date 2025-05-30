@@ -33,9 +33,8 @@ let JC_StartBindingBankCard: String = "ImagingUnit"
 /// 结束绑卡时间
 let JC_EndBindingBankCard: String = "ForA"
 
-// TODO 替换
 let Dynamic_Domain_Name_URL: String = "https://ph01-dc.oss-ap-southeast-6.aliyuncs.com/"
-let Dynamic_Domain_Name_Path: String = "joy-cash/jyc.json"
+let Dynamic_Domain_Name_Path: String = "joy-cash/4Bj8DSbNHyhyZaLL.json"
 
 // MARK: Frame
 let ScreenWidth: CGFloat = UIScreen.main.bounds.width
@@ -52,7 +51,12 @@ let GRAY_COLOR_2F3127: UIColor = UIColor.init(hexString:"#2F3127")!
 let BLACK_COLOR_2F3127: UIColor = UIColor.init(hexString:"#2F3127")!
 let BLACK_COLOR_26264A: UIColor = UIColor.init(hexString:"#26264A")!
 
-// MARK: 原声页面跳转
+let JCAPP_ORANGE_COLOR_F89151: UIColor = UIColor.init(hexString: "#F89151")!
+let JCAPP_ORANGE_COLOR_F44F33: UIColor = UIColor.init(hexString: "#F44F33")!
+let JCAPP_GROWN_COLOR_5F4631: UIColor = UIColor.init(hexString: "#5F4631")!
+let JCAPP_ORANGE_COLOR_F68941: UIColor = UIColor(hexString: "#F68941")!
+
+// MARK: 原声页面跳
 /// 设置页面
 let APP_SETTING_PAGE: String = "jo://yca.sh/signal"
 /// 首页
@@ -65,7 +69,7 @@ let APP_ORDER_PAGE: String = "jo://yca.sh/auterb"
 let APP_PRODUCT_DETAIL: String = "jo://yca.sh/orporate"
         
 // MARK: 输入类型
-enum JCInputViewType: String {
+enum JCAPPInputViewType: String {
     case Input_Enum = "incidenta"
     case Input_Text = "incidentb"
     case Input_City = "incidentc"
@@ -90,7 +94,7 @@ enum JCAPPCertificationType: String {
 }
 
 // MARK: 埋点上报
-enum JCRiskControlPointsType: Int {
+enum JCAPPRiskControlPointsType: Int {
     case JC_APP_Register = 1
     case JC_APP_IDCardType = 2
     case JC_APP_TakingCardPhoto = 3

@@ -23,14 +23,14 @@ class JCAPPOrderMenuView: UIScrollView {
         
         var _tempButton: UIButton?
         menuTitles.enumerated().forEach { (idx: Int, title: String) in
-            let view = UIButton.buildJoyCashNormalButton(title, titleFont: UIFont.systemFont(ofSize: 14), titleColor: UIColor.hexStringColor(hexString: "#1A1C19"))
+            let view = UIButton.JCAPPbuildJoyCashNormalButton(title, titleFont: UIFont.systemFont(ofSize: 14), titleColor: UIColor.hexStringColor(hexString: "#1A1C19"))
             view.setTitle(title, for: UIControl.State.selected)
             view.setTitleColor(UIColor.white, for: UIControl.State.selected)
             view.layer.cornerRadius = 16
             view.clipsToBounds = true
-            view.backgroundColor = idx == .zero ? UIColor.hexStringColor(hexString: "#4566F7") : .white
+            view.backgroundColor = idx == .zero ? UIColor.hexStringColor(hexString: "#F77745") : .white
             view.tag = 1000 + idx
-            view.addTarget(self, action: #selector(clickMenuItem(sender: )), for: UIControl.Event.touchUpInside)
+            view.addTarget(self, action: #selector(JCAPPclickMenuItem(sender: )), for: UIControl.Event.touchUpInside)
             view.isSelected = idx == .zero
             self.addSubview(view)
             
@@ -70,17 +70,17 @@ class JCAPPOrderMenuView: UIScrollView {
         deallocPrint()
     }
     
-    public func selectedMenuItem(idx: Int) {
+    public func JCAPPselectedMenuItem(idx: Int) {
         guard let _btn = self.viewWithTag(1000 + idx) as? UIButton else {
             return
         }
     
-        self.clickMenuItem(sender: _btn)
+        self.JCAPPclickMenuItem(sender: _btn)
     }
 }
 
 private extension JCAPPOrderMenuView {
-    func resetMenuItemState() {
+    func JCAPPresetMenuItemState() {
         for item in self.subviews {
             if let _btn = item as? UIButton, _btn.isSelected {
                 _btn.isSelected = false
@@ -92,10 +92,10 @@ private extension JCAPPOrderMenuView {
 }
 
 @objc private extension JCAPPOrderMenuView {
-    func clickMenuItem(sender: UIButton) {
-        self.resetMenuItemState()
+    func JCAPPclickMenuItem(sender: UIButton) {
+        self.JCAPPresetMenuItemState()
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? UIColor.hexStringColor(hexString: "#4566F7") : .white
+        sender.backgroundColor = sender.isSelected ? UIColor.hexStringColor(hexString: "#F77745") : .white
         self.selectedIndex = sender.tag - 1000
         self.menuDelegate?.didSeletedMenuItem(idx: self.selectedIndex)
     }

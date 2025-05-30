@@ -8,40 +8,40 @@
 import UIKit
 
 protocol APPSelectContactsItemProtocol: AnyObject {
-    func contactsItemWasClicked(itemView: JCAPPSelectContactsItem, isRelationShip: Bool)
+    func JCAPPcontactsItemWasClicked(itemView: JCAPPSelectContactsItem, isRelationShip: Bool)
 }
 
 class JCAPPSelectContactsItem: UIView {
 
     weak open var itemDelegate: APPSelectContactsItemProtocol?
     
-    private lazy var bigTitleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 15), labelColor: UIColor.hexStringColor(hexString: "#202020"))
-    private(set) lazy var relationShipItem: JCAPPAuthCardInfoUnitView = JCAPPAuthCardInfoUnitView(frame: CGRectZero)
-    private lazy var phoneItem: JCAPPAuthCardInfoUnitView = JCAPPAuthCardInfoUnitView(frame: CGRectZero)
+    private lazy var JCAPPbigTitleLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.systemFont(ofSize: 15), labelColor: UIColor.hexStringColor(hexString: "#202020"))
+    private(set) lazy var JCAPPrelationShipItem: JCAPPAuthCardInfoUnitView = JCAPPAuthCardInfoUnitView(frame: CGRectZero)
+    private lazy var JCAPPphoneItem: JCAPPAuthCardInfoUnitView = JCAPPAuthCardInfoUnitView(frame: CGRectZero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.relationShipItem.unitDelegate = self
-        self.phoneItem.unitDelegate = self
+        self.JCAPPrelationShipItem.unitDelegate = self
+        self.JCAPPphoneItem.unitDelegate = self
         
-        self.addSubview(self.bigTitleLab)
-        self.addSubview(self.relationShipItem)
-        self.addSubview(self.phoneItem)
+        self.addSubview(self.JCAPPbigTitleLab)
+        self.addSubview(self.JCAPPrelationShipItem)
+        self.addSubview(self.JCAPPphoneItem)
         
-        self.bigTitleLab.snp.makeConstraints { make in
+        self.JCAPPbigTitleLab.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(APP_PADDING_UNIT)
             make.centerX.equalToSuperview()
         }
         
-        self.relationShipItem.snp.makeConstraints { make in
+        self.JCAPPrelationShipItem.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 4)
-            make.top.equalTo(self.bigTitleLab.snp.bottom).offset(APP_PADDING_UNIT * 6)
+            make.top.equalTo(self.JCAPPbigTitleLab.snp.bottom).offset(APP_PADDING_UNIT * 6)
         }
         
-        self.phoneItem.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.relationShipItem)
-            make.top.equalTo(self.relationShipItem.snp.bottom).offset(APP_PADDING_UNIT * 4)
+        self.JCAPPphoneItem.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.JCAPPrelationShipItem)
+            make.top.equalTo(self.JCAPPrelationShipItem.snp.bottom).offset(APP_PADDING_UNIT * 4)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT)
         }
     }
@@ -54,29 +54,29 @@ class JCAPPSelectContactsItem: UIView {
         deallocPrint()
     }
     
-    public func reloadEmergencyContactModel(_ model: JCAPPSelectContactsModel) {
-        self.bigTitleLab.text = model.graphic
-        self.relationShipItem.reloadContactRelationShip(model: model, type: JCInputViewType.Input_Enum)
-        self.phoneItem.reloadContactPhone(model: model, type: JCInputViewType.Input_Contacts)
+    public func JCAPPreloadEmergencyContactModel(_ model: JCAPPSelectContactsModel) {
+        self.JCAPPbigTitleLab.text = model.graphic
+        self.JCAPPrelationShipItem.JCAPPreloadContactRelationShip(model: model, type: JCAPPInputViewType.Input_Enum)
+        self.JCAPPphoneItem.JCAPPreloadContactPhone(model: model, type: JCAPPInputViewType.Input_Contacts)
     }
     
-    public func reloadPhoneOrRelationship(_ phone: String? = nil, relationship: String? = nil) {
+    public func JCAPPreloadPhoneOrRelationship(_ phone: String? = nil, relationship: String? = nil) {
         if let _p = phone {
-            self.phoneItem.reloadUnitInfoText(_p)
+            self.JCAPPphoneItem.JCAPPreloadUnitInfoText(_p)
         }
         
         if let _r = relationship {
-            self.relationShipItem.reloadUnitInfoText(_r)
+            self.JCAPPrelationShipItem.JCAPPreloadUnitInfoText(_r)
         }
     }
 }
 
 extension JCAPPSelectContactsItem: APPAuthCardInfoUnitProtocol {
-    func touchAuthUnitInfo(itemView: JCAPPAuthCardInfoUnitView) {
-        self.itemDelegate?.contactsItemWasClicked(itemView: self, isRelationShip: (itemView == self.relationShipItem))
+    func JCAPPtouchAuthUnitInfo(itemView: JCAPPAuthCardInfoUnitView) {
+        self.itemDelegate?.JCAPPcontactsItemWasClicked(itemView: self, isRelationShip: (itemView == self.JCAPPrelationShipItem))
     }
     
-    func didEndEditing(itemView: JCAPPAuthCardInfoUnitView, inputValue: String?) {
+    func JCAPPdidEndEditing(itemView: JCAPPAuthCardInfoUnitView, inputValue: String?) {
         
     }
 }

@@ -9,11 +9,11 @@ import UIKit
 
 class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarProtocol {
 
-    private lazy var backBtn: UIButton = UIButton.buildJoyCashImageButton("certification_back")
-    private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 17), labelColor: UIColor.white, labelText: "Certification")
-    private lazy var topBgImgView: UIImageView = UIImageView(image: UIImage(named: "certification_top_bg"))
+    private lazy var JCAPPbackBtn: UIButton = UIButton.JCAPPbuildJoyCashImageButton("certification_back")
+    private lazy var titleLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.systemFont(ofSize: 17), labelColor: UIColor.white, labelText: "")
+    private lazy var JCAPPtopBgImgView: UIImageView = UIImageView(image: UIImage(named: "certification_top_bg"))
     private lazy var protocolView: ProtocolView = ProtocolView(frame: CGRectZero)
-    private lazy var loanBtn: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Loan Now", cornerRadius: 23)
+    private lazy var JCAPPloanBtn: APPActivityButton = APPActivityButton.JCAPPbuildJoyCashGradientLoadingButton("Loan Now", titleFont: UIFont.JCAPPDDINBoldFont(21), cornerRadius: 23)
     
     private var id_number: String?
     private var amount_info: (amount: String?, term: String?, termType: String?)
@@ -26,53 +26,54 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
         self.id_number = idNumber
     }
     
-    override func buildViewUI() {
-        super.buildViewUI()
+    override func JCAPPbuildViewUI() {
+        super.JCAPPbuildViewUI()
         
         self.protocolView.protocolDelegate = self
+        self.protocolView.setAgreeButton(UIImage(named: "login_agree_nor")!, selectedImg: UIImage(named: "login_agree_sel")!)
         self.protocolView.isHidden = true
         
-        self.backBtn.addTarget(self, action: #selector(clickBackButton(sender: )), for: UIControl.Event.touchUpInside)
-        self.loanBtn.addTarget(self, action: #selector(clickLoanNowButton(sender: )), for: UIControl.Event.touchUpInside)
+        self.JCAPPbackBtn.addTarget(self, action: #selector(clickBackButton(sender: )), for: UIControl.Event.touchUpInside)
+        self.JCAPPloanBtn.addTarget(self, action: #selector(JCAPPclickLoanNowButton(sender: )), for: UIControl.Event.touchUpInside)
         
-        self.view.addSubview(self.topBgImgView)
-        self.view.addSubview(self.backBtn)
+        self.view.addSubview(self.JCAPPtopBgImgView)
+        self.view.addSubview(self.JCAPPbackBtn)
         self.view.addSubview(self.titleLab)
         self.view.addSubview(self.protocolView)
-        self.view.addSubview(loanBtn)
+        self.view.addSubview(JCAPPloanBtn)
     }
     
-    override func layoutControlViews() {
-        super.layoutControlViews()
+    override func JCAPPlayoutControlViews() {
+        super.JCAPPlayoutControlViews()
         
-        self.backBtn.snp.makeConstraints { make in
+        self.JCAPPbackBtn.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 4)
             make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 3)
         }
         
         self.titleLab.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(self.backBtn)
+            make.centerY.equalTo(self.JCAPPbackBtn)
         }
         
-        self.topBgImgView.snp.makeConstraints { make in
+        self.JCAPPtopBgImgView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
             make.height.equalTo(ScreenWidth * 0.55)
         }
         
-        self.contentView.snp.remakeConstraints { make in
-            make.top.equalTo(self.topBgImgView.snp.bottom).offset(APP_PADDING_UNIT * 4)
+        self.JCAPPcontentView.snp.remakeConstraints { make in
+            make.top.equalTo(self.JCAPPtopBgImgView.snp.bottom).offset(APP_PADDING_UNIT * 4)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(self.protocolView.snp.top).offset(-APP_PADDING_UNIT * 4)
         }
         
         self.protocolView.snp.makeConstraints { make in
-            make.left.equalTo(self.loanBtn)
-            make.bottom.equalTo(self.loanBtn.snp.top).offset(-APP_PADDING_UNIT * 3)
+            make.left.equalTo(self.JCAPPloanBtn)
+            make.bottom.equalTo(self.JCAPPloanBtn.snp.top).offset(-APP_PADDING_UNIT * 3)
             make.width.lessThanOrEqualTo(ScreenWidth - APP_PADDING_UNIT * 18)
         }
         
-        self.loanBtn.snp.makeConstraints { make in
+        self.JCAPPloanBtn.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 12)
             make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT * 2)
             make.height.equalTo(46)
@@ -83,8 +84,8 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func pageNetowrkRequest() {
-        super.pageNetowrkRequest()
+    override func JCAPPpageNetowrkRequest() {
+        super.JCAPPpageNetowrkRequest()
         guard let _p_id = self.id_number else {
             return
         }
@@ -96,8 +97,10 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
                 return
             }
             
+            self?.titleLab.text = _commodity_model.hyperacusis?.cavity
+            
             if let _p_model = _commodity_model.hyperacusis {
-                self?.loanBtn.setTitle(_p_model.picture, for: UIControl.State.normal)
+                self?.JCAPPloanBtn.setTitle(_p_model.picture, for: UIControl.State.normal)
                 // 记录产品ID/订单号
                 JCAPPPublic.shared.productID = _p_model.mouse
                 JCAPPPublic.shared.productOrderNum = _p_model.fatalities
@@ -107,11 +110,11 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
             if let _loan_protocol = _commodity_model.chemicals?.graphic, !_loan_protocol.isEmpty {
                 self?._protocol_url = _commodity_model.chemicals?.done
                 self?.protocolView.isHidden = false
-                self?.protocolView.setProtocol(NSAttributedString(string: _loan_protocol, attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.systemFont(ofSize: 12), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]), protocolPrefix: NSAttributedString(string: "I have read and agree with ", attributes: [.foregroundColor: UIColor.init(hexString: "#272931")!, .font: UIFont.systemFont(ofSize: 12)]))
+                self?.protocolView.setProtocol(NSAttributedString(string: _loan_protocol, attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.systemFont(ofSize: 12), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]), protocolPrefix: NSAttributedString(string: String.JCAPP_ikshdjfhjString(), attributes: [.foregroundColor: UIColor.init(hexString: "#272931")!, .font: UIFont.systemFont(ofSize: 12)]), defaultSelected: false)
             }
             
             if let _certification_models = _commodity_model.peripheral {
-                self?.buildComodityAuthItems(_certification_models)
+                self?.JCAPPbuildComodityAuthItems(_certification_models)
             }
             
             self?._wait_auth_model = _commodity_model.generally
@@ -122,13 +125,13 @@ class JCAPPCommodityViewController: JCAPPBaseViewController, HideNavigationBarPr
     
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        self.pageNetowrkRequest()
+        self.JCAPPpageNetowrkRequest()
     }
 }
 
 private extension JCAPPCommodityViewController {
-    func buildComodityAuthItems(_ model: [JCAPPAuthorizationModel]) {
-        self.contentView.subviews.forEach { (item: UIView) in
+    func JCAPPbuildComodityAuthItems(_ model: [JCAPPAuthorizationModel]) {
+        self.JCAPPcontentView.subviews.forEach { (item: UIView) in
             if item is JCAPPCommodityCertificationItem {
                 item.removeFromSuperview()
             }
@@ -138,9 +141,9 @@ private extension JCAPPCommodityViewController {
         
         model.enumerated().forEach { (idx: Int, item: JCAPPAuthorizationModel) in
             let view = JCAPPCommodityCertificationItem(frame: CGRectZero)
-            view.reloadAuthItem(item)
-            view.addTarget(self, action: #selector(clickAuthItem(sender: )), for: UIControl.Event.touchUpInside)
-            self.contentView.addSubview(view)
+            view.JCAPPreloadAuthItem(item)
+            view.addTarget(self, action: #selector(JCAPPclickAuthItem(sender: )), for: UIControl.Event.touchUpInside)
+            self.JCAPPcontentView.addSubview(view)
             
             if let _top = temp_top {
                 if idx == model.count - 1 {
@@ -167,22 +170,22 @@ private extension JCAPPCommodityViewController {
         }
     }
     
-    func gotoCommodityAuthItem(_ certificationType: JCAPPCertificationType, h5Url: String? = nil, certificationTitle: String?) {
+    func JCAPPgotoCommodityAuthItem(_ certificationType: JCAPPCertificationType, h5Url: String? = nil, certificationTitle: String?) {
         
         if let _url = h5Url, !_url.isEmpty {
-            JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url)
+            JCAPPPageRouting.shared.JCAPPJoyCashPageRouter(routeUrl: _url)
         } else {
             switch certificationType {
             case .Certification_ID_Card:
                 self.navigationController?.pushViewController(JCAPPIDCardViewController(certificationTitle: certificationTitle), animated: true)
             case .Certification_Personal_Info:
-                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.PersonalInfo), animated: true)
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: JCAPPAuthInfoStyle.PersonalInfo), animated: true)
             case .Certification_Job_Info:
-                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.WorkingInfo), animated: true)
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: JCAPPAuthInfoStyle.WorkingInfo), animated: true)
             case .Certification_Contects:
                 self.navigationController?.pushViewController(JCAPPContactsViewController(certificationTitle: certificationTitle), animated: true)
             case .Certification_BankCard:
-                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: AuthInfoStyle.BankCard), animated: true)
+                self.navigationController?.pushViewController(JCAPPAuthInfoViewController(certificationTitle: certificationTitle, infoStyle: JCAPPAuthInfoStyle.BankCard), animated: true)
             }
         }
     }
@@ -194,7 +197,7 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
             return
         }
         
-        JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url, backToRoot: true)
+        JCAPPPageRouting.shared.JCAPPJoyCashPageRouter(routeUrl: _url, backToRoot: true)
     }
 }
 
@@ -203,7 +206,7 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func clickAuthItem(sender: JCAPPCommodityCertificationItem) {
+    func JCAPPclickAuthItem(sender: JCAPPCommodityCertificationItem) {
         guard let _a_model = sender.authModel else {
             return
         }
@@ -224,10 +227,10 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
             _h5_url = self._wait_auth_model?.zeugmatography
         }
         
-        self.gotoCommodityAuthItem(c_type, h5Url: _h5_url, certificationTitle: title)
+        self.JCAPPgotoCommodityAuthItem(c_type, h5Url: _h5_url, certificationTitle: title)
     }
     
-    func clickLoanNowButton(sender: APPActivityButton) {
+    func JCAPPclickLoanNowButton(sender: APPActivityButton) {
         // 正在刷新时,不进入认证
         if self.isRefresh {
             return
@@ -235,18 +238,18 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
         
         // 如果有待认证项,优先跳转到待认证
         if let _wait_c_type = self._wait_auth_model?.certificationType {
-            self.gotoCommodityAuthItem(_wait_c_type, h5Url: self._wait_auth_model?.zeugmatography, certificationTitle: self._wait_auth_model?.graphic)
+            self.JCAPPgotoCommodityAuthItem(_wait_c_type, h5Url: self._wait_auth_model?.zeugmatography, certificationTitle: self._wait_auth_model?.graphic)
             return
         }
         
         if !self.protocolView.isHidden && !self.protocolView.hasSelected {
-            self.view.makeToast("Please read and agree to the agreement")
+            self.view.makeToast(String.JCAPP_uidkwlsldlsSTring())
             return
         }
         
         sender.startAnimation()
         // 重新获取位置信息
-        self.reloadDeviceLocation()
+        self.JCAPPreloadDeviceLocation()
         
         guard let _order_num = JCAPPPublic.shared.productOrderNum else {
             return
@@ -259,12 +262,12 @@ extension JCAPPCommodityViewController: APPProtocolDelegate {
             }
             
             if let _url = _model.zeugmatography {
-                JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url, backToRoot: _url.hasPrefix("http"))
+                JCAPPPageRouting.shared.JCAPPJoyCashPageRouter(routeUrl: _url, backToRoot: _url.hasPrefix("http"))
             }
             
             self?.buryBeginTime = Date().jk.dateToTimeStamp()
             // 埋点
-            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_BeginLoanApply, beginTime: self?.buryBeginTime, endTime: self?.buryBeginTime, orderNum: _order_num)
+            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCAPPRiskControlPointsType.JC_APP_BeginLoanApply, beginTime: self?.buryBeginTime, endTime: self?.buryBeginTime, orderNum: _order_num)
         } failure: { _, _ in
             sender.stopAnimation()
         }

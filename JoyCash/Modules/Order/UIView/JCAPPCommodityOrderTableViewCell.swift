@@ -11,24 +11,24 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
 
     private lazy var gradientView: GradientColorView = {
         let view = GradientColorView(frame: CGRectZero)
-        view.buildGradientWithColors(gradientColors: [UIColor.hexStringColor(hexString: "#DCDDFF"),UIColor.hexStringColor(hexString: "#F1F2FF"),UIColor.hexStringColor(hexString: "#BEC8FF")], gradientStyle: GradientDirectionStyle.leftTopToRightBottom)
+        view.buildGradientWithColors(gradientColors: [UIColor.hexStringColor(hexString: "#FFECDC"), UIColor.hexStringColor(hexString: "#FFF7F1"), UIColor.hexStringColor(hexString: "#FFD3BE")], gradientStyle: GradientDirectionStyle.leftTopToRightBottom)
         view.corner(20)
         return view
     }()
     
     private lazy var logoImgView: UIImageView = UIImageView(frame: CGRectZero)
-    private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.boldSystemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
+    private lazy var titleLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.boldSystemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
     private lazy var dotView: UIView = {
         let view = UIView(frame: CGRectZero)
-        view.backgroundColor = UIColor.hexStringColor(hexString: "#3C7BE7")
+        view.backgroundColor = UIColor.hexStringColor(hexString: "#E74D3C")
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
         return view
     }()
     
-    private lazy var stateLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.boldSystemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
-    private lazy var amountLab: UILabel = UILabel.buildJoyCashLabel()
-    private lazy var applyButton: APPActivityButton = APPActivityButton.buildJoyCashGradientLoadingButton("Apply", cornerRadius: 16)
+    private lazy var stateLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.boldSystemFont(ofSize: 14), labelColor: BLACK_COLOR_26264A)
+    private lazy var amountLab: UILabel = UILabel.JCAPPbuildJoyCashLabel()
+    private lazy var applyButton: APPActivityButton = APPActivityButton.JCAPPbuildJoyCashGradientLoadingButton("Apply", cornerRadius: 16)
     private lazy var subContentView: UIView = {
         let view = UIView(frame: CGRectZero)
         view.backgroundColor = .white
@@ -122,7 +122,7 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
         return super.hitTest(point, with: event) // 其他情况下调用父类的hitTest方法
     }
     
-    public func reloadCommodityCellSource(_ model: JCAPPCommodityOrderModel) {
+    public func JCAPPreloadCommodityCellSource(_ model: JCAPPCommodityOrderModel) {
         if let _textUrl = model.clam, let _url = URL(string: _textUrl) {
             self.logoImgView.setImageWith(_url, options: YYWebImageOptions.setImageWithFadeAnimation)
         }
@@ -131,8 +131,8 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
         self.stateLab.text = model.picture
         
         if let _amount = model.relative, let _text = model.qualitative {
-            let string: NSMutableAttributedString = NSMutableAttributedString(string: _text + "\n", attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.systemFont(ofSize: 10)])
-            string.append(NSAttributedString(string: _amount, attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.gilroyFont(32)]))
+            let string: NSMutableAttributedString = NSMutableAttributedString(string: _text + "\n", attributes: [.foregroundColor: UIColor(hexString: "#554239", alpha: 0.75) ?? BLACK_COLOR_26264A, .font: UIFont.systemFont(ofSize: 10)])
+            string.append(NSAttributedString(string: _amount, attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.JCAPPDDINBoldFont(32)]))
             self.amountLab.attributedText = string
         }
         
@@ -142,13 +142,13 @@ class JCAPPCommodityOrderTableViewCell: UITableViewCell {
                 showProtocol = true
                 self.protocol_text = model.advent
             }
-            self.buildCommodityInfoItem(_models, loanProtocol: showProtocol, protocolStr: model.resulted)
+            self.JCAPPbuildCommodityInfoItem(_models, loanProtocol: showProtocol, protocolStr: model.resulted)
         }
     }
 }
 
 private extension JCAPPCommodityOrderTableViewCell {
-    func buildCommodityInfoItem(_ models: [JCAPPCommonValueModel], loanProtocol: Bool, protocolStr: String?) {
+    func JCAPPbuildCommodityInfoItem(_ models: [JCAPPCommonValueModel], loanProtocol: Bool, protocolStr: String?) {
         self.subContentView.removeAllSubviews()
         
         var _top_temp: JCAPPCommodityInfoItem?
@@ -163,11 +163,11 @@ private extension JCAPPCommodityOrderTableViewCell {
         _temp_models.enumerated().forEach { (idx: Int, item: JCAPPCommonValueModel) in
             let view = JCAPPCommodityInfoItem(frame: CGRectZero)
             if loanProtocol && idx == _temp_models.count - 1 {
-                view.setInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLUE_COLOR_4169F6, .font: UIFont.boldSystemFont(ofSize: 14), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: BLUE_COLOR_4169F6]))
-                view.addTarget(self, action: #selector(clickProtocol(sender: )), for: UIControl.Event.touchUpInside)
+                view.JCAPPsetInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: JCAPP_ORANGE_COLOR_F68941, .font: UIFont.boldSystemFont(ofSize: 14), .underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: JCAPP_ORANGE_COLOR_F68941]))
+                view.addTarget(self, action: #selector(JCAPPclickProtocol(sender: )), for: UIControl.Event.touchUpInside)
                 self.protocolItem = view
             } else {
-                view.setInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.boldSystemFont(ofSize: 14)]))
+                view.JCAPPsetInfoItemTitle(item.graphic, value: NSAttributedString(string: item.extensive ?? "", attributes: [.foregroundColor: BLACK_COLOR_26264A, .font: UIFont.boldSystemFont(ofSize: 14)]))
             }
             
             self.subContentView.addSubview(view)
@@ -198,11 +198,11 @@ private extension JCAPPCommodityOrderTableViewCell {
 }
 
 @objc private extension JCAPPCommodityOrderTableViewCell {
-    func clickProtocol(sender: JCAPPCommodityInfoItem) {
+    func JCAPPclickProtocol(sender: JCAPPCommodityInfoItem) {
         guard let _p_t = protocol_text else {
             return
         }
         
-        JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _p_t, backToRoot: true)
+        JCAPPPageRouting.shared.JCAPPJoyCashPageRouter(routeUrl: _p_t, backToRoot: true)
     }
 }

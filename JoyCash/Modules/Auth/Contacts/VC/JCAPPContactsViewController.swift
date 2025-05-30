@@ -10,40 +10,40 @@ import CYSwiftExtension
 
 class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
 
-    private var _sub_height: CGFloat = 20
-    private var emergency_contacts: [JCAPPEmergencyContactsModel] = []
+    private var JCAPP_sub_height: CGFloat = 20
+    private var JCAPPemergency_contacts: [JCAPPEmergencyContactsModel] = []
     
-    override func buildViewUI() {
-        super.buildViewUI()
-        self.setTipWithTitle("Emergency contact", subTitle: "Fill in the emergency contact so that we can contact you easily")
+    override func JCAPPbuildViewUI() {
+        super.JCAPPbuildViewUI()
+        self.JCAPPsetTipWithTitle(String.JCAPP_skkkTieleString(), subTitle: String.JCAPP_sjoklString())
         
-        self.contentView.isHidden = false
+        self.JCAPPcontentView.isHidden = false
         
-        self.contentView.removeFromSuperview()
-        self.containerView.addSubview(self.contentView)
-        self._sub_height = self.contentLab.text?.jk.heightAccording(width: ScreenWidth - APP_PADDING_UNIT * 14, font: UIFont.systemFont(ofSize: 12)) ?? self._sub_height
+        self.JCAPPcontentView.removeFromSuperview()
+        self.JCAPPcontainerView.addSubview(self.JCAPPcontentView)
+        self.JCAPP_sub_height = self.JCAPPcontentLab.text?.jk.heightAccording(width: ScreenWidth - APP_PADDING_UNIT * 14, font: UIFont.systemFont(ofSize: 12)) ?? self.JCAPP_sub_height
     }
     
-    override func layoutControlViews() {
-        super.layoutControlViews()
+    override func JCAPPlayoutControlViews() {
+        super.JCAPPlayoutControlViews()
         
-        self.contentLab.snp.removeConstraints()
-        self.contentLab.snp.remakeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(APP_PADDING_UNIT * 2)
-            make.horizontalEdges.equalTo(self.titleLab)
-            make.height.equalTo(self._sub_height)
+        self.JCAPPcontentLab.snp.removeConstraints()
+        self.JCAPPcontentLab.snp.remakeConstraints { make in
+            make.top.equalTo(self.JCAPPtitleLab.snp.bottom).offset(APP_PADDING_UNIT * 2)
+            make.horizontalEdges.equalTo(self.JCAPPtitleLab)
+            make.height.equalTo(self.JCAPP_sub_height)
         }
         
-        self.contentView.snp.remakeConstraints { make in
-            make.top.equalTo(self.contentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
+        self.JCAPPcontentView.snp.remakeConstraints { make in
+            make.top.equalTo(self.JCAPPcontentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(ScreenHeight - UIDevice.app_navigationBarAndStatusBarHeight() - UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self._sub_height)
+            make.height.equalTo(ScreenHeight - UIDevice.app_navigationBarAndStatusBarHeight() - UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT * 38 - self.JCAPP_sub_height)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 3)
         }
     }
     
-    override func pageNetowrkRequest() {
-        super.pageNetowrkRequest()
+    override func JCAPPpageNetowrkRequest() {
+        super.JCAPPpageNetowrkRequest()
         
         guard let _p_id = JCAPPPublic.shared.productID else {
             return
@@ -54,19 +54,19 @@ class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
                 return
             }
             
-            self?.buildEmergencyContactsPeopleViews(_contactModels)
+            self?.JCAPPbuildEmergencyContactsPeopleViews(_contactModels)
         }
     }
     
-    override func clickNextButton(sender: APPActivityButton) {
-        guard let _p_id = JCAPPPublic.shared.productID, let _json = NSArray(array: self.emergency_contacts).modelToJSONString() else {
+    override func JCAPPclickNextButton(sender: APPActivityButton) {
+        guard let _p_id = JCAPPPublic.shared.productID, let _json = NSArray(array: self.JCAPPemergency_contacts).modelToJSONString() else {
             return
         }
         sender.startAnimation()
         APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/advances", requestParams: ["overuse": _p_id, "awarded": _json])) {[weak self] _, _ in
             sender.stopAnimation()
             // 埋点
-            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType.JC_APP_Contacts, beginTime: self?.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
+            JCAPPBuriedPointReport.JCAPPRiskControlInfoBuryReport(riskType: JCAPPRiskControlPointsType.JC_APP_Contacts, beginTime: self?.buryBeginTime, endTime: Date().jk.dateToTimeStamp())
             self?.navigationController?.popViewController(animated: true)
         } failure: { _, _ in
             sender.stopAnimation()
@@ -75,17 +75,17 @@ class JCAPPContactsViewController: JCAPPCommodityAuthViewController {
 }
 
 private extension JCAPPContactsViewController {
-    func buildEmergencyContactsPeopleViews(_ models: [JCAPPSelectContactsModel]) {
+    func JCAPPbuildEmergencyContactsPeopleViews(_ models: [JCAPPSelectContactsModel]) {
         var temp_top: JCAPPSelectContactsItem?
         
         models.enumerated().forEach { (idx: Int, item: JCAPPSelectContactsModel) in
             let view = JCAPPSelectContactsItem(frame: CGRectZero)
-            view.reloadEmergencyContactModel(item)
+            view.JCAPPreloadEmergencyContactModel(item)
             view.itemDelegate = self
             view.tag = 100 + idx
-            self.contentView.addSubview(view)
+            self.JCAPPcontentView.addSubview(view)
             // 保存联系人信息
-            self.saveEmergencyContactsInfo(personTag: view.tag, name: item.foreign, phone: item.interpretations, relation: item.historically)
+            self.JCAPPsaveEmergencyContactsInfo(personTag: view.tag, name: item.foreign, phone: item.interpretations, relation: item.historically)
             
             if let _top = temp_top {
                 if idx == models.count - 1 {
@@ -111,17 +111,17 @@ private extension JCAPPContactsViewController {
         }
     }
     
-    func saveEmergencyContactsInfo(personTag: Int, name: String? = nil, phone: String? = nil, relation: String? = nil) {
-        if let _index = self.emergency_contacts.firstIndex(where: {$0.personTag == personTag}) {
-            self.emergency_contacts[_index].personTag = personTag
+    func JCAPPsaveEmergencyContactsInfo(personTag: Int, name: String? = nil, phone: String? = nil, relation: String? = nil) {
+        if let _index = self.JCAPPemergency_contacts.firstIndex(where: {$0.personTag == personTag}) {
+            self.JCAPPemergency_contacts[_index].personTag = personTag
             if let _name = name {
-                self.emergency_contacts[_index].foreign = _name
+                self.JCAPPemergency_contacts[_index].foreign = _name
             }
             if let _p = phone {
-                self.emergency_contacts[_index].interpretations = _p
+                self.JCAPPemergency_contacts[_index].interpretations = _p
             }
             if let _r = relation {
-                self.emergency_contacts[_index].historically = _r
+                self.JCAPPemergency_contacts[_index].historically = _r
             }
         } else {
             let _temp_model: JCAPPEmergencyContactsModel = JCAPPEmergencyContactsModel()
@@ -139,11 +139,11 @@ private extension JCAPPContactsViewController {
                 _temp_model.historically = _r
             }
             
-            self.emergency_contacts.append(_temp_model)
+            self.JCAPPemergency_contacts.append(_temp_model)
         }
     }
     
-    func getAllContacts() {
+    func JCAPPgetAllContacts() {
         APPContactManager.sharedInstance().accessContactsComplection { (success: Bool, persons: [APPPerson]?) in
             guard success else {
                 return
@@ -186,7 +186,7 @@ private extension JCAPPContactsViewController {
                 _json = "[{\"reinhard\":\"13303029382\",\"jres\":\"王XX\"}]"
 #endif
                 APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/transportation", requestParams: ["awarded": _json])) { _, _ in
-                    JCAPPProductLog.debug("通讯录上传完成 -------------")
+                    APPCocoaLog.debug("通讯录上传完成 -------------")
                 }
             }
         }
@@ -194,39 +194,39 @@ private extension JCAPPContactsViewController {
 }
 
 extension JCAPPContactsViewController: APPSelectContactsItemProtocol {
-    func contactsItemWasClicked(itemView: JCAPPSelectContactsItem, isRelationShip: Bool) {
+    func JCAPPcontactsItemWasClicked(itemView: JCAPPSelectContactsItem, isRelationShip: Bool) {
         
         if isRelationShip {
-            guard let _choise = itemView.relationShipItem.unitTupe?.choise else {
+            guard let _choise = itemView.JCAPPrelationShipItem.JCAPPunitTupe?.choise else {
                 return
             }
-            JCAPPTextPickerPopView.convenienceShowPop(self.view, showCloseButton: true).reloadTextPickerPopSource(_choise).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
+            JCAPPTextPickerPopView.JCAPPconvenienceShowPop(self.view, showCloseButton: true).JCAPPreloadTextPickerPopSource(_choise).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
                 
-                guard let _p_view = popView as? JCAPPTextPickerPopView, let _model = _p_view.text_select_model else {
+                guard let _p_view = popView as? JCAPPTextPickerPopView, let _model = _p_view.JCAPPtext_select_model else {
                     return
                 }
                 
-                itemView.reloadPhoneOrRelationship(relationship: _model.foreign)
+                itemView.JCAPPreloadPhoneOrRelationship(relationship: _model.foreign)
                 
-                self?.saveEmergencyContactsInfo(personTag: itemView.tag, relation: _model.late)
+                self?.JCAPPsaveEmergencyContactsInfo(personTag: itemView.tag, relation: _model.late)
                 
-                _p_view.dismissPop(false)
+                _p_view.JCAPPdismissPop(false)
             }
             
         } else {
             APPContactManager.sharedInstance().requestAddressBookAuthorization {[weak self] (isAuth: Bool) in
                 guard !isAuth else {
-                    self?.getAllContacts()
+                    self?.JCAPPgetAllContacts()
                     APPContactManager.sharedInstance().selectContact(at: self) {[weak self] (name: String?, phone: String?) in
                         if let _n = name, let _p = phone {
-                            itemView.reloadPhoneOrRelationship(_n + "-" + _p)
-                            self?.saveEmergencyContactsInfo(personTag: itemView.tag, name: _n, phone: _p)
+                            itemView.JCAPPreloadPhoneOrRelationship(_n + "-" + _p)
+                            self?.JCAPPsaveEmergencyContactsInfo(personTag: itemView.tag, name: _n, phone: _p)
                         }
                     }
                     return
                 }
                 
-                self?.showSystemStyleSettingAlert("The APP applies to access the contact list. Easily upload contact information to simplify steps and accelerate the loan application.", okTitle: nil, cancelTitle: nil)
+                self?.showSystemStyleSettingAlert(String.JCAPP_skdjiwojString(), okTitle: nil, cancelTitle: nil)
             }
         }
     }

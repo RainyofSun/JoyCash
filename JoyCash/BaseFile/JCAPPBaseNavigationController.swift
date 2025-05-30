@@ -13,7 +13,7 @@ class JCAPPBaseNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        self.setNavigationAppearance()
+        self.JCAPPsetNavigationAppearance()
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -79,7 +79,7 @@ extension JCAPPBaseNavigationController: UINavigationBarDelegate {
 
 // MARK: Private Methods
 private extension JCAPPBaseNavigationController {
-    func setNavigationAppearance() {
+    func JCAPPsetNavigationAppearance() {
         
         let attrs = [NSAttributedString.Key.foregroundColor: UIColor.hexStringColor(hexString: "#27272E"),
                      NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)]
@@ -88,10 +88,10 @@ private extension JCAPPBaseNavigationController {
         let tintedImage = originalImage?.withTintColor(UIColor.hexStringColor(hexString: "#27272E"), renderingMode: .alwaysOriginal)
         UINavigationBar.appearance().backIndicatorImage = tintedImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = tintedImage
-        UINavigationBar.appearance().shadowImage = barShadowImage()
+        UINavigationBar.appearance().shadowImage = JCAPPbarShadowImage()
     }
     
-    func barShadowImage() -> UIImage? {
+    func JCAPPbarShadowImage() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: ScreenWidth, height: 0.5), false, 0)
         let path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: ScreenWidth, height: 0.5))
         UIColor.clear.setFill()// 自定义NavigationBar分割线颜色

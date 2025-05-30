@@ -10,7 +10,7 @@ import BRPickerView
 
 class JCAPPTimeSelectedPopView: JCAPPBasePopView {
 
-    private lazy var timePickerView: BRDatePickerView = {
+    private lazy var JCAPPtimePickerView: BRDatePickerView = {
         let picker = BRDatePickerView(frame: CGRectZero)
         picker.minDate = NSDate.br_setYear(1949, month: 3, day: 12)
         picker.maxDate = NSDate.now
@@ -31,25 +31,25 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
     }()
     
     private lazy var pickerContentView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - APP_PADDING_UNIT * 8, height: 305))
-    private(set) var selectedDate: String?
+    private(set) var JCAPPselectedDate: String?
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.popTitleLab.text = "Select a time"
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPpopTitleLab.text = String.JCAPP_uueymsmcghString()
         
-        self.contentView.addSubview(self.pickerContentView)
-        self.timePickerView.addPicker(to: self.pickerContentView)
+        self.JCAPPcontentView.addSubview(self.pickerContentView)
+        self.JCAPPtimePickerView.addPicker(to: self.pickerContentView)
         
-        self.timePickerView.resultBlock = {[weak self] (selectDate: Date?, selectValue: String?) in
+        self.JCAPPtimePickerView.resultBlock = {[weak self] (selectDate: Date?, selectValue: String?) in
             guard let _date = selectDate else {
                 return
             }
-            self?.selectedDate = NSDate.br_string(from: _date, dateFormat: "yyyy-MM-dd")
+            self?.JCAPPselectedDate = NSDate.br_string(from: _date, dateFormat: "yyyy-MM-dd")
         }
     }
     
-    override func layoutPopViews() {
-        super.layoutPopViews()
+    override func JCAPPlayoutPopViews() {
+        super.JCAPPlayoutPopViews()
         
         self.pickerContentView.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(APP_PADDING_UNIT)
@@ -58,7 +58,7 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
         }
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPTimeSelectedPopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)
@@ -69,8 +69,8 @@ class JCAPPTimeSelectedPopView: JCAPPBasePopView {
         return view as! Self
     }
     
-    override func clickConfirmButton(sender: APPActivityButton) {
-        self.timePickerView.doneBlock?()
-        super.clickConfirmButton(sender: sender)
+    override func JCAPPclickConfirmButton(sender: APPActivityButton) {
+        self.JCAPPtimePickerView.doneBlock?()
+        super.JCAPPclickConfirmButton(sender: sender)
     }
 }

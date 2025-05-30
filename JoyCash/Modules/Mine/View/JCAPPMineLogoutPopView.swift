@@ -9,14 +9,14 @@ import UIKit
 
 class JCAPPMineLogoutPopView: JCAPPBasePopView {
 
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.topImgView.image = UIImage(named: "pop_top_bg1")
-        self.popTitleLab.text = "You're just a little bit away from getting a loan, are you sure to exit?"
-        self.resetConfirmTitle("Cancel", backTitle: "Log out")
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg1")
+        self.JCAPPpopTitleLab.text = String.JCAPP_owkskpkdjString()
+        self.JCAPPresetConfirmTitle("Cancel", backTitle: "Log out")
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPMineLogoutPopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)

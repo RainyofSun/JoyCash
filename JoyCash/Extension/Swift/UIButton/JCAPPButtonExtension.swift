@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIButton {
-    class func buildJoyCashGradientButton(_ title: String, cornerRadius radius: CGFloat) -> APPGradientColorButton {
+    class func JCAPPbuildJoyCashGradientButton(_ title: String, cornerRadius radius: CGFloat) -> APPGradientColorButton {
         let view = APPGradientColorButton(type: UIButton.ButtonType.custom)
         view.setTitle(title, for: UIControl.State.normal)
         view.setTitleColor(UIColor.white, for: UIControl.State.normal)
@@ -18,17 +18,18 @@ extension UIButton {
         return view
     }
     
-    class func buildJoyCashGradientLoadingButton(_ title: String, titleFont: UIFont? = UIFont.boldSystemFont(ofSize: 15), cornerRadius radius: CGFloat) -> APPActivityButton {
+    class func JCAPPbuildJoyCashGradientLoadingButton(_ title: String, titleFont: UIFont? = UIFont.boldSystemFont(ofSize: 15), cornerRadius radius: CGFloat) -> APPActivityButton {
         let view = APPActivityButton(type: UIButton.ButtonType.custom)
         view.setTitle(title, for: UIControl.State.normal)
         view.setTitleColor(UIColor.white, for: UIControl.State.normal)
         view.titleLabel?.font = titleFont
         view.layer.cornerRadius = radius
         view.clipsToBounds = true
+        view.setGradientColors([JCAPP_ORANGE_COLOR_F89151, JCAPP_ORANGE_COLOR_F44F33], style: .topToBottom)
         return view
     }
     
-    class func buildJoyCashImageButton(_ image: String, selectedImg: String? = nil, disableImg: String? = nil) -> UIButton {
+    class func JCAPPbuildJoyCashImageButton(_ image: String, selectedImg: String? = nil, disableImg: String? = nil) -> UIButton {
         let view = UIButton(type: UIButton.ButtonType.custom)
         view.setImage(UIImage(named: image), for: UIControl.State.normal)
         if let _se = selectedImg {
@@ -42,7 +43,7 @@ extension UIButton {
         return view
     }
     
-    class func buildJoyCashNormalButton(_ title: String? = nil, titleFont font: UIFont = UIFont.systemFont(ofSize: 14), titleColor color: UIColor) -> UIButton {
+    class func JCAPPbuildJoyCashNormalButton(_ title: String? = nil, titleFont font: UIFont = UIFont.systemFont(ofSize: 14), titleColor color: UIColor) -> UIButton {
         let view = UIButton(type: UIButton.ButtonType.custom)
         view.setTitle(title, for: UIControl.State.normal)
         view.setTitleColor(color, for: UIControl.State.normal)

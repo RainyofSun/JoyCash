@@ -10,16 +10,20 @@ import UIKit
 class JCAPPPageRouting: NSObject {
     
     public static let shared = JCAPPPageRouting()
-
+    
+    private var webFuncHandlers:[String] = [JC_CloseWebPage, JC_PageTransitionNoParams, JC_PageTransitionWithParams, JC_CloseAndGotoHome,
+                                            JC_CloseAndGotoLoginPage, JC_CloseAndGotoMineCenter, JC_GotoAppStore, JC_ConfirmApplyBury,
+                                            JC_StartBindingBankCard, JC_EndBindingBankCard]
+    
     /// 跳转原生页面
-    public func JoyCashPageRouter(routeUrl url: String, backToRoot root: Bool = false, targetVC: UIViewController? = nil) {
+    public func JCAPPJoyCashPageRouter(routeUrl url: String, backToRoot root: Bool = false, targetVC: UIViewController? = nil) {
         guard let _rootController = UIDevice.current.keyWindow().rootViewController as? JCAPPBaseTabBarController else {
             return
         }
         let _topVC = _rootController.jk.topViewController()
         
         if url.hasPrefix("http") {
-            _topVC?.navigationController?.pushViewController(JCAPPWebPageViewController(withWebLinkURL:  APPPublicParams.request().splicingPublicParams(url), backToRoot: root), animated: true)
+            _topVC?.navigationController?.pushViewController(JCAPPWebPageViewController(withWebLinkURL: APPPublicParams.request().splicingPublicParams(url), backToRoot: root, webFuncScriptHandler: self.webFuncHandlers), animated: true)
         } else {
             if url.contains(APP_SETTING_PAGE) {
                 _topVC?.navigationController?.pushViewController(JCAPPUserSettingViewController(), animated: true)
@@ -35,7 +39,7 @@ class JCAPPPageRouting: NSObject {
                 _topVC?.navigationController?.popToRootViewController(animated: false)
                 _rootController.selectedIndex = 1
             } else if url.contains(APP_PRODUCT_DETAIL) {
-                _topVC?.navigationController?.pushViewController(JCAPPCommodityViewController(withCommodityIDNumber:    self.separationURLParameter(url: url)), animated: true)
+                _topVC?.navigationController?.pushViewController(JCAPPCommodityViewController(withCommodityIDNumber:    self.JCAPPseparationURLParameter(url: url)), animated: true)
             } else {
                 if let _t = targetVC {
                     _topVC?.navigationController?.pushViewController(_t, animated: true)
@@ -46,7 +50,7 @@ class JCAPPPageRouting: NSObject {
 }
 
 private extension JCAPPPageRouting {
-    func separationURLParameter(url: String) -> String {
+    func JCAPPseparationURLParameter(url: String) -> String {
         let paraStr = url.components(separatedBy: "?").last
         let paraStr1 = paraStr?.components(separatedBy: "=").last
         return paraStr1 ?? ""

@@ -9,36 +9,36 @@ import UIKit
 
 class JCAPPAuthCardPopView: JCAPPBasePopView {
 
-    private lazy var imgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_type"))
-    private lazy var errorImgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_error"))
+    private lazy var JCAPPimgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_type"))
+    private lazy var JCAPPerrorImgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_error"))
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.popTitleLab.text = "Demonstration"
-        self.topImgView.image = UIImage(named: "pop_top_bg3")
-        self.tipLab.text = "Please submit certification according to the example to avoid blurring, obstruction, and reflection."
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPpopTitleLab.text = String.JCAPP_mhssjdlsiString()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg3")
+        self.JCAPPtipLab.text = String.JCAPP_fgshkwjcdString()
         
-        self.contentView.addSubview(self.tipLab)
-        self.contentView.addSubview(self.imgView)
-        self.contentView.addSubview(self.errorImgView)
+        self.JCAPPcontentView.addSubview(self.JCAPPtipLab)
+        self.JCAPPcontentView.addSubview(self.JCAPPimgView)
+        self.JCAPPcontentView.addSubview(self.JCAPPerrorImgView)
     }
     
-    override func layoutPopViews() {
-        super.layoutPopViews()
+    override func JCAPPlayoutPopViews() {
+        super.JCAPPlayoutPopViews()
         
-        self.imgView.snp.makeConstraints { make in
+        self.JCAPPimgView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.tipLab.snp.bottom).offset(APP_PADDING_UNIT * 3)
+            make.top.equalTo(self.JCAPPtipLab.snp.bottom).offset(APP_PADDING_UNIT * 3)
         }
         
-        self.errorImgView.snp.makeConstraints { make in
+        self.JCAPPerrorImgView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.imgView.snp.bottom).offset(APP_PADDING_UNIT * 6)
+            make.top.equalTo(self.JCAPPimgView.snp.bottom).offset(APP_PADDING_UNIT * 6)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 2)
         }
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPAuthCardPopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)

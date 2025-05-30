@@ -8,63 +8,68 @@
 import UIKit
 
 class JCAPPCommodityBigCardTopView: UIImageView {
-
-    private lazy var commodityView: UIView = {
-        let view = UIView(frame: CGRectZero)
-        view.backgroundColor = UIColor.init(white: 1, alpha: 0.25)
-        view.layer.cornerRadius = 11
-        view.clipsToBounds = true
-        return view
-    }()
     
-    private lazy var commodityLab: UILabel = {
-        let view = UILabel.buildJoyCashLabel(font: UIFont.gilroyFont(12), labelColor: UIColor.white)
+    open var touchControlClosure: ((JCAPPCommodityBigCardTopView, JCAPPLoanApplyButton) -> Void)?
+    
+    private lazy var JCAPPcommodityLab: UILabel = {
+        let view = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.JCAPPgilroyFont(12), labelColor: UIColor.white)
         view.backgroundColor = .clear
+        view.textAlignment = .left
         return view
     }()
 
-    private lazy var amountLab: UILabel = UILabel.buildJoyCashLabel()
-    private lazy var timeBtn: JCAPPTopImgBottomTextButton = JCAPPTopImgBottomTextButton(frame: CGRectZero)
-    private lazy var rateBtn: JCAPPTopImgBottomTextButton = JCAPPTopImgBottomTextButton(frame: CGRectZero)
+    private lazy var JCAPPamountLab: UILabel = UILabel.JCAPPbuildJoyCashLabel()
+    private lazy var JCAPPtimeBtn: JCAPPLeftImageRightTextButton = JCAPPLeftImageRightTextButton(frame: CGRectZero)
+    private lazy var JCAPPrateBtn: JCAPPLeftImageRightTextButton = JCAPPLeftImageRightTextButton(frame: CGRectZero)
+    private(set) lazy var JCAPPapplyBtn: JCAPPLoanApplyButton = JCAPPLoanApplyButton(frame: CGRectZero)
+    private(set) lazy var JCAPPBControl: UIControl = UIControl(frame: CGRectZero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.isUserInteractionEnabled = true
         self.image = UIImage(named: "main_top_big_bg")
         self.contentMode = .scaleAspectFill
         
-        self.addSubview(self.commodityView)
-        self.commodityView.addSubview(self.commodityLab)
-        self.addSubview(self.amountLab)
-        self.addSubview(self.timeBtn)
-        self.addSubview(self.rateBtn)
+        self.JCAPPBControl.addTarget(self, action: #selector(JCAPPClickBottomControl(sender: )), for: UIControl.Event.touchUpInside)
         
+        self.addSubview(self.JCAPPBControl)
+        self.addSubview(self.JCAPPcommodityLab)
+        self.addSubview(self.JCAPPamountLab)
+        self.addSubview(self.JCAPPtimeBtn)
+        self.addSubview(self.JCAPPrateBtn)
+        self.addSubview(self.JCAPPapplyBtn)
         
-        self.commodityView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT * 7)
+        self.JCAPPBControl.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.JCAPPcommodityLab.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(UIDevice.app_statusBarAndSafeAreaHeight() + APP_PADDING_UNIT)
+            make.left.equalToSuperview().offset(APP_PADDING_UNIT * 4)
+            make.height.greaterThanOrEqualTo(55)
+        }
+        
+        self.JCAPPamountLab.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.height.equalTo(22)
-        }
-        
-        self.commodityLab.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 4)
-            make.centerY.equalToSuperview()
-        }
-        
-        self.amountLab.snp.makeConstraints { make in
-            make.centerX.equalTo(self.commodityLab)
-            make.top.equalTo(self.commodityLab.snp.bottom).offset(APP_PADDING_UNIT * 6)
+            make.top.equalTo(self.JCAPPcommodityLab.snp.bottom).offset(APP_PADDING_UNIT * 18)
             make.width.equalTo(ScreenWidth * 0.8)
         }
         
-        self.timeBtn.snp.makeConstraints { make in
+        self.JCAPPtimeBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview().offset(-APP_PADDING_UNIT * 20)
-            make.top.equalTo(self.amountLab.snp.bottom).offset(APP_PADDING_UNIT * 4)
+            make.top.equalTo(self.JCAPPamountLab.snp.bottom).offset(APP_PADDING_UNIT * 8)
         }
         
-        self.rateBtn.snp.makeConstraints { make in
+        self.JCAPPrateBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview().offset(APP_PADDING_UNIT * 20)
-            make.top.equalTo(self.timeBtn)
+            make.top.equalTo(self.JCAPPtimeBtn)
+        }
+        
+        self.JCAPPapplyBtn.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 8)
+            make.top.equalTo(self.JCAPPtimeBtn.snp.bottom).offset(APP_PADDING_UNIT * 9)
+            make.size.equalTo(CGSize(width: ScreenWidth - APP_PADDING_UNIT * 16, height: (ScreenWidth - APP_PADDING_UNIT * 16) * 0.245))
         }
     }
     
@@ -85,31 +90,46 @@ class JCAPPCommodityBigCardTopView: UIImageView {
         deallocPrint()
     }
     
-    public func reloadRecommendCommodity(_ model: VCMainLoanCommodityModel) {
-        self.commodityLab.text = model.cavity
+    public func JCAPPreloadRecommendCommodity(_ model: VCMainLoanCommodityModel) {
         let paraStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         paraStyle.paragraphSpacing = APP_PADDING_UNIT
-        paraStyle.alignment = .center
+        paraStyle.alignment = .left
+        
+        if let _p_name = model.cavity {
+            let mutleString: NSMutableAttributedString = NSMutableAttributedString(string: "\(_p_name)\n", attributes: [.font: UIFont.JCAPPDDINRegularFont(20), .foregroundColor: UIColor.white, .paragraphStyle: paraStyle])
+            mutleString.append(NSAttributedString(string: String.JCAPP_euiskdlasldString(), attributes: [.font: UIFont.JCAPPDDINBoldFont(28), .foregroundColor: UIColor.white, .paragraphStyle: paraStyle]))
+            self.JCAPPcommodityLab.attributedText = mutleString
+        }
+        
+        let paraStyle1: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        paraStyle1.paragraphSpacing = APP_PADDING_UNIT
+        paraStyle1.alignment = .center
         var string: NSMutableAttributedString?
         if let _title = model.journal {
-            string = NSMutableAttributedString(string: "\(_title)\n", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14), .paragraphStyle: paraStyle])
+            string = NSMutableAttributedString(string: "\(_title)\n", attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.systemFont(ofSize: 14), .paragraphStyle: paraStyle1])
         }
         if let _amount = model.followed {
-            string?.append(NSAttributedString(string: _amount, attributes: [.foregroundColor: UIColor.white, .font: UIFont.gilroyFont(64)]))
+            string?.append(NSAttributedString(string: _amount, attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.JCAPPDDINBoldFont(64)]))
         }
         
-        self.amountLab.attributedText = string
+        self.JCAPPamountLab.attributedText = string
         
         if let _time = model.tubes, let _time_text = model.projection {
-            let string: NSMutableAttributedString = NSMutableAttributedString(string: _time + "\n", attributes: [.foregroundColor: UIColor.white, .font: UIFont.gilroyFont(18)])
-            string.append(NSAttributedString(string: _time_text, attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14)]))
-            self.timeBtn.setImage("main_product_day", text: string)
+            let string: NSMutableAttributedString = NSMutableAttributedString(string: _time + "\n", attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.JCAPPDDINBoldFont(18)])
+            string.append(NSAttributedString(string: _time_text, attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.systemFont(ofSize: 14)]))
+            self.JCAPPtimeBtn.JCAPPsetImage("main_product_day", text: string)
         }
         
         if let _rate = model.dimensions, let _rate_text = model.lauterbur {
-            let string: NSMutableAttributedString = NSMutableAttributedString(string: _rate + "\n", attributes: [.foregroundColor: UIColor.white, .font: UIFont.gilroyFont(18)])
-            string.append(NSAttributedString(string: _rate_text, attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14)]))
-            self.rateBtn.setImage("main_product_rate", text: string)
+            let string: NSMutableAttributedString = NSMutableAttributedString(string: _rate + "\n", attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.JCAPPDDINBoldFont(18)])
+            string.append(NSAttributedString(string: _rate_text, attributes: [.foregroundColor: JCAPP_GROWN_COLOR_5F4631, .font: UIFont.systemFont(ofSize: 14)]))
+            self.JCAPPrateBtn.JCAPPsetImage("main_product_rate", text: string)
         }
+    }
+}
+
+@objc extension JCAPPCommodityBigCardTopView {
+    func JCAPPClickBottomControl(sender: UIControl) {
+        self.touchControlClosure?(self, self.JCAPPapplyBtn)
     }
 }

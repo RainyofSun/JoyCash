@@ -17,92 +17,92 @@ class JCAPPUserSettingViewController: JCAPPBaseViewController {
         return view
     }()
     
-    private lazy var versionItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
-    private lazy var cancelItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
-    private lazy var logoutItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
+    private lazy var JCAPPversionItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
+    private lazy var JCAPPcancelItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
+    private lazy var JCAPPlogoutItem: JCAPPMineActionItem = JCAPPMineActionItem(frame: CGRectZero)
     
     private var request_url = ""
     
-    override func buildViewUI() {
-        super.buildViewUI()
+    override func JCAPPbuildViewUI() {
+        super.JCAPPbuildViewUI()
         self.title = "Setting"
         
-        self.versionItem.setMineActionItemTitleShowVersion("Version", image: "mine_version", showLine: true)
-        self.cancelItem.setMineActionItemTitle("Account cancellation", image: "mine_cacnel", showLine: true)
-        self.logoutItem.setMineActionItemTitle("Exit", image: "mine_logout", showLine: false)
+        self.JCAPPversionItem.JCAPPsetMineActionItemTitleShowVersion(String.JCAPP_nxsjskdsllString(), image: "mine_version")
+        self.JCAPPcancelItem.JCAPPsetMineActionItemTitle(String.JCAPP_mmlslkdlasdString(), image: "mine_cacnel")
+        self.JCAPPlogoutItem.JCAPPsetMineActionItemTitle(String.JCAPP_zzsdjaskjdiwodpdlString(), image: "mine_logout")
         
-        self.cancelItem.addTarget(self, action: #selector(clickActionItem(sender: )), for: UIControl.Event.touchUpInside)
-        self.logoutItem.addTarget(self, action: #selector(clickActionItem(sender: )), for: UIControl.Event.touchUpInside)
+        self.JCAPPcancelItem.addTarget(self, action: #selector(JCAPPclickActionItem(sender: )), for: UIControl.Event.touchUpInside)
+        self.JCAPPlogoutItem.addTarget(self, action: #selector(JCAPPclickActionItem(sender: )), for: UIControl.Event.touchUpInside)
         
-        self.contentView.addSubview(self.subContentView)
-        self.subContentView.addSubview(self.versionItem)
-        self.subContentView.addSubview(self.cancelItem)
-        self.subContentView.addSubview(self.logoutItem)
+        self.JCAPPcontentView.addSubview(self.subContentView)
+        self.subContentView.addSubview(self.JCAPPversionItem)
+        self.subContentView.addSubview(self.JCAPPcancelItem)
+        self.subContentView.addSubview(self.JCAPPlogoutItem)
     }
 
-    override func layoutControlViews() {
-        super.layoutControlViews()
+    override func JCAPPlayoutControlViews() {
+        super.JCAPPlayoutControlViews()
         
         self.subContentView.snp.makeConstraints { make in
             make.left.top.equalToSuperview().offset(APP_PADDING_UNIT * 4)
             make.width.equalTo(ScreenWidth - APP_PADDING_UNIT * 8)
         }
         
-        self.versionItem.snp.makeConstraints { make in
+        self.JCAPPversionItem.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
         
-        self.cancelItem.snp.makeConstraints { make in
+        self.JCAPPcancelItem.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(self.versionItem.snp.bottom)
+            make.top.equalTo(self.JCAPPversionItem.snp.bottom)
         }
         
-        self.logoutItem.snp.makeConstraints { make in
+        self.JCAPPlogoutItem.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
-            make.top.equalTo(self.cancelItem.snp.bottom)
+            make.top.equalTo(self.JCAPPcancelItem.snp.bottom)
         }
     }
     
-    override func pageNetowrkRequest() {
-        super.pageNetowrkRequest()
+    override func JCAPPpageNetowrkRequest() {
+        super.JCAPPpageNetowrkRequest()
         APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig(self.request_url, requestParams: nil)) { [weak self] (task: URLSessionDataTask, res: APPSuccessResponse) in
-            JCAPPPublic.shared.deleteLocalLoginInfo()
+            JCAPPPublic.shared.JCAPPdeleteLocalLoginInfo()
             self?.navigationController?.popToRootViewController(animated: true)
         }
     }
 }
 
 @objc private extension JCAPPUserSettingViewController {
-    func clickActionItem(sender: JCAPPMineActionItem) {
+    func JCAPPclickActionItem(sender: JCAPPMineActionItem) {
         
-        if sender == self.cancelItem {
+        if sender == self.JCAPPcancelItem {
             self.request_url = "said/late"
-            JCAPPMineCancelPopView.convenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
+            JCAPPMineCancelPopView.JCAPPconvenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
                 guard let _p_view = popView as? JCAPPMineCancelPopView else {
                     return
                 }
                 
                 if !isConfirm {
-                    guard _p_view.protocolView.hasSelected else {
+                    guard _p_view.JCAPPprotocolView.hasSelected else {
                         self?.view.makeToast("Please confirm whether you agree to loan agreement")
                         return
                     }
                     
-                    _p_view.dismissPop()
-                    self?.pageNetowrkRequest()
+                    _p_view.JCAPPdismissPop()
+                    self?.JCAPPpageNetowrkRequest()
                 } else {
-                    _p_view.dismissPop()
+                    _p_view.JCAPPdismissPop()
                 }
             }
         }
         
-        if sender == self.logoutItem {
+        if sender == self.JCAPPlogoutItem {
             self.request_url = "said/damaging"
-            JCAPPMineLogoutPopView.convenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
+            JCAPPMineLogoutPopView.JCAPPconvenienceShowPop(self.view).clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
                 if !isConfirm {
-                    self?.pageNetowrkRequest()
+                    self?.JCAPPpageNetowrkRequest()
                 } else {
-                    popView.dismissPop()
+                    popView.JCAPPdismissPop()
                 }
             }
         }

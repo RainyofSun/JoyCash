@@ -17,20 +17,20 @@ class JCAPPLoanCityModel: JCAPPBaseNetResponseModel, YYModel {
     
     class func cacheCityMapJsonToDisk(_ jsonStr: String) {
 //        if FileManager.default.fileExists(atPath: JCAPPPublic.shared.cityFilePath) {
-//            JCAPPProductLog.debug("------- 本地已存储城市 -------")
+//            APPCocoaLog.debug("------- 本地已存储城市 -------")
 //            return
 //        }
         
-        FileManager.default.createFile(atPath: JCAPPPublic.shared.cityFilePath, contents: jsonStr.data(using: String.Encoding.utf8))
+        FileManager.default.createFile(atPath: JCAPPPublic.shared.JCAPPcityFilePath, contents: jsonStr.data(using: String.Encoding.utf8))
     }
     
     class func readCityModelsFormDisk() -> [JCAPPCityModel] {
-        if !FileManager.default.fileExists(atPath: JCAPPPublic.shared.cityFilePath) {
+        if !FileManager.default.fileExists(atPath: JCAPPPublic.shared.JCAPPcityFilePath) {
             return []
         }
         
         do {
-            let _data: Data = try Data(contentsOf: NSURL(fileURLWithPath: JCAPPPublic.shared.cityFilePath) as URL)
+            let _data: Data = try Data(contentsOf: NSURL(fileURLWithPath: JCAPPPublic.shared.JCAPPcityFilePath) as URL)
             return JCAPPLoanCityModel.model(withJSON: _data)?.physicists ?? []
         } catch {
             

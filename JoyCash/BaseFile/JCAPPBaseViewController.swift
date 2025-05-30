@@ -11,17 +11,17 @@ import FDFullscreenPopGesture
 
 class JCAPPBaseViewController: UIViewController {
 
-    private lazy var topImageView: UIImageView = UIImageView(frame: CGRectZero)
+    private lazy var JCAPPtopImageView: UIImageView = UIImageView(frame: CGRectZero)
     
-    private(set) lazy var contentView: UIScrollView = {
+    private(set) lazy var JCAPPcontentView: UIScrollView = {
         let view = UIScrollView(frame: CGRectZero)
         view.contentInsetAdjustmentBehavior = .never
         return view
     }()
     
-    private(set) lazy var gradientView: GradientColorView = {
+    private(set) lazy var JCAPPgradientView: GradientColorView = {
         let view = GradientColorView()
-        view.buildGradientWithColors(gradientColors: [UIColor.init(hexString: "#ABBCFA")!, UIColor.init(hexString: "#FFFFFF")!], gradientStyle: .topToBottom)
+        view.buildGradientWithColors(gradientColors: [UIColor.init(hexString: "#FABFAB")!, UIColor.init(hexString: "#FFFFFF")!], gradientStyle: .topToBottom)
         return view
     }()
     
@@ -36,57 +36,57 @@ class JCAPPBaseViewController: UIViewController {
         
         self.fd_interactivePopDisabled = false
         self.fd_prefersNavigationBarHidden = false
-        self.buildViewUI()
-        self.layoutControlViews()
+        self.JCAPPbuildViewUI()
+        self.JCAPPlayoutControlViews()
     }
     
     deinit {
         deallocPrint()
     }
     
-    public func buildViewUI() {
-        self.view.addSubview(self.gradientView)
-        self.view.addSubview(self.topImageView)
-        self.view.addSubview(self.contentView)
+    public func JCAPPbuildViewUI() {
+        self.view.addSubview(self.JCAPPgradientView)
+        self.view.addSubview(self.JCAPPtopImageView)
+        self.view.addSubview(self.JCAPPcontentView)
     }
     
-    public func layoutControlViews() {
+    public func JCAPPlayoutControlViews() {
         
-        self.topImageView.snp.makeConstraints { make in
+        self.JCAPPtopImageView.snp.makeConstraints { make in
             make.horizontalEdges.top.equalToSuperview()
             make.height.equalTo(ScreenWidth * 0.5)
         }
         
-        self.gradientView.snp.makeConstraints { make in
+        self.JCAPPgradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         if let _childrenVC = self.navigationController?.children, _childrenVC.count > 1 {
-            self.contentView.snp.makeConstraints { make in
+            self.JCAPPcontentView.snp.makeConstraints { make in
                 make.horizontalEdges.equalToSuperview()
                 make.top.equalTo(self.view).offset(UIDevice.app_navigationBarAndStatusBarHeight() + APP_PADDING_UNIT)
                 make.bottom.equalToSuperview().offset(-UIDevice.app_safeDistanceBottom() - APP_PADDING_UNIT)
             }
         } else {
             if self.presentingViewController != nil {
-                self.contentView.snp.makeConstraints { make in
+                self.JCAPPcontentView.snp.makeConstraints { make in
                     make.edges.equalToSuperview()
                 }
             } else {
-                self.contentView.snp.makeConstraints { make in
+                self.JCAPPcontentView.snp.makeConstraints { make in
                     make.horizontalEdges.top.equalToSuperview()
-                    make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT)
+                    make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight())
                 }
             }
         }
     }
     
-    public func reloadDeviceLocation() {
+    public func JCAPPreloadDeviceLocation() {
         // 获取最新的定位
         DeviceAuthorizationTool.authorization().requestDeviceLocation()
     }
     
-    public func pageNetowrkRequest() {
+    public func JCAPPpageNetowrkRequest() {
         
     }
 }

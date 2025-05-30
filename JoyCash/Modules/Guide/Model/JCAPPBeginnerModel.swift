@@ -7,28 +7,19 @@
 
 import UIKit
 
-class JCAPPBeginnerModel: JCAPPBaseNetResponseModel {
-    /// 引导
-    var awarded: JCBeginnerGuideModel?
+class JCAPPBeginnerModel: JCAPPBaseNetResponseModel, YYModel {
     /// 隐私协议
     var computational: String?
     /// Face
     var practical: JCBeginnerFacebookModel?
     /// 是否要弹窗
     var power: Int = -1
-    
-    static func modelContainerPropertyGenericClass() -> [String : Any]? {
-        return ["practical": JCAPPBaseNetResponseModel.self, "awarded": JCBeginnerGuideModel.self]
-    }
-}
-
-class JCBeginnerGuideModel: JCAPPBaseNetResponseModel, YYModel {
     /// 1=印度（审核面）   2=墨西哥(用户面)
     var chip: Int = .zero
     var circuit: JCBeginnerServiceModel?
     
     static func modelContainerPropertyGenericClass() -> [String : Any]? {
-        return ["circuit": JCBeginnerServiceModel.self]
+        return ["practical": JCAPPBaseNetResponseModel.self, "circuit": JCBeginnerServiceModel.self]
     }
 }
 

@@ -8,14 +8,14 @@
 import UIKit
 
 protocol CardTypeSelectedProtocol: AnyObject {
-    func didSelectedCardType(cardType: String?)
+    func JCAPPdidSelectedCardType(cardType: String?)
 }
 
 class JCAPPCardTypeSelectedViewController: JCAPPCommodityAuthViewController {
 
     weak open var typeDelegate: CardTypeSelectedProtocol?
     
-    private lazy var cardTypeTable: UITableView = {
+    private lazy var JCAPPcardTypeTable: UITableView = {
         let view = UITableView(frame: CGRectZero, style: UITableView.Style.grouped)
         view.showsVerticalScrollIndicator = false
         view.separatorStyle = .none
@@ -23,32 +23,32 @@ class JCAPPCardTypeSelectedViewController: JCAPPCommodityAuthViewController {
         return view
     }()
     
-    private lazy var _card_types: [JCCardTypeStruct] = []
-    private var _select_card_type: String?
+    private lazy var JCAPP_card_types: [JCCardTypeStruct] = []
+    private var JCAPP_select_card_type: String?
     
     init(certificationTitle title: String?, cardTypes: [[String]], delegate: CardTypeSelectedProtocol?) {
         super.init(certificationTitle: title)
         self.typeDelegate = delegate
-        self._card_types = JCCardTypeStruct.conbineModels(data: cardTypes)
+        self.JCAPP_card_types = JCCardTypeStruct.conbineModels(data: cardTypes)
     }
     
-    override func buildViewUI() {
-        super.buildViewUI()
+    override func JCAPPbuildViewUI() {
+        super.JCAPPbuildViewUI()
         
-        self.cardTypeTable.delegate = self
-        self.cardTypeTable.dataSource = self
-        self.cardTypeTable.register(JCAPPCardTypeTableViewCell.self, forCellReuseIdentifier: JCAPPCardTypeTableViewCell.className())
-        self.cardTypeTable.register(JCAPPCardTypeTableHeader.self, forHeaderFooterViewReuseIdentifier: JCAPPCardTypeTableHeader.className())
+        self.JCAPPcardTypeTable.delegate = self
+        self.JCAPPcardTypeTable.dataSource = self
+        self.JCAPPcardTypeTable.register(JCAPPCardTypeTableViewCell.self, forCellReuseIdentifier: JCAPPCardTypeTableViewCell.className())
+        self.JCAPPcardTypeTable.register(JCAPPCardTypeTableHeader.self, forHeaderFooterViewReuseIdentifier: JCAPPCardTypeTableHeader.className())
         
-        self.containerView.addSubview(self.cardTypeTable)
-        self.setTipWithTitle("Financial information", subTitle: "Select an id to verify your identity")
+        self.JCAPPcontainerView.addSubview(self.JCAPPcardTypeTable)
+        self.JCAPPsetTipWithTitle(String.JCAPP_owpleiString(), subTitle: String.JCAPP_yueuridString())
     }
     
-    override func layoutControlViews() {
-        super.layoutControlViews()
+    override func JCAPPlayoutControlViews() {
+        super.JCAPPlayoutControlViews()
         
-        self.cardTypeTable.snp.makeConstraints { make in
-            make.top.equalTo(self.contentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
+        self.JCAPPcardTypeTable.snp.makeConstraints { make in
+            make.top.equalTo(self.JCAPPcontentLab.snp.bottom).offset(APP_PADDING_UNIT * 5)
             make.horizontalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 4)
             make.height.equalTo(ScreenHeight * 0.6)
             make.bottom.equalToSuperview().offset(-APP_PADDING_UNIT * 2)
@@ -66,12 +66,12 @@ class JCAPPCardTypeSelectedViewController: JCAPPCommodityAuthViewController {
 
 extension JCAPPCardTypeSelectedViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self._card_types.count
+        return self.JCAPP_card_types.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionModel = self._card_types[section]
-        return sectionModel.isExpand ? self._card_types[section].content?.count ?? .zero : .zero
+        let sectionModel = self.JCAPP_card_types[section]
+        return sectionModel.isExpand ? self.JCAPP_card_types[section].content?.count ?? .zero : .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -79,7 +79,7 @@ extension JCAPPCardTypeSelectedViewController: UITableViewDelegate, UITableViewD
             return UITableViewCell()
         }
         
-        if let _contentArray = self._card_types[indexPath.section].content {
+        if let _contentArray = self.JCAPP_card_types[indexPath.section].content {
             _cell.reloadTypeTitie(_contentArray[indexPath.row])
         }
         
@@ -91,12 +91,12 @@ extension JCAPPCardTypeSelectedViewController: UITableViewDelegate, UITableViewD
             return nil
         }
         
-        header.reloadHeaderTitle(self._card_types[section].sectionTitle, isExpand: self._card_types[section].isExpand)
+        header.JCAPPreloadHeaderTitle(self.JCAPP_card_types[section].sectionTitle, isExpand: self.JCAPP_card_types[section].isExpand)
         header.clickHeaderClousre = { [weak self] in
             guard let _self = self else {
                 return
             }
-            _self._card_types[section].isExpand = !_self._card_types[section].isExpand
+            _self.JCAPP_card_types[section].isExpand = !_self.JCAPP_card_types[section].isExpand
             tableView.beginUpdates()
             tableView.reloadSections([section], with: .fade)
             tableView.endUpdates()
@@ -110,6 +110,6 @@ extension JCAPPCardTypeSelectedViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationController?.popViewController(animated: true)
-        self.typeDelegate?.didSelectedCardType(cardType: self._card_types[indexPath.section].content?[indexPath.row])
+        self.typeDelegate?.JCAPPdidSelectedCardType(cardType: self.JCAPP_card_types[indexPath.section].content?[indexPath.row])
     }
 }

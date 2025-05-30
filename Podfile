@@ -6,19 +6,16 @@ use_frameworks!
 
 # 定义公共库
 def CommonPods
-  pod 'CocoaLumberjack/Swift'
   pod 'EmptyDataSet-Swift', '5.0.0'
   pod 'FDFullscreenPopGesture', '1.1'
-  pod 'TZImagePickerController', '3.8.8'
   pod 'IQKeyboardManagerSwift', '8.0.0'
   pod 'Mach-Swift', '1.1.1'
   pod 'JXBanner', '0.3.6'
-  pod 'JKSwiftExtension', "2.7.1"
 end
 
 def OCFrameworks
  pod 'AFNetworking', :git => 'https://github.com/crasowas/AFNetworking.git'
- pod 'CYSwiftExtension', '1.1.7'
+ pod 'CYSwiftExtension', '1.4.8'
 end
 
 def HostPods

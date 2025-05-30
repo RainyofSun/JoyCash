@@ -9,10 +9,10 @@ import UIKit
 
 class JCAPPMineLoanProtocolPopView: JCAPPBasePopView {
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.topImgView.image = UIImage(named: "pop_top_bg2")
-        self.popTitleLab.text = "Loan Agreement"
-        self.tipLab.text = "JoyCash App is a professionalpersonal credit loan application that canprovide users with up to 10,0000 infunding services with simpleinformation. We have provided fnancialseryices to over one million users.helping them solve various applicationthat can provide users with up to 80000yuan in funding services with simpleinformation. We have provided fnancialseryices to over one million users.helping them solve various fnancialproblems.Rapid Lend App is aprofessional personal credit loan.aprofessional personal credit loan.loan.aprofessional personal credit "
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg2")
+        self.JCAPPpopTitleLab.text = String.JCAPP_iopslkdjjdString()
+        self.JCAPPtipLab.text = String.JCAPP_hsyenmcikskString(name: Bundle.jk.appDisplayName)
     }
 }

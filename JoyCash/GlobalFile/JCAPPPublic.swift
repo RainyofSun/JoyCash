@@ -28,12 +28,15 @@ let LOGIN_OBERVER_KEY: String = "userHasLogin"
     open var productOrderNum: String?
     /// 接口是否初始化成功
     open var isAppInitializationSuccess: Bool = false
-    
+    /// 首页产品 ID
+    open var home_commodity_id: String?
+    /// 是否要展示定位弹窗
+    open var showPositionAlert: Bool = false
     /// 外界监听登出/登录
     @objc private dynamic var userHasLogin: Bool = false
     
     /// 城市列表的json文件目录
-    open var cityFilePath: String {
+    open var JCAPPcityFilePath: String {
         if let document = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             // 存储到临时路径下
             let filePath: String = document + "/city.json"
@@ -43,49 +46,42 @@ let LOGIN_OBERVER_KEY: String = "userHasLogin"
         return ""
     }
     
-    /// 保存图片路径
-    open var saveCardImgPath: String {
-        if let document = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-            // 存储到临时路径下
-            let filePath: String = document + "/card.png"
-            return filePath
-        }
-        
-        return ""
-    }
-    
-    /// 保存活体图片路径
-    open var saveFaceImgPath: String {
-        if let document = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-            // 存储到临时路径下
-            let filePath: String = document + "/face.png"
-            return filePath
-        }
-        
-        return ""
-    }
-    
     public static let shared = JCAPPPublic()
     
     /// 登录信息保存到本地
-    func encoderUserLogin() {
-        JCAPPInfomationCache.loginInfomationSaveToDisk(self.appLoginInfo?.modelToJSONString())
+    func JCAPPencoderUserLogin() {
+        APPInfomationCache.loginInfomationSaveToDisk(self.appLoginInfo?.modelToJSONString())
+        // 更新 token
+        APPPublicParams.request().appUpdateLoginToken(self.appLoginInfo?.any ?? "", withContryCode: nil)
     }
     
     /// 读取本地登录信息
-    func decoderUserLogin() {
-        guard let _json_str = JCAPPInfomationCache.loginInformationReadFormDiskCache() else {
-            JCAPPProductLog.error("读取本地存储的信息失败 ---------")
+    func JCAPPdecoderUserLogin() {
+        guard let _json_str = APPInfomationCache.loginInformationReadFormDiskCache() else {
+            APPCocoaLog.error("读取本地存储的信息失败 ---------")
             return
         }
         
         self.appLoginInfo = JCAPPUserLoginModel.model(withJSON: _json_str)
+        // 更新 token
+        APPPublicParams.request().appUpdateLoginToken(self.appLoginInfo?.any ?? "", withContryCode: nil)
     }
     
     /// 登录过期删除本地信息
-    func deleteLocalLoginInfo() {
+    func JCAPPdeleteLocalLoginInfo() {
         self.productID = nil
         self.appLoginInfo = nil
-        JCAPPInfomationCache.loginInfomationSaveToDisk(nil)
+        APPInfomationCache.loginInfomationSaveToDisk(nil)
+    }
+    
+    /// 保存认证信息完成状态
+    func JCAPPSaveAuthCompleteStatus() {
+        UserDefaults.standard.setValue(true, forKey: "auth_complete")
+        UserDefaults.standard.synchronize()
+    }
+    
+    /// 认证信息是否完成
+    func JCAPPAuthIsComplete() -> Bool {
+        return UserDefaults.standard.bool(forKey: "auth_complete")
     }
 }

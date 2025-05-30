@@ -12,22 +12,22 @@ class JCAPPAuthFacePopView: JCAPPBasePopView {
     private lazy var imgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_face"))
     private lazy var errorImgView: UIImageView = UIImageView(image: UIImage(named: "certification_card_face_error"))
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.popTitleLab.text = "Demonstration"
-        self.topImgView.image = UIImage(named: "pop_top_bg3")
-        self.tipLab.text = "Please aim the camera at your face during verification and follow the prompts to operate."
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPpopTitleLab.text = String.JCAPP_mhssjdlsiString()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg3")
+        self.JCAPPtipLab.text = String.JCAPP_dfcmskmdString()
         
-        self.contentView.addSubview(self.imgView)
-        self.contentView.addSubview(self.errorImgView)
+        self.JCAPPcontentView.addSubview(self.imgView)
+        self.JCAPPcontentView.addSubview(self.errorImgView)
     }
     
-    override func layoutPopViews() {
-        super.layoutPopViews()
+    override func JCAPPlayoutPopViews() {
+        super.JCAPPlayoutPopViews()
         
         self.imgView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.tipLab.snp.bottom).offset(APP_PADDING_UNIT * 3)
+            make.top.equalTo(self.JCAPPtipLab.snp.bottom).offset(APP_PADDING_UNIT * 3)
         }
         
         self.errorImgView.snp.makeConstraints { make in
@@ -37,7 +37,7 @@ class JCAPPAuthFacePopView: JCAPPBasePopView {
         }
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPAuthFacePopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)

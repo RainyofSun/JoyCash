@@ -7,16 +7,10 @@
 
 import UIKit
 
-protocol ActivityAnimationProtocol: UIControl {
-    func startAnimation()
-    func stopAnimation()
-}
-
 class JCAPPLoanApplyButton: UIControl {
 
     private lazy var imgView: UIImageView = UIImageView(image: UIImage(named: "main_apply_bg"))
-    private lazy var arrowImgView: UIImageView = UIImageView(image: UIImage(named: "main_apply_bg_arrow"))
-    private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.gilroyFont(18), labelColor: .white)
+    private lazy var titleLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.JCAPPDDINBoldFont(24), labelColor: UIColor.init(hexString: "#ED5E3A")!)
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
         let activityView = UIActivityIndicatorView.init(style: UIActivityIndicatorView.Style.white)
         activityView.hidesWhenStopped = true
@@ -28,7 +22,6 @@ class JCAPPLoanApplyButton: UIControl {
         super.init(frame: frame)
         
         self.addSubview(self.imgView)
-        self.addSubview(self.arrowImgView)
         self.addSubview(self.titleLab)
         self.addSubview(self.activityIndicatorView)
         
@@ -36,13 +29,9 @@ class JCAPPLoanApplyButton: UIControl {
             make.edges.equalToSuperview()
         }
         
-        self.arrowImgView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().offset(-APP_PADDING_UNIT * 3.5)
-        }
-        
         self.titleLab.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-APP_PADDING_UNIT * 5)
         }
         
         self.activityIndicatorView.snp.makeConstraints { make in
@@ -58,7 +47,7 @@ class JCAPPLoanApplyButton: UIControl {
         deallocPrint()
     }
     
-    public func setApplyButtonTitle(_ text: String?) {
+    public func JCAPPsetApplyButtonTitle(_ text: String?) {
         self.titleLab.text = text
     }
 }

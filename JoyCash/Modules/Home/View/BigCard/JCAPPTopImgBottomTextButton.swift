@@ -9,8 +9,8 @@ import UIKit
 
 class JCAPPTopImgBottomTextButton: UIControl {
 
-    private lazy var topImgView: UIImageView = UIImageView(frame: CGRectZero)
-    private lazy var bottomLab: UILabel = UILabel.buildJoyCashLabel()
+    private(set) lazy var topImgView: UIImageView = UIImageView(frame: CGRectZero)
+    private(set) lazy var bottomLab: UILabel = UILabel.JCAPPbuildJoyCashLabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,13 +27,14 @@ class JCAPPTopImgBottomTextButton: UIControl {
         deallocPrint()
     }
     
-    public func setImage(_ image: String, text: NSAttributedString, distance: CGFloat = APP_PADDING_UNIT * 2, bottomDistance: CGFloat = APP_PADDING_UNIT) {
+    public func JCAPPsetImage(_ image: String, text: NSAttributedString, distance: CGFloat = APP_PADDING_UNIT * 2, bottomDistance: CGFloat = APP_PADDING_UNIT) {
         self.topImgView.image = UIImage(named: image)
         self.bottomLab.attributedText = text
         
         self.topImgView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(APP_PADDING_UNIT)
+            make.top.equalToSuperview().offset(APP_PADDING_UNIT * 3)
             make.centerX.equalTo(self.bottomLab)
+            make.size.equalTo(40)
         }
         
         self.bottomLab.snp.makeConstraints { make in

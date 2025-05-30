@@ -8,5 +8,5 @@
 import UIKit
 
 class JCAPPNetworkDomainModel: JCAPPBaseNetResponseModel {
-    var jyc: String?
+    var cp: String?
 }

@@ -9,9 +9,9 @@ import UIKit
 
 protocol VCCustomTabbarProtocol: UITabBarController {
     /// 是否可以选中当前 Item
-    func jc_canSelected(shouldSelectedIndex index: Int) -> Bool
+    func JCAPPjc_canSelected(shouldSelectedIndex index: Int) -> Bool
     /// 选中当前 Item
-    func jc_didSelctedItem(_ tabbar: JCAPPCustomBar, item: UIButton, index: Int)
+    func JCAPPjc_didSelctedItem(_ tabbar: JCAPPCustomBar, item: UIButton, index: Int)
 }
 
 class JCAPPCustomBar: UITabBar {
@@ -25,7 +25,7 @@ class JCAPPCustomBar: UITabBar {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.original_size = frame.size
-        
+        self.backgroundColor = .white
     }
     
     override func setItems(_ items: [UITabBarItem]?, animated: Bool) {
@@ -48,7 +48,7 @@ class JCAPPCustomBar: UITabBar {
         deallocPrint()
     }
     
-    public func setTabbarTitles(_ titles: [String]? = nil, barItemImages images:[String], barItemSelectedImages selectImages: [String]) {
+    public func JCAPPsetTabbarTitles(_ titles: [String]? = nil, barItemImages images:[String], barItemSelectedImages selectImages: [String]) {
         let item_width: CGFloat = (UIScreen.main.bounds.width - _padding * 2)/CGFloat(images.count)
         let item_height: CGFloat = UIDevice.app_tabbarHeight()
         images.enumerated().forEach { (index: Int, image: String) in
@@ -61,24 +61,24 @@ class JCAPPCustomBar: UITabBar {
             button.setImage(UIImage(named: selectImages[index]), for: UIControl.State.selected)
             button.frame = CGRect(x: _padding + item_width * CGFloat(index), y: .zero, width: item_width, height: item_height)
             button.tag = 100 + index
-            button.addTarget(self, action: #selector(clickTabbarItem(sender: )), for: UIControl.Event.touchUpInside)
+            button.addTarget(self, action: #selector(JCAPPclickTabbarItem(sender: )), for: UIControl.Event.touchUpInside)
             self.addSubview(button)
         }
     }
     
     /// 设置选中界面
-    public func selectedTabbarItem(_ index: Int) {
+    public func JCAPPselectedTabbarItem(_ index: Int) {
         guard let _item = self.viewWithTag((100 + index)) as? UIButton else {
             return
         }
-        self.reseButtonState()
+        self.JCAPPreseButtonState()
         _item.isSelected = !_item.isSelected
     }
 }
 
 // MARK: Private Methods
 private extension JCAPPCustomBar {
-    func reseButtonState() {
+    func JCAPPreseButtonState() {
         for item in self.subviews {
             if let _btn = item as? UIButton, _btn.tag >= 100 {
                 if _btn.isSelected {
@@ -92,12 +92,12 @@ private extension JCAPPCustomBar {
 
 // MARK: Target
 @objc private extension JCAPPCustomBar {
-    func clickTabbarItem(sender: UIButton) {
-        if !(self.barDelegate?.jc_canSelected(shouldSelectedIndex: sender.tag - 100) ?? true) {
+    func JCAPPclickTabbarItem(sender: UIButton) {
+        if !(self.barDelegate?.JCAPPjc_canSelected(shouldSelectedIndex: sender.tag - 100) ?? true) {
             return
         }
-        self.reseButtonState()
+        self.JCAPPreseButtonState()
         sender.isSelected = !sender.isSelected
-        self.barDelegate?.jc_didSelctedItem(self, item: sender, index: sender.tag - 100)
+        self.barDelegate?.JCAPPjc_didSelctedItem(self, item: sender, index: sender.tag - 100)
     }
 }

@@ -9,17 +9,17 @@ import UIKit
 
 class JCAPPAuthCardInfoPopView: JCAPPBasePopView {
 
-    open var saveParams: [String: String] = [:]
+    open var JCAPPsaveParams: [String: String] = [:]
     
-    override func buildPopViews() {
-        super.buildPopViews()
-        self.topImgView.image = UIImage(named: "pop_top_bg4")
+    override func JCAPPbuildPopViews() {
+        super.JCAPPbuildPopViews()
+        self.JCAPPtopImgView.image = UIImage(named: "pop_top_bg4")
     }
     
     @discardableResult
-    public func reloadCardInfoSource(_ source: [JCAPPRecognitionModel], tipText: String?, tipTitle: String?) -> Self {
+    public func JCAPPreloadCardInfoSource(_ source: [JCAPPRecognitionModel], tipText: String?, tipTitle: String?) -> Self {
         
-        self.popTitleLab.text = tipTitle
+        self.JCAPPpopTitleLab.text = tipTitle
         
         var _temp_top: JCAPPAuthCardInfoUnitView?
         source.enumerated().forEach { (idx: Int, item: JCAPPRecognitionModel) in
@@ -30,13 +30,13 @@ class JCAPPAuthCardInfoPopView: JCAPPBasePopView {
             unitModel.video = item.safe
             unitModel.prize = item.prize
             if let _key = unitModel.prize {
-                self.saveParams[_key] = unitModel.video
+                self.JCAPPsaveParams[_key] = unitModel.video
             }
             
             let view = JCAPPAuthCardInfoUnitView(frame: CGRectZero)
             view.unitDelegate = self
-            view.setInfoUnitModel(unitModel, unitRightImage: (isLast ? UIImage(named: "pop_down_arrow") : nil))
-            self.contentView.addSubview(view)
+            view.JCAPPsetInfoUnitModel(unitModel, unitRightImage: (isLast ? UIImage(named: "pop_down_arrow") : nil))
+            self.JCAPPcontentView.addSubview(view)
             
             if let _top = _temp_top {
                 if isLast {
@@ -64,7 +64,7 @@ class JCAPPAuthCardInfoPopView: JCAPPBasePopView {
         return self
     }
     
-    public override class func convenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
+    public override class func JCAPPconvenienceShowPop(_ superView: UIView, showCloseButton show: Bool = false) -> Self {
         let view = JCAPPAuthCardInfoPopView(frame: UIScreen.main.bounds, showCloseButton: show)
         view.alpha = .zero
         superView.addSubview(view)
@@ -77,12 +77,12 @@ class JCAPPAuthCardInfoPopView: JCAPPBasePopView {
 }
 
 extension JCAPPAuthCardInfoPopView: APPAuthCardInfoUnitProtocol {
-    func touchAuthUnitInfo(itemView: JCAPPAuthCardInfoUnitView) {
+    func JCAPPtouchAuthUnitInfo(itemView: JCAPPAuthCardInfoUnitView) {
         guard itemView.input_type == .Input_Enum else {
             return
         }
         
-        guard let _super_view = self.superview, let _key = itemView.unitTupe?.cacheKey else {
+        guard let _super_view = self.superview, let _key = itemView.JCAPPunitTupe?.cacheKey else {
             return
         }
         
@@ -91,12 +91,12 @@ extension JCAPPAuthCardInfoPopView: APPAuthCardInfoUnitProtocol {
         _super_view.addSubview(timeView)
         
         timeView.clickCloseClosure = {[weak self] (popView: JCAPPBasePopView, isConfirm: Bool) in
-            guard let _t_v = popView as? JCAPPTimeSelectedPopView, let _time = _t_v.selectedDate else {
+            guard let _t_v = popView as? JCAPPTimeSelectedPopView, let _time = _t_v.JCAPPselectedDate else {
                 return
             }
             
-            self?.saveParams[_key] = _time
-            itemView.reloadUnitInfoText(_time)
+            self?.JCAPPsaveParams[_key] = _time
+            itemView.JCAPPreloadUnitInfoText(_time)
             
             UIView.transition(with: popView, duration: 0.3, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {
                 popView.alpha = .zero
@@ -122,11 +122,11 @@ extension JCAPPAuthCardInfoPopView: APPAuthCardInfoUnitProtocol {
         }
     }
     
-    func didEndEditing(itemView: JCAPPAuthCardInfoUnitView, inputValue: String?) {
-        guard let _key = itemView.unitTupe?.cacheKey else {
+    func JCAPPdidEndEditing(itemView: JCAPPAuthCardInfoUnitView, inputValue: String?) {
+        guard let _key = itemView.JCAPPunitTupe?.cacheKey else {
             return
         }
         
-        self.saveParams[_key] = inputValue
+        self.JCAPPsaveParams[_key] = inputValue
     }
 }

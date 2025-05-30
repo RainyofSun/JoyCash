@@ -10,19 +10,19 @@ import UIKit
 class JCAPPBaseTabBarController: UITabBarController {
 
     private var jcTabBar: JCAPPCustomBar?
-    private var vcArray: [UIViewController.Type] = [JCAPPMainViewController.self, JCAPPCommodityOrderViewController.self, JCAPPMinePageViewController.self]
-    private var tab_img_array: [String] = ["tab_main_nor", "tab_order_nor", "tab_mine_nor"]
-    private var tab_sel_img_array: [String] = ["tab_main_sel", "tab_order_sel", "tab_mine_sel"]
+    private var JCAPPvcArray: [UIViewController.Type] = [JCAPPMainViewController.self, JCAPPCommodityOrderViewController.self, JCAPPMinePageViewController.self]
+    private var JCAPPtab_img_array: [String] = ["tab_main_nor", "tab_order_nor", "tab_mine_nor"]
+    private var JCAPPtab_sel_img_array: [String] = ["tab_main_sel", "tab_order_sel", "tab_mine_sel"]
     
     override var selectedIndex: Int {
         didSet {
-            self.jcTabBar?.selectedTabbarItem(selectedIndex)
+            self.jcTabBar?.JCAPPselectedTabbarItem(selectedIndex)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabbarUI()
+        self.JCAPPsetupTabbarUI()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -39,15 +39,15 @@ class JCAPPBaseTabBarController: UITabBarController {
 }
 
 private extension JCAPPBaseTabBarController {
-    func setupTabbarUI() {
+    func JCAPPsetupTabbarUI() {
         // 保存标识-- 第一次安装
-        JCAPPInfomationCache.saveApplicationInstallMark()
+        APPInfomationCache.saveApplicationInstallMark()
         let tabbar: JCAPPCustomBar = JCAPPCustomBar(frame: CGRect(origin: CGPointZero, size: CGSize(width: ScreenWidth, height: UIDevice.app_tabbarAndSafeAreaHeight())))
         self.setValue(tabbar, forKey: "tabBar")
-        tabbar.setTabbarTitles(barItemImages: tab_img_array, barItemSelectedImages: tab_sel_img_array)
+        tabbar.JCAPPsetTabbarTitles(barItemImages: JCAPPtab_img_array, barItemSelectedImages: JCAPPtab_sel_img_array)
         tabbar.barDelegate = self
         var listVC: [UIViewController] = []
-        vcArray.forEach { (item: UIViewController.Type) in
+        JCAPPvcArray.forEach { (item: UIViewController.Type) in
             listVC.append(JCAPPBaseNavigationController(rootViewController: item.init()))
         }
         self.viewControllers = listVC
@@ -56,12 +56,12 @@ private extension JCAPPBaseTabBarController {
         self.selectedIndex = .zero
         
         JCAPPPublic.shared.addObserver(self, forKeyPath: LOGIN_OBERVER_KEY, options: [.new], context: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(needUserRelogin), name: NSNotification.Name(APP_LOGIN_EXPIRED_NOTIFICATION), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(JCAPPneedUserRelogin), name: NSNotification.Name(APP_LOGIN_EXPIRED_NOTIFICATION), object: nil)
     }
 }
 
 extension JCAPPBaseTabBarController: VCCustomTabbarProtocol {
-    func jc_canSelected(shouldSelectedIndex index: Int) -> Bool {
+    func JCAPPjc_canSelected(shouldSelectedIndex index: Int) -> Bool {
         guard let _vc_array = self.viewControllers, index < _vc_array.count else {
             return false
         }
@@ -72,20 +72,20 @@ extension JCAPPBaseTabBarController: VCCustomTabbarProtocol {
         
         let _top_vc = _nav.topViewController
         if (_top_vc is JCAPPCommodityOrderViewController || _top_vc is JCAPPMinePageViewController) && JCAPPPublic.shared.appLoginInfo?.any == nil {
-            self.needUserRelogin()
+            self.JCAPPneedUserRelogin()
             return false
         }
         
         return true
     }
     
-    func jc_didSelctedItem(_ tabbar: JCAPPCustomBar, item: UIButton, index: Int) {
+    func JCAPPjc_didSelctedItem(_ tabbar: JCAPPCustomBar, item: UIButton, index: Int) {
         self.selectedIndex = index
     }
 }
 
 @objc private extension JCAPPBaseTabBarController {
-    func needUserRelogin() {
+    func JCAPPneedUserRelogin() {
         let loginNav: JCAPPBaseNavigationController = JCAPPBaseNavigationController(rootViewController: JCAPPUserLoginViewController())
         loginNav.modalPresentationStyle = .fullScreen
         self.present(loginNav, animated: true)

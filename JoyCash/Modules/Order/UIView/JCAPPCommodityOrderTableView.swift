@@ -10,9 +10,9 @@ import EmptyDataSet_Swift
 
 protocol APPCommodityOrderTableProtocol: AnyObject {
     /// 开始请求数据
-    func startRefreshOrderTable(table: JCAPPCommodityOrderTableView)
+    func JCAPPstartRefreshOrderTable(table: JCAPPCommodityOrderTableView)
     /// 选中商品
-    func didSelectedOrderTableItem(orderItemModel: JCAPPCommodityOrderModel)
+    func JCAPPdidSelectedOrderTableItem(orderItemModel: JCAPPCommodityOrderModel)
 }
 
 class JCAPPCommodityOrderTableView: UITableView {
@@ -36,7 +36,7 @@ class JCAPPCommodityOrderTableView: UITableView {
             guard let _self = self else {
                 return
             }
-            _self.orderDelegate?.startRefreshOrderTable(table: _self)
+            _self.orderDelegate?.JCAPPstartRefreshOrderTable(table: _self)
         }
     }
     
@@ -49,19 +49,19 @@ class JCAPPCommodityOrderTableView: UITableView {
     }
     
     /// 刷新页面数据
-    public func refreshCommodityOrderTable(data: [JCAPPCommodityOrderModel]) {
+    public func JCAPPrefreshCommodityOrderTable(data: [JCAPPCommodityOrderModel]) {
         self._commodityModels.removeAll()
         self._commodityModels.append(contentsOf: data)
         self.reloadData()
     }
     
     /// 开始刷新
-    public func startRefreshCommodity(refresh: Bool) {
+    public func JCAPPstartRefreshCommodity(refresh: Bool) {
         self.refresh(begin: refresh)
     }
     
     /// 切换列表刷新
-    public func switchOrderTableAndRefresh() {
+    public func JCAPPswitchOrderTableAndRefresh() {
         guard self._commodityModels.isEmpty else {
             return
         }
@@ -80,13 +80,13 @@ extension JCAPPCommodityOrderTableView: UITableViewDelegate, UITableViewDataSour
             return UITableViewCell()
         }
         
-        _cell.reloadCommodityCellSource(self._commodityModels[indexPath.row])
+        _cell.JCAPPreloadCommodityCellSource(self._commodityModels[indexPath.row])
         
         return _cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.orderDelegate?.didSelectedOrderTableItem(orderItemModel: self._commodityModels[indexPath.row])
+        self.orderDelegate?.JCAPPdidSelectedOrderTableItem(orderItemModel: self._commodityModels[indexPath.row])
     }
 }
 

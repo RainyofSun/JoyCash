@@ -10,27 +10,27 @@ import UIKit
 class JCAPPCommodityOrderViewController: JCAPPBaseViewController {
 
     private lazy var menuView: JCAPPOrderMenuView = JCAPPOrderMenuView(frame: CGRectZero)
-    private lazy var allTableView: JCAPPCommodityOrderTableView = JCAPPCommodityOrderTableView(frame: CGRectZero, style: UITableView.Style.plain)
-    private var applyTableView: JCAPPCommodityOrderTableView?
-    private var repaymentTableView: JCAPPCommodityOrderTableView?
-    private var finishTableView: JCAPPCommodityOrderTableView?
+    private lazy var JCAPPallTableView: JCAPPCommodityOrderTableView = JCAPPCommodityOrderTableView(frame: CGRectZero, style: UITableView.Style.plain)
+    private var JCAPPapplyTableView: JCAPPCommodityOrderTableView?
+    private var JCAPPrepaymentTableView: JCAPPCommodityOrderTableView?
+    private var JCAPPfinishTableView: JCAPPCommodityOrderTableView?
     
-    override func buildViewUI() {
-        super.buildViewUI()
-        self.contentView.contentSize = CGSize(width: ScreenWidth * 4, height: .zero)
-        self.contentView.isScrollEnabled = false
+    override func JCAPPbuildViewUI() {
+        super.JCAPPbuildViewUI()
+        self.JCAPPcontentView.contentSize = CGSize(width: ScreenWidth * 4, height: .zero)
+        self.JCAPPcontentView.isScrollEnabled = false
         
         self.menuView.menuDelegate = self
-        self.allTableView.orderDelegate = self
+        self.JCAPPallTableView.orderDelegate = self
         
-        self.allTableView.tag = 104
+        self.JCAPPallTableView.tag = 104
         self.title = "Order"
         self.view.addSubview(self.menuView)
-        self.contentView.addSubview(self.allTableView)
+        self.JCAPPcontentView.addSubview(self.JCAPPallTableView)
     }
     
-    override func layoutControlViews() {
-        super.layoutControlViews()
+    override func JCAPPlayoutControlViews() {
+        super.JCAPPlayoutControlViews()
         
         self.menuView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
@@ -38,32 +38,32 @@ class JCAPPCommodityOrderViewController: JCAPPBaseViewController {
             make.height.equalTo(APP_PADDING_UNIT * 10)
         }
         
-        self.contentView.snp.remakeConstraints { make in
+        self.JCAPPcontentView.snp.remakeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview().offset(-UIDevice.app_tabbarAndSafeAreaHeight() - APP_PADDING_UNIT)
             make.top.equalTo(self.menuView.snp.bottom).offset(APP_PADDING_UNIT)
         }
         
-        self.allTableView.snp.makeConstraints { make in
+        self.JCAPPallTableView.snp.makeConstraints { make in
             make.top.left.size.equalToSuperview()
         }
     }
     
-    public func switchOrderMenu(index: Int) {
-        self.menuView.selectedMenuItem(idx: index)
+    public func JCAPPswitchOrderMenu(index: Int) {
+        self.menuView.JCAPPselectedMenuItem(idx: index)
     }
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         switch self.menuView.selectedIndex {
         case 0:
-            self.allTableView.refresh(begin: true)
+            self.JCAPPallTableView.refresh(begin: true)
         case 1:
-            self.applyTableView?.refresh(begin: true)
+            self.JCAPPapplyTableView?.refresh(begin: true)
         case 2:
-            self.repaymentTableView?.refresh(begin: true)
+            self.JCAPPrepaymentTableView?.refresh(begin: true)
         case 3:
-            self.finishTableView?.refresh(begin: true)
+            self.JCAPPfinishTableView?.refresh(begin: true)
         default:
             break
         }
@@ -74,67 +74,67 @@ extension JCAPPCommodityOrderViewController: APPOrderMenuProtocol {
     func didSeletedMenuItem(idx: Int) {
         switch idx {
         case 0:
-            self.allTableView.refresh(begin: true)
+            self.JCAPPallTableView.refresh(begin: true)
         case 1:
-            if self.applyTableView == nil {
-                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth, y: .zero), size: self.allTableView.size), style: UITableView.Style.plain)
+            if self.JCAPPapplyTableView == nil {
+                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth, y: .zero), size: self.JCAPPallTableView.size), style: UITableView.Style.plain)
                 _tab.tag = 107
                 _tab.orderDelegate = self
-                self.contentView.addSubview(_tab)
-                self.applyTableView = _tab
-                _tab.switchOrderTableAndRefresh()
+                self.JCAPPcontentView.addSubview(_tab)
+                self.JCAPPapplyTableView = _tab
+                _tab.JCAPPswitchOrderTableAndRefresh()
             } else {
-                self.applyTableView?.refresh(begin: true)
+                self.JCAPPapplyTableView?.refresh(begin: true)
             }
         case 2:
-            if self.repaymentTableView == nil {
-                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), size: self.allTableView.size), style: UITableView.Style.plain)
+            if self.JCAPPrepaymentTableView == nil {
+                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), size: self.JCAPPallTableView.size), style: UITableView.Style.plain)
                 _tab.tag = 106
                 _tab.orderDelegate = self
-                self.contentView.addSubview(_tab)
-                self.repaymentTableView = _tab
-                _tab.switchOrderTableAndRefresh()
+                self.JCAPPcontentView.addSubview(_tab)
+                self.JCAPPrepaymentTableView = _tab
+                _tab.JCAPPswitchOrderTableAndRefresh()
             } else {
-                self.repaymentTableView?.refresh(begin: true)
+                self.JCAPPrepaymentTableView?.refresh(begin: true)
             }
         case 3:
-            if self.finishTableView == nil {
-                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), size: self.allTableView.size), style: UITableView.Style.plain)
+            if self.JCAPPfinishTableView == nil {
+                let _tab = JCAPPCommodityOrderTableView(frame: CGRect(origin: CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), size: self.JCAPPallTableView.size), style: UITableView.Style.plain)
                 _tab.tag = 105
                 _tab.orderDelegate = self
-                self.contentView.addSubview(_tab)
-                self.finishTableView = _tab
-                _tab.switchOrderTableAndRefresh()
+                self.JCAPPcontentView.addSubview(_tab)
+                self.JCAPPfinishTableView = _tab
+                _tab.JCAPPswitchOrderTableAndRefresh()
             } else {
-                self.finishTableView?.refresh(begin: true)
+                self.JCAPPfinishTableView?.refresh(begin: true)
             }
         default:
             break
         }
         
-        self.contentView.setContentOffset(CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), animated: true)
+        self.JCAPPcontentView.setContentOffset(CGPoint(x: ScreenWidth * CGFloat(idx), y: .zero), animated: true)
     }
 }
 
 extension JCAPPCommodityOrderViewController: APPCommodityOrderTableProtocol {
-    func startRefreshOrderTable(table: JCAPPCommodityOrderTableView) {
+    func JCAPPstartRefreshOrderTable(table: JCAPPCommodityOrderTableView) {
         APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/raymond", requestParams: ["parameter": "\(table.tag - 100)"])) { (task: URLSessionDataTask, res: APPSuccessResponse) in
             table.refresh(begin: false)
             guard let _dict = res.jsonDict, let _array = _dict["physicists"] as? NSArray, let _models = NSArray.modelArray(with: JCAPPCommodityOrderModel.self, json: _array) as? [JCAPPCommodityOrderModel] else {
                 return
             }
             
-            table.refreshCommodityOrderTable(data: _models)
+            table.JCAPPrefreshCommodityOrderTable(data: _models)
         } failure: { _, _ in
             table.refresh(begin: false)
         }
     }
     
-    func didSelectedOrderTableItem(orderItemModel: JCAPPCommodityOrderModel) {
+    func JCAPPdidSelectedOrderTableItem(orderItemModel: JCAPPCommodityOrderModel) {
         guard let _url = orderItemModel.acquiring else {
             return
         }
         
-        JCAPPPageRouting.shared.JoyCashPageRouter(routeUrl: _url, backToRoot: _url.hasPrefix("http"))
+        JCAPPPageRouting.shared.JCAPPJoyCashPageRouter(routeUrl: _url, backToRoot: _url.hasPrefix("http"))
     }
 }

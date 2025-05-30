@@ -9,7 +9,7 @@ import UIKit
 
 class JCAPPCardTypeTableViewCell: UITableViewCell {
 
-    private lazy var titleLab: UILabel = UILabel.buildJoyCashLabel(font: UIFont.systemFont(ofSize: 15), labelColor: UIColor.hexStringColor(hexString: "#202020"))
+    private lazy var titleLab: UILabel = UILabel.JCAPPbuildJoyCashLabel(font: UIFont.systemFont(ofSize: 15), labelColor: UIColor.hexStringColor(hexString: "#202020"))
     private lazy var arrowImgView: UIImageView = UIImageView(image: UIImage(named: "mine_arrow"))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -24,10 +24,12 @@ class JCAPPCardTypeTableViewCell: UITableViewCell {
         self.titleLab.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(APP_PADDING_UNIT * 4)
+            make.height.equalTo(30)
+            make.verticalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 2)
         }
         
         self.arrowImgView.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(APP_PADDING_UNIT * 2)
+            make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-APP_PADDING_UNIT * 2)
         }
     }

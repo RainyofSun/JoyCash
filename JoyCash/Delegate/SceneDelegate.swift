@@ -18,14 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        // 设置公共参数
+        self.JCAPPSetAppPblicParams()
+        // 设置请求地址
+        APPNetRequestURLConfig.setNetworkDebugRequestURL("https://ka.acreditar-lending.com/quen", releaseUrl: "https://ka.acreditar-lending.com/quen")
         // 初始化log 日志
-        JCAPPProductLog.shared.registe(with: EnvType.other)
+        APPCocoaLog.shared.registe(with: EnvType.other)
         // 开启网络监测
         DeviceNetObserver.shared.StartNetworkStatusListener()
         // 设备认证
         DeviceAuthorizationTool.authorization()
         // 读取本地化登录信息
-        JCAPPPublic.shared.decoderUserLogin()
+        JCAPPPublic.shared.JCAPPdecoderUserLogin()
         // 设置根控制器
         self.setApplicationRootWindow()
         
@@ -65,6 +69,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 private extension SceneDelegate {
+    func JCAPPSetAppPblicParams() {
+        let public_params: APPPublicParamsKey = APPPublicParamsKey()
+        public_params.appVersionKey = "carbon"
+        public_params.deviceNameKey = "lithium"
+        public_params.countryCodeKey = "chip"
+        public_params.idfaKey = "ratio"
+        public_params.idfvKey = "potentially"
+        public_params.loginTokenKey = "any"
+        APPPublicParams.request().appCommonParamsKeyModel(public_params)
+    }
+    
     func setApplicationRootWindow() {
         CSToastManager.setDefaultPosition(CSToastPositionCenter)
         
@@ -90,7 +105,7 @@ private extension SceneDelegate {
                     JCAPPBuriedPointReport.JCAPPLocationBuryReport()
                 })
             } else {
-                JCAPPProductLog.debug("-------- APP 初始化接口未完成 ----------")
+                APPCocoaLog.debug("-------- APP 初始化接口未完成 ----------")
             }
         }
         
@@ -101,7 +116,7 @@ private extension SceneDelegate {
                     JCAPPBuriedPointReport.JCAPPIDFAAndIDFVBuryReport()
                 })
             } else {
-                JCAPPProductLog.debug("-------- APP 初始化接口未完成 ----------")
+                APPCocoaLog.debug("-------- APP 初始化接口未完成 ----------")
             }
         }
         
@@ -110,7 +125,7 @@ private extension SceneDelegate {
                 JCAPPBuriedPointReport.JCAPPDeviceInfoBuryReport()
             })
         } else {
-            JCAPPProductLog.debug("-------- APP 初始化接口未完成 ----------")
+            APPCocoaLog.debug("-------- APP 初始化接口未完成 ----------")
         }
     }
 }

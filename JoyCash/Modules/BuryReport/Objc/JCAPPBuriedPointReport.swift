@@ -54,10 +54,16 @@ class JCAPPBuriedPointReport: NSObject {
     
     /// IDFA&IDFV 上报
     class func JCAPPIDFAAndIDFVBuryReport() {
-        let idfaStr: String = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let idfvStr: String = UIDevice.current.readIDFVFormKeyChain()
+        var params: [String: String] = ["smash": idfvStr];
+        if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
+            let idfaStr: String = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+            params["harmonics"] = idfaStr
+        } else {
+            params["harmonics"] = APP_DEFAULT_IDFA_MARK
+        }
         
-        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physicists", requestParams: ["smash": idfvStr, "harmonics": idfaStr])) { _, _ in
+        APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/physicists", requestParams: params)) { _, _ in
             
         }
     }
@@ -72,7 +78,7 @@ class JCAPPBuriedPointReport: NSObject {
         memoryModel.array = "\(UIDevice.current.memoryTotal)"
         memoryModel.suitable = UIDevice.getFreeMemory()
         
-        JCAPPProductLog.debug(" ----- 埋点内存 -------\n 总容量 = \(memoryModel.substantially ?? "") \n 可用容量 = \(memoryModel.early ?? "") \n 总内存 = \(memoryModel.array ?? "") \n 使用内存 = \(memoryModel.suitable ?? "") \n")
+        APPCocoaLog.debug(" ----- 埋点内存 -------\n 总容量 = \(memoryModel.substantially ?? "") \n 可用容量 = \(memoryModel.early ?? "") \n 总内存 = \(memoryModel.array ?? "") \n 使用内存 = \(memoryModel.suitable ?? "") \n")
         
         // 电量
         let electricArray = UIDevice.current.appBattery()
@@ -80,7 +86,7 @@ class JCAPPBuriedPointReport: NSObject {
         electricModel.fold = electricArray.first
         electricModel.four = electricArray.last
         
-        JCAPPProductLog.debug(" ----- 埋点电量 -------\n 电池电量 = \(electricModel.fold ?? "") \n 电池状态 = \(electricModel.four ?? "") \n")
+        APPCocoaLog.debug(" ----- 埋点电量 -------\n 电池电量 = \(electricModel.fold ?? "") \n 电池状态 = \(electricModel.four ?? "") \n")
         
         // 系统版本
         let systemModel: JCAPPSystemInfoModel = JCAPPSystemInfoModel()
@@ -88,7 +94,7 @@ class JCAPPBuriedPointReport: NSObject {
         systemModel.acceleration = UIDevice.current.machineModelName
         systemModel.patterns = UIDevice.current.machineModel
         
-        JCAPPProductLog.debug(" ----- 埋点版本 -------\n 系统版本 = \(systemModel.number ?? "") \n 设备名称 = \(systemModel.acceleration ?? "") \n 设备原始版本 = \(systemModel.patterns ?? "") \n")
+        APPCocoaLog.debug(" ----- 埋点版本 -------\n 系统版本 = \(systemModel.number ?? "") \n 设备名称 = \(systemModel.acceleration ?? "") \n 设备原始版本 = \(systemModel.patterns ?? "") \n")
         
         // 时区/网络
         let timeModel: JCAPPTimeAndCellularModel = JCAPPTimeAndCellularModel()
@@ -98,9 +104,11 @@ class JCAPPBuriedPointReport: NSObject {
         timeModel.set = UIDevice.current.getNetconnType()
         if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             timeModel.harmonics = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        } else {
+            timeModel.harmonics = APP_DEFAULT_IDFA_MARK
         }
         
-        JCAPPProductLog.debug(" ----- 埋点版本 -------\n 系统时区 = \(timeModel.steps ?? "") \n 设备语言 = \(timeModel.concerning ?? "") \n 设备IDFV = \(timeModel.smash ?? "") \n 设备网络类型 = \(timeModel.set ?? "") \n 设备IDFA = \(timeModel.harmonics ?? "") \n")
+        APPCocoaLog.debug(" ----- 埋点版本 -------\n 系统时区 = \(timeModel.steps ?? "") \n 设备语言 = \(timeModel.concerning ?? "") \n 设备IDFV = \(timeModel.smash ?? "") \n 设备网络类型 = \(timeModel.set ?? "") \n 设备IDFA = \(timeModel.harmonics ?? "") \n")
         
         // wifi
         let wifiInfoModel: JCAPPWIFIInfoModel = JCAPPWIFIInfoModel()
@@ -108,7 +116,7 @@ class JCAPPBuriedPointReport: NSObject {
         wifiInfoModel.foreign = wifiArray.first
         wifiInfoModel.accomplished = wifiArray.last
         
-        JCAPPProductLog.debug(" ----- 埋点设备WIFI -------\n SSID = \(wifiArray.first ?? "") \n BSSID = \(wifiArray.last ?? "") \n")
+        APPCocoaLog.debug(" ----- 埋点设备WIFI -------\n SSID = \(wifiArray.first ?? "") \n BSSID = \(wifiArray.last ?? "") \n")
         
         let wifiModel: JCAPPWIFIModel = JCAPPWIFIModel()
         wifiModel.arrays = wifiInfoModel
@@ -136,7 +144,7 @@ class JCAPPBuriedPointReport: NSObject {
     }
     
     /// 风控信息上报
-    class func JCAPPRiskControlInfoBuryReport(riskType: JCRiskControlPointsType, beginTime: String? = nil, endTime: String? = nil, orderNum: String? = nil) {
+    class func JCAPPRiskControlInfoBuryReport(riskType: JCAPPRiskControlPointsType, beginTime: String? = nil, endTime: String? = nil, orderNum: String? = nil) {
         var params: [String: String] = [:]
         if let _t1 = beginTime {
             params["went"] = _t1
@@ -159,8 +167,11 @@ class JCAPPBuriedPointReport: NSObject {
         
         if DeviceAuthorizationTool.authorization().attTrackingStatus() == .authorized {
             params["largely"] = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        } else {
+            params["largely"] = APP_DEFAULT_IDFA_MARK
         }
-        JCAPPProductLog.debug("-------- 埋点 风控埋点 = \(riskType) -------")
+        
+        APPCocoaLog.debug("-------- 埋点 风控埋点 = \(riskType) -------")
         APPNetRequestManager.afnReqeustType(NetworkRequestConfig.defaultRequestConfig("said/like", requestParams: params)) { _, _ in
             
         }

@@ -16,8 +16,8 @@ class JCAPPAuthInfoUnitModel: JCAPPBaseNetResponseModel, YYModel {
     var prize: String?
     /// 输入类型
     var defects: String?
-    var inputType: JCInputViewType {
-        return JCInputViewType(rawValue: self.defects ?? "") ?? .Input_Text
+    var inputType: JCAPPInputViewType {
+        return JCAPPInputViewType(rawValue: self.defects ?? "") ?? .Input_Text
     }
     
     /// 键盘类型 1 数字键盘
